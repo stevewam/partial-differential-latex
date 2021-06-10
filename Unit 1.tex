@@ -1,15 +1,257 @@
 \documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
 
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+\begin{document}
+
+\section*{Unit 1}
+\vspace{1em}
+
+\subsection*{LOS 1. Differentiate between linear and nonlinear PDEs}
+Characteristic of linear PDE:
 \begin{enumerate}
-    \item Differentiate between linear and nonlinear PDEs
-    \item Distinguish between ODEs and PDEs
-    \item Identify the degree of a given PDEs
-    \item Solve first order PDE using geometric method for constant coefficients
-    \item Solve first order PDE using geometric method for variable coefficients
-    \item Distinguish between parabolic, hyperbolic and elliptic PDEs
-    \item Identify different types of initial and boundary conditions
-    \item Analyze a PDE for being well-posed: existence, uniqueness and stability
-    \item Solve wave equation using the Fourier method and the operator method
-    \item Learn the principle of causality
-    \item Theorem on solution for wave equation
+    \item $\mathcal{L}(u+v) = \mathcal{L}u + \mathcal{L}v$
+    \item $\mathcal{L}(cu) = c\mathcal{L}u$
 \end{enumerate}
+Consequence of linearity: \\
+Solution to homogeneous + solution to inhomogeneous = another solution to inhomogeneous\\
+\vspace{0.3em}
+
+\subsection*{LOS 2. Distinguish between ODEs and PDEs}
+In general, ODE involves one dependent variable $y$ which is a function of $x$. On the other hand, PDE involves one dependent $u$ which is a function multiple independent variables $x, t, ...$ . \\ \\ 
+Example of ODE:
+\begin{gather*}
+    \frac{\partial y}{\partial x} + y = 0
+\end{gather*} \\
+Example of PDE:
+\begin{gather*}
+    \frac{\partial u}{\partial x} + \frac{\partial u}{\partial t} = 0 \\
+    u_{x} + u_{t} = 0
+\end{gather*}
+\vspace{0.3em}
+
+\subsection*{LOS 3. Identify the degree of a given PDEs}
+Degree of PDE is equal to the highest degree of derivative in the PDE.\\ \\
+Degree 1: $u_{x} + u_{t} = 0$ \\
+Degree 2: $u_{xx} + u_{t} = 0$ \\
+Degree 3: $u_{xxx} + u_{t} = 0$ \\
+... \\
+\vspace{0.3em}
+
+
+\subsection*{LOS 4. Solve first order PDE using geometric method for constant coefficients}
+First order PDE with constant coefficients:
+\begin{gather*}
+    u_{x} + cu_{y} = 0
+\end{gather*}
+General Solution:
+\begin{gather*}
+    u(x, y) = f(cx - y)
+\end{gather*}
+\vspace{0.3em}
+
+\subsection*{LOS 5. Solve first order PDE using geometric method for variable coefficients}
+First order PDE with variable coefficients:
+\begin{gather*}
+    u_{x} + yu_{y} = 0
+\end{gather*}
+General Solution:
+\begin{gather*}
+    u(x, y) = \phi(ye^x)
+\end{gather*}
+Example:
+\begin{gather*}
+    u_{x} + yu_{y} = 0, u(x, 1) = x^2 \\
+    u(x, y) = \phi(ye^{-x}) \\ 
+    u(x, 1) = \phi(e^{-x}) = x^2 \\
+    x = -\ln t \rightarrow \phi(t) = (-\ln t)^2 \\ 
+    \therefore u(x, y) = (-\ln ye^{-x})^2 = (-\ln y + x)^2
+\end{gather*}
+\vspace{0.3em}
+
+\subsection*{LOS 6. Distinguish between parabolic, hyperbolic and elliptic PDEs}
+In this course, at maximum, we will have second order PDE. General formula of second order PDE:
+\begin{gather*}
+    a_{11}u_{xx} + 2a_{12}u_{xy} + a_{22}u_{yy} + a_{1}u_{x} + a_{2}u_{y} + a_{0}u = 0 \\
+    a_{12} = a_{21} \\
+    u_{xy} = u_{yx}
+\end{gather*}
+Type of PDE depends on determinant $\mathscrsfs{D} = a_{12}^2 - a_{11}a_{22}$:
+\begin{enumerate}
+    \item Elliptic: $\mathscrsfs{D} < 0$, all eigenvalues are positive
+    \item Hyperbolic: $\mathscrsfs{D} > 0$, none of the eigenvalues vanish, one eigenvalue has the opposite sign from the $(n-1)$ others
+    \item Parabolic: $\mathscrsfs{D} = 0$, one zero eigenvalues and the rest have the same signs
+\end{enumerate}
+\vspace{0.3em}
+
+\subsection*{LOS 7. Identify different types of initial and boundary conditions}
+Types of initial and boundary conditions:\\
+\begin{itemize}
+    \item (D) Dirichlet: $u(0) = \alpha, u(L) = \beta$
+    \item (I) Initial: $u(0) = \alpha, u'(0) = \beta$
+    \item (N) Neumann: $u_{x}(0) = \alpha, u_{x}(L) = \beta$
+    \item (R) Robin: $\beta u_{x} + \alpha u(0) = 0$, linear combination of other initial or boundary conditions\\
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 8. Analyze a PDE for being well-posed: existence, uniqueness and stability}
+Well-posedness includes:
+\begin{itemize}
+    \item Existence: there exist a solution that can be expressed explicitly, solution provided by boundary conditions satisfy the PDE
+    \item Uniqueness: the solution is not dependent on auxillary variables and the same across the defined range
+    \item Stability: when data are changed very little, the corresponding solution also change very little
+\end{itemize}
+\vspace{1em}
+
+\subsection*{LOS 9. Solve wave equation using the Fourier method and the operator method}
+Wave equation:
+\begin{gather*}
+    u_{xx} - u_{tt} = 0
+\end{gather*} \\
+Fourier Method:
+\begin{gather*}
+    u_{\xi, \eta} = e^{i\xi t}e^{i\eta x} \qquad \xi, \eta \in \mathbb{R}    \\
+    \mathcal{L} u_{\xi, \eta} = (-\xi^2 + \eta^2)u_{\xi, \eta} \\ 
+    u(x, t) = \phi(x+t) - \psi(x-t) \\
+    \phi(x) = \sum a_ke^{i\xi_k x} \qquad \psi(x) = \sum b_je^{i\xi_j x} \qquad a_k, b_j \in \mathbb{C} 
+\end{gather*} \\
+Operator Method:
+\begin{itemize}
+    \item Expand the PDE:
+    \begin{gather*}
+        \partial_{tt} - \partial_{xx} = (\partial_t - \partial_x)(\partial_t + \partial_x) \\ 
+        y = (\partial_t - \partial_x)(\partial_t + \partial_x)
+    \end{gather*} 
+    \item Assume for solution $u(x, t)$ there is a function $v$ which satisfies the following:
+    \begin{gather*}
+        v \mid v(x, t) = (\partial_t + \partial_x) u(x, t) \\
+        (\partial_t - \partial_x)v(x, t) = 0 \\ 
+        v_x - v_t = 0\\
+        v(x, t) = f(x + t)\\
+        (\partial_t + \partial_x) u(x, t) = f(x + t)
+    \end{gather*}
+    \item By linearity:
+    \begin{gather*}
+        u = u^0 + w \\
+        (\partial_t + \partial_x)u^0 = f(x + t) \qquad (\partial_t + \partial_x)w = 0
+    \end{gather*}
+    \item By method of characteristic line:
+    \begin{gather*}
+        (\partial_t + \partial_x)w = 0 \\
+        w_t + w_x = 0 \\
+        w(x, t) = g(x - t)
+    \end{gather*}
+    \item Substitute $z = x+t$ and assume $h' = f$:
+    \begin{gather*}
+        (\partial_t + \partial_x)u^0 = f(x + t) \\
+        \frac{d}{dz}u^0(z) = f(z)\\
+        u^0(z) = h(z)\\
+        u^0(x+t) = \frac{h(x+t)}{2} \because (\partial_t + \partial_x)u^0 = \frac{h'(x+t)}{2} + \frac{h'(x+t)}{2} = f(x, t)
+    \end{gather*}
+    \item Substitute to the original equation:
+    \begin{gather*}
+        u(x, t) = \frac{h(x+t)}{2} + g(x-t)
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+    
+
+\subsection*{LOS 10. Learn the principle of causality}
+General solution to wave equation:
+\begin{gather*}
+    u_{xx} - u_{tt} = 0 \\
+    u(x, 0) = \phi(x)\\
+    u_t(x,0) = \psi(x)\\
+    u(x, t) = f(x+t) + g(x-t) \qquad f, g \in C^2
+\end{gather*} \\
+Example with Dirichlet condition:
+\begin{itemize}
+    \item Problem statement:
+    \begin{gather*}
+        u_{xx} - u_{tt} = 0 \\
+        u(x, 0) = \phi(x)\\
+        u_t(x,0) = 0\\
+    \end{gather*}
+    \item Evaluate the boundary conditions:
+    \begin{gather*}
+        u(x, t) = f(x+t) + g(x-t) \\
+        u(x, 0) = f(x) + g(x) = \phi(x)\qquad (1)\\
+        u_t(x, 0) = f'(x+t) - g'(x-t) = f'(x) - g'(x) =0 \qquad (2)
+    \end{gather*}
+    \item Integrate $(2)$:
+    \begin{gather*}
+        f'(x) + g'(x) = 0 \\
+        f(x) = g(x) + c
+    \end{gather*}
+    \item From $(1)$ and assume $c$ = 0:
+    \begin{gather*}
+        f(x) + g(x) = \phi(x) \\
+        f(x) + f(x) - c = \phi(x)\\
+        2f(x) = \phi(x) + c \\
+        f(x) = \phi(x)/2 = g(x) \\
+        \therefore u(x,t) = \frac{\phi(x+t) + \phi(x-t)}{2}
+    \end{gather*}
+    \item From $(1)$ and assume $c$ = 0:
+    \begin{gather*}
+        \phi(x) = u(x, 0) \\
+        \therefore u(x,t) = \frac{u(x+t, 0) + u(x-t, 0)}{2}
+    \end{gather*}
+\end{itemize}
+The above equation implies causality. The value of $u$ at point $t$ can be predicted if we know exactly the points at $t=0$, $u(x+t, 0)$ and $u(x-t, 0)$.
+
+\vspace{0.3em}
+
+\subsection*{LOS 11. Theorem on solution for wave equation}
+Example with Neumann condition:
+\begin{itemize}
+    \item Problem statement:
+    \begin{gather*}
+        u_{xx} - u_{tt} = 0 \\
+        u(x, 0) = 0\\
+        u_t(x,0) = \psi(x)
+    \end{gather*}
+    \item Evaluate the boundary conditions:
+    \begin{gather*}
+        u(x, t) = f(x+t) + g(x-t) \\
+        u(x, 0) = f(x) + g(x) = 0 \implies f = -g\\
+        u_t(x, 0) = f'(x+t) - g'(x-t) \rightarrow 2f'(x) = \psi(x) \\
+        f(x) = \frac{1}{2} \int_{-\infty}^x \psi(y)dy\\
+        \therefore u(x,t) = \frac{1}{2} \left(\int_{-\infty}^{x+t} \psi(y)dy + \int_{-\infty}^{x-t} \psi(y)dy\right) = \frac{1}{2} \int_{[x+t, x-t]}\psi(y)dy
+    \end{gather*}
+\end{itemize}
+Therefore, the general solution for the wave equation:
+\begin{gather*}
+    u_{xx} - u_{tt} = 0 \\
+    u(x, 0) = \phi(x)\\
+    u_t(x,0) = \psi(x)\\
+    u(x, t) = \frac{\phi(x+t) + \phi(x-t)}{2} + \frac{1}{2} \int_{[x+t, x-t]}\psi(y)dy
+\end{gather*} \\
+Alternative formulation ($S^1$ is solution operator for Dirichlet condition and $S^2$ is solution operator for Neumann condition and $\dot{S}$ is the derivative):
+\begin{gather*}
+    S^1(\phi)(x, t) = \frac{\phi(x+t) + \phi(x-t)}{2}\\\
+    S^1(\phi)(x, 0) = \phi(x) = Id\\
+    \dot{S}^1(\phi)(x, 0) = 0
+\end{gather*} 
+\begin{gather*}
+    S^2(\psi)(x, t) = \frac{1}{2} \int_{[x+t, x-t]}\psi(y)dy\\
+    S^2(\psi)(x, 0) = 0\\
+    \dot{S}^2(\psi)(x, 0) = \psi(x) = Id
+\end{gather*}
+\begin{gather*}
+    \therefore S(\phi, \psi) = S^1(\phi) + S^2(\psi)
+\end{gather*} \\
+
+\vspace{0.3em}
+\end{document}
