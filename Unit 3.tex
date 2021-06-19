@@ -1,0 +1,285 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 3}
+\vspace{1em}
+
+\subsection*{LOS 1. Understand the relation between Hilbert spaces and convergence}
+Hilbert space norm is $L^2$ norm. \\
+\vspace{0.3em}
+
+\subsection*{LOS 2. Distinguish between L2-norm and uniform norm}
+Infinity-norm is used to assert stability. If boundary values are uniformly close, their solution should be uniformly close (fot finite time interval).\\\\
+Infinity-norm:
+\begin{gather*}
+    \|\phi\|_{\infty}  = \sup_x|\phi(x)|\\
+    \|\phi\| = \max_{x}|\phi(x)|\\
+    \|\phi\|_T = \max_{x, 0\leq t\leq T}|\phi(x, t)|
+\end{gather*}
+$L^2$-norm:
+\begin{itemize}
+    \item Definition:
+    \begin{gather*}
+        \|\phi\| = \sqrt{\int_{\mathbb{R}}|\phi(x)|^2dx}\\
+        \|f\| = (f, f)^\frac{1}{2}
+    \end{gather*}
+    \item For $v=C[0,2\pi]$:
+    \begin{gather*}
+        (f, g) = \int_0^{2\pi}\overline{f(t)}g(t)\frac{dt}{2\pi}\\
+        \|f\| = (f, f)^\frac{1}{2} = \left(\int_0^{2\pi}|{f(t)}|^2\frac{dt}{2\pi}\right)^\frac{1}{2} \\
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+
+\subsection*{LOS 3. Distinguish between uniform convergence and L2-convergence}
+Relationship between $L^2$ and uniform norm:
+\begin{gather*}
+    \int |f(t)|^2 \frac{dt}{x\pi} \leq \int \max_s |f(s)|^2\frac{dt}{2\pi} = \|f\|^2_\infty \int_{-\pi}^\pi \frac{dt}{2\pi} \leq \|f\|^2_\infty \\
+    \left(\int |f(t)|^2 \frac{dt}{x\pi}\right)^\frac{1}{2}\leq \|f\|_\infty \\
+    \|f\|_2 \leq \|f\|_\infty\\
+    \therefore 0 \leq \|f_n-f\|_2 \leq \|f_n-f\|_\infty
+\end{gather*}
+If uniform convergence goes to zero, then $L^2$ goes to zero by squeeze theorem. Therefore, uniform convergence implies $L^2$ convergence. \\
+\vspace{0.3em}
+
+\subsection*{LOS 4. Learn the connection of convergence with the theory of orthonormal systems}
+Definition of an orthonormal system:
+\begin{gather*}
+    (x_j, x_k)= \delta_{j,k}
+\end{gather*}
+\[ \delta_{j,k} = \begin{cases} 
+    0 & x \ne j \\
+    1 & x = j
+ \end{cases}
+\]
+Assume we are estimating function $x$ which we are estimating with $(x_1, x_2, x_3, ...)$:
+\begin{gather*}
+    x = \sum a_jx_j\\
+    \|\sum a_jx_j\|^2 = \sum_j|g_j|^2\\
+    a \perp b \rightarrow \|a+b\|^2=\|a\|^2+\|b\|^2\\
+\end{gather*}
+Lemma:
+\begin{gather*}
+    W = \text{span}\{x_1, x_2, x_3, ...\}\\
+    W \in V\\
+    x \notin V\\
+    P_x = \sum_{j=1}^n(x_j, x)x_j\\
+    \|x-y\|^2 = \|x-P_x+P_x-y\|^2 = \|x-P_x\|^2+\|P_x-y\|^2 \geq \|x-P_x\|^2\\
+\end{gather*}
+$P_x$ is a projection of $x$ unto $W$. To minimize $\|x-y\|^2$, we have to minimize $\|x-P_x\|^2+\|P_x-y\|^2$. This upper bound is minimized when $y = P_x$. Therefore:
+\begin{gather*}
+    \|x-y\|^2 \geq \|x-P_x\|^2\\
+    \|x-y\| \geq \|x-P_x\|\\
+    \inf \|x-y\| = \|x-P_x\|, y \in W
+\end{gather*}
+{\tiny*($\inf$ refers to the greatest lower bound of the set)}\\\\
+To ensure convergence:
+\begin{gather*}
+    \lim_{n \rightarrow \infty} \|x - \sum_{j=1}^n a_jx_j\| = 0\\
+    \lim_{n \rightarrow \infty} \|x - P_x\| = 0\\
+    \therefore W_n = \text{span}\{x_1, x_2, x_3, ..., x_n\} \rightarrow \lim_{n \rightarrow \infty} \|x - P_{W_n}\| 
+\end{gather*}
+Since $\sum_{j=1}^n a_jx_j$ must equal $P_x$ to minimize $\|x - \sum_{j=1}^n a_jx_j\|$, then:
+\begin{gather*}
+    \sum_{j=1}^n a_jx_j = \sum_{j=1}^n(x_j, x)x_j\\
+    a_j = (x_j, x)\\
+\end{gather*}
+The above coefficient is referred as generalized Fourier coefficient. The best approximation is therefore:
+\begin{gather*}
+    x = P_{W_n} = \sum_{j=1}^n(x_j, x)x_j
+\end{gather*}
+\vspace{0.3em}
+
+
+\subsection*{LOS 5. Study theorems on orthonormal projections and basis}
+Theorem:
+\begin{enumerate}
+    \item Theorem A. $|g|_H$ is Hilbert-borm (the same as $L^2$ norm):
+    \begin{gather*}
+        f \in C[-\pi, \pi]\\
+        \lim_{n\rightarrow\infty}\|f - P_n(f)\|_H = 0
+    \end{gather*}
+    \item Theorem B. All function has a Fourier expansion that converges.
+    \begin{gather*}
+        f \in C[-\pi, \pi]\\
+        \epsilon > 0 \qquad \exists g_m = \sum_{k = -m}^m a_ke_k\\
+        \|f-g_m\|_\infty \leq \epsilon \\
+        \therefore \|f-P_n(f)\|_H = \|f-g_m-P_n(f-g_m)\|_H \leq \|f-gm\|_H \leq \|f-g_m\|_\infty \leq \epsilon\\
+    \end{gather*}
+\end{enumerate}
+Implication of theorems:
+\begin{itemize}
+    \item Fourier expansion of any function will converge to $f$. Finite dimension $P_n(f)$ approximation makes the norm smaller:
+    \begin{gather*}
+        f = \sum_{k \in \mathbb{Z}} \hat{f}(k)f_k\\
+        \int_{-\pi}^\pi |f(t)|^2 \frac{dt}{2\pi} = \sum_{k \in \mathbb{Z}} |\hat{f(k)}|^2 \\
+        \|P_n(f)\|^2 = \sum_{k=-n}^n |\hat{f(k)}|^2 \\
+        \|P_n(f)\|^2 \leq \|f\|^2
+    \end{gather*}
+    Above is the Bessel's inequality. $\|f\|^2$ is the sum over all the space while $\|P_n(f)\|^2$ is the sum over a finite space.
+    \item For function to satisfy $\sum |\hat{f(k)}|^2 < \infty$:
+    \begin{align*}
+        L^2 \text{-space} = \{f = \lim_{n}f_n \text{ almost everywhere where } \\\exists f_n \in C[-\pi, \pi] , \; \|f_n-f{n+1}\| < c2^{-n}\}
+    \end{align*}
+\end{itemize}
+\vspace{0.3em}
+
+
+
+
+\subsection*{LOS 6. Understand the importance of orthonormal basis in PDE systems}
+Using appropriate orthonormal basis, PDE can be solved in an easier manner. \\\\
+Example of orthonormal basis to solve PDE:
+\begin{enumerate}
+    \item Fourier coefficients: $e_k(t) = e^{ikt}$ (a periodic function). General formulation:
+    \begin{gather*}
+        W_n = \text{span}\{e_k\;|\;-n\leq k <\leq n\}\ \\
+        P_{W_n} = \sum_{k=-n}^n (e_k, f)e_k = \sum_{k=-n}^n \hat{f}_ke_k\\
+        \lim_n P_{W_n}(f) = f
+    \end{gather*}
+    {\tiny *When $f_odd$, $\hat{f}_odd$.}
+    \item Discrete Fourier coefficients: $\tilde{e}_k(j) = e^{\frac{2\pi ik}{n}j}$. Used to estimate piecewise, locally constant function. Continuous function can be approximated as the linear combination of the piecewise function.
+    \item Hermite polynomials. $He_k(x) = (-1)^ke^{\frac{x^2}{2}}\frac{d^k}{dx^k}e^{\frac{-x^2}{2}}$. Used to estimate $\partial \gamma(x) = e^{\frac{-|x|^2}{2}}\partial x$.
+    \item Sine function. $S_k = sin(kx)$ forms an orthonormal basis in $f \in L^2(0, \pi)$.\\
+\end{enumerate}
+Example problem using Fourier coefficients:
+\begin{itemize}
+    \item Function to estimate:
+    \begin{gather*}
+        f = \mathbbm{1}_{[\frac{-\pi}{2}, \frac{\pi}{2}]}
+    \end{gather*}
+    \item Estimate:
+    \begin{gather*}
+        W_1 = \text{span}\{\mathbbm{1}, x_1, -x_1\}\\
+        P_{W_1} = \sum_{j=1}^n(x_j, x)x_j = (\mathbbm{1}, f)\mathbbm{1} + (x_1, f)x_1 + (x_2, f)x_2\\
+        x_k = e^{ikt}\\
+        (x_1, f) = \hat{f}(1) = \int_{-\pi}^\pi e^{-it} f(t)\frac{dt}{2\pi} = \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} e^{-it}\frac{dt}{2\pi} = \frac{e^{-i\frac{\pi}{2}}- e^{i\frac{\pi}{2}}}{-2i\pi} 
+    \end{gather*}   
+    \item $e^{ikx}$ is periodic:
+    \begin{gather*}
+        e^{i\frac{\pi}{2}} = i \qquad e^{-i\frac{\pi}{2}} = -i\\
+        \frac{e^{i\frac{\pi}{2}}- e^{-i\frac{\pi}{2}}}{-2i\pi} = \frac{-i-i}{-2i\pi} = \frac{1}{\pi}\\
+        (x_1, f) = \frac{1}{\pi}
+    \end{gather*}
+    \item Using the same formula:
+    \begin{gather*}
+        (\mathbbm{1}, f) = \frac{1}{2} \qquad (x_2, f) = -\frac{1}{pi}
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        P_{W_1} = \frac{1}{2}\mathbbm{1} + \frac{1}{\pi}e^{it} - \frac{1}{\pi}e^{-it} \\
+    \end{gather*}
+\end{itemize}
+General application to PDE:
+\begin{itemize}
+    \item Assume there is operator such that:
+    \begin{gather*}
+        \mathscrsfs{L} = \sum_{j=0}^n a_j \frac{\partial^j}{\partial x^j}u
+    \end{gather*}
+    \item Alternatively ($P_n$ below is a polynomial, not a projection):
+    \begin{gather*}
+        P_n(x) = \sum_{j=0}^na_jx^j\\
+        \mathscrsfs{L} = P_n(\frac{\partial}{\partial x})
+    \end{gather*}
+    \item Problem:
+    \begin{gather*}
+        u_t = \mathscrsfs{L}(u) \qquad u(x, 0) = \phi(x)
+    \end{gather*}   
+    \item Assume that the following is true:
+    \begin{gather*}
+        u(x, t) = \sum_{k \in \mathbb{Z}} \phi(k, t)e_k(x) 
+    \end{gather*}   
+    \item Apply the operator:
+    \begin{gather*}
+        u_t(x, t) = \sum_{k \in \mathbb{Z}} \frac{d}{dt}\phi(k, t)e_k(x)\\
+        \mathscrsfs{L}(u)(x, t) = \sum_{k \in \mathbb{Z}}\phi(k, t)\mathscrsfs{L}(e_k)(x) \qquad (1)
+    \end{gather*}
+    \item Evaluate $\mathscrsfs{L}(e_k)(x)$:
+    \begin{gather*}
+        \frac{d}{dt}e^{ikx} = (ik)^je^{ikx}\\
+        \therefore {L}(e_k)(x) = P_n(ik)e_k
+    \end{gather*}
+    Where $P_n$ is a polynomial of $ik$ (not the same as $P_n$ defined above)
+    \item Continuing on Equation (1):
+    \begin{gather*}
+        \mathscrsfs{L}(u)(x, t) = \sum_{k \in \mathbb{Z}} \phi(k, t)P_n(ik)e_k(x) = u_t(x, t)\\
+        \sum_{k \in \mathbb{Z}} \phi(k, t)P_n(ik)e_k(x) = \sum_{k \in \mathbb{Z}} \frac{d}{dt}\phi(k, t)e_k(x)
+    \end{gather*}
+    \item Fourier coefficients must be the same:
+    \begin{gather*}
+        \phi(k, t)P_n(ik)= \frac{d}{dt}\phi(k, t)\\
+        \phi(k, t) = C_ke^{tP_n(ik)}\\
+        \therefore u(x, t) = \sum_{k \in \mathbb{Z}} C_ke^{tP_n(ik)} e_k
+    \end{gather*}
+    \item When $t=0$:
+    \begin{gather*}
+        u(x, 0) = \phi(x) = \sum_{k \in \mathbb{Z}}\hat{\phi}(k)e_k\\
+        \therefore C_k = \hat{\phi}(k)
+    \end{gather*}
+    \item Convergence can be evaluated by looking at the $P_n(ik)$ term. For evaluation:
+    \begin{gather*}
+        \mathscrsfs{L} = \frac{d^2}{dx^2}\\
+        P_n(x) = x^2
+        P_n(ik) = (ik)^2 = -k^2 \rightarrow \text{ in $u(x, t)$, the terms vanish} \\f
+        \mathscrsfs{L} = \frac{d^4}{dx^4}\\
+        P_n(x) = x^4
+        P_n(ik) = (ik)^4 = k^4 \rightarrow \text{ in $u(x, t)$, the terms does not vanish}
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 7. Apply Fourier series for energy problem}
+Problem: 
+\begin{gather*}
+    \mathscrsfs{L} = -\frac{\partial^4}{\partial x^4}\\
+    u_t = \mathscrsfs{L}u = -u_{xxxx}\\
+    u(x, 0) = \phi(x)
+\end{gather*}
+Assume solution is in $L^2$:
+\begin{gather*}
+    u^t = \sum_{k \in \mathbb{Z}} \hat{u}^t(k)e_k\\
+    \frac{d}{dt}u^t = \sum_{k \in \mathbb{Z}} \hat{u}^t(k)\mathscrsfs{L}(e_k)
+\end{gather*}
+\begin{gather*}
+    \mathscrsfs{L}(e_k) = \mathscrsfs{L}(e^{ik}) = -\frac{\partial^4}{\partial x^4}(e^{ikx})\\
+    \mathscrsfs{L}(e_k) = -k^4e^{ikx} = -k^4e_k \\
+    \frac{d}{dt}u^t = \sum_{k \in \mathbb{Z}}-k^4 \hat{u}^t(k)e_k\\
+\end{gather*}
+Assume x is constant:
+\begin{gather*}
+    \frac{d}{dt}u^t = \sum_{k \in \mathscrsfs{Z}} \frac{d}{dt}\hat{u}^t(k)e_k = \sum_{k \in \mathbb{Z}}-k^4 \hat{u}^t(k)e_k \\
+\end{gather*}
+For two functions with Fourier coefficients, their Fourier coefficients have to be equal:
+\begin{gather*}
+    \frac{d}{dt}\hat{u}^t(k)= -k^4 \hat{u}^t(k)
+\end{gather*}
+The above problem is an ODE:
+\begin{gather*}
+    \hat{u}^t(k) = e^{-tk^4}\hat{u}^0(k) = e^{-tk^4}\hat{\phi}(k)\\
+    \therefore u(x, t) = \sum_{k \in \mathbb{Z}}e^{-tk^4}\hat{\phi}(k)e_k\\
+\end{gather*}
+Energy can be measured by the $L^2$ norm:
+\begin{gather*}
+    \|u^t\|_2^2 = \sum \|\hat{u}^t(k)\|^2 = \sum_k \|e^{-tk^4}\hat{\phi}(k)\|^2 \leq \sum_k \|\hat{\phi}(k)\|^2 = \|u^0\|_2^2\\
+    \|u^t\|_2^2 \leq \|u^0\|_2^2\\
+    \|u^t\|_2 \leq \|u^0\|_2
+\end{gather*}
+\vspace{0.3em}
+\end{document}
