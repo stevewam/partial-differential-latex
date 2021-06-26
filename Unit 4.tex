@@ -1,0 +1,382 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 4}
+\vspace{1em}
+
+\subsection*{LOS 1. Determine the solution operator for a periodic differential equation}
+\vspace{0.3em}
+Problem:
+\begin{gather*}
+    u_t = \mathscrsfs{L}(u) \qquad -\pi<x<\pi, -\infty<t<\infty\\
+    \mathscrsfs{L}(u)= \sum_{j=0}^{n} a_j \frac{\partial^j u}{\partial x^j}\\
+    u(x, 0) = \varphi(x)\\
+\end{gather*}
+Use the following notation:
+\begin{gather*}
+    u^t(x) = u(x, t) \\
+\end{gather*}
+Solution:
+\begin{gather*}
+    u(x, t) = \sum_{k \in \mathbb{Z}} e^{tP(ik)}\hat{\varphi}(k)e^{ikx}
+\end{gather*}
+
+\subsection*{LOS 2. Learn how to calculate eigen functions for a given PDE}
+\subsection*{LOS 3. Solve a periodic differential equation using Fourier coefficients}
+Eigenfunctions:
+\begin{gather*}
+    e_k(x) = e^{ikx}
+\end{gather*}
+\begin{enumerate}
+    \item $\frac{d}{dx}e_k = (ik)e_k$
+    \item $\left(\frac{d}{dx}\right)^j(e_k) = (ik)^je_k$
+    \item $\mathscrsfs{L}(e_k) = P(ik)e_k$\\
+\end{enumerate}
+Application to PDE:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = \mathscrsfs{L}(u) \\
+        u^0 = \varphi
+    \end{gather*}
+    \item $\mathscrsfs{L}(\psi_k)$ operator the following orthonormal basis expansion (by rule, every function can be expanded as a generalized Fourier series):
+    \begin{gather*}
+        \mathscrsfs{L}(\psi_k) = \lambda_k\psi_k
+    \end{gather*}
+    \item Then, the general solution is:
+    \begin{gather*}
+        u(x, t) = \sum_{\mathbb{R}} e^{t\lambda_k}(\phi_k, \varphi)\psi_k
+    \end{gather*}
+\end{itemize}
+Example:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = \mathscrsfs{L}(u) \qquad -\pi<x<\pi, -\infty<t<\infty\\
+    \mathscrsfs{L}(u)= \sum_{j=0}^{n} a_j \frac{\partial^j u}{\partial x^j}\\
+    \end{gather*}
+    \[ \varphi(x) = \begin{cases} 
+        1 & -\frac{\pi}{2}<x< \frac{\pi}{2} \\
+        0 & |x| > \frac{\pi}{2}
+     \end{cases}\]
+    \begin{gather*}
+        \varphi(0) = \frac{1}{2}\\\\
+        P(x) = x^2 \qquad \text{Polynomial for Diffusion}
+    \end{gather*}
+    \item Fourier dot product:
+    \begin{gather*}
+        \hat{\varphi}(k) = \int_{-\pi}^\pi e^{-ikx}\varphi(x) \frac{dx}{2\pi}
+    \end{gather*}
+    \item Solution:
+    \begin{gather*}
+        2\pi \hat{\varphi}(k) = \int_{-\pi}^\pi e^{-ikx}\varphi(x) dx\\
+        2\pi \hat{\varphi}(k) = \int_{-\frac{\pi}{2}}^{\frac{\pi}{2}} e^{-ikx} dx \\
+        2\pi \hat{\varphi}(k) = \left.\frac{e^{-ikx}}{-ik}\right\rvert_{-\frac{\pi}{2}}^{\frac{\pi}{2}} = \frac{e^{-ik\frac{\pi}{2}} - e^{ik\frac{\pi}{2}}}{-ik} = \frac{e^{ik\frac{\pi}{2}} - e^{-ik\frac{\pi}{2}}}{ik}
+    \end{gather*}
+    \item Identities:
+    \begin{enumerate}
+        \item For $k = 0$: $e^{ik\frac{\pi}{2}} = e^0 = 0$
+        \item For $k = 1$: $e^{ik\frac{\pi}{2}} = e^{i\frac{\pi}{2}} = i$
+        \item For $k = 2$: $e^{ik\frac{\pi}{2}} = e^{i\pi} = -1$
+        \item For $k = -1$: $e^{ik\frac{\pi}{2}} = e^{-i\frac{\pi}{2}} = -i$
+    \end{enumerate}
+    \item Therefore:
+    \[ 2\pi \hat{\varphi}(k)= \frac{e^{ik\frac{\pi}{2}} - e^{-ik\frac{\pi}{2}}}{ik} =  \begin{cases} 
+        0 & k \text{ even} \\
+        \frac{2}{k} & k = 4m+1\\
+        -\frac{2}{k} & k =4m+3
+    \end{cases}\]  
+    \item Then, we plug this in into the original solution operator:
+    \begin{gather*}
+        u(x, t) = \sum_{k \in \mathbb{Z}} e^{tP(ik)}\hat{\varphi}(k)e^{ikx}
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 4. Solve a periodic differential equation with a source term using Fourier coefficients}
+Problem:
+\begin{gather*}
+    u_t - \mathscrsfs{L}(u) = g \qquad -\pi<x<\pi, -\infty<t<\infty\\
+    u^0 = \varphi(x)\\
+    u(x, t) = u^t
+\end{gather*}
+Solution:
+\begin{gather*}
+    u^t = \int^t_0 S(t-s)g(s)ds + S(t)(\varphi)\\
+    S(t)(f) = \sum_{k \in \mathbb{Z}}e^{tP(ik)}\hat{f}(k)e_k
+\end{gather*}
+Proof for $\varphi = 0$:
+\begin{itemize}
+    \item Solution ($x$ is not considered as it is being fixed at a single point):
+    \begin{gather*}
+        v(x, t) = v^t = \int_0^t S(t-s)g(s)ds
+    \end{gather*}
+    \item By Liebniz rule of integration:
+    \begin{gather*}
+        \frac{d}{dt}v = \int^t_0 \frac{d}{dt} S(t-s)g(s)ds + S(t-t)g(t) 
+    \end{gather*}
+    \item $S(t-t) = S(0)$ is equal to identity:
+    \begin{gather*}
+        \frac{d}{dt}v = \int^t_0 \frac{d}{dt} S(t-s)g(s)ds + g(t) 
+    \end{gather*} 
+    \item Evaluate $\int^t_0 \frac{d}{dt} S(t-s)g(s)ds$:
+    \begin{gather*}
+        \frac{d}{dt} S(t-s)g(s) = \frac{d}{dt}\sum_{k \in \mathbb{Z}}e^{tP(ik)}\hat{g}(k)e_k\\
+        \frac{d}{dt} S(t-s)g(s)= \sum_{k \in \mathbb{Z}}e^{tP(ik)}\hat{g}(k)P(ik)e_k\\\\
+        P(ik)e_k = \mathscrsfs{L}(e_k) \qquad \rightarrow\frac{d}{dt} S(t-s) = \sum_{k \in \mathbb{Z}}e^{tP(ik)}\hat{g}(k)\mathscrsfs{L}(e_k)\\
+        \frac{d}{dt} S(t-s) = \mathscrsfs{L}\left(\sum_{k \in \mathbb{Z}}e^{tP(ik)}\hat{g}(k)e_k\right)\\
+        \frac{d}{dt} S(t-s) = \mathscrsfs{L}S(t-s)
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        \frac{d}{dt}v = \int^t_0 \mathscrsfs{L}S(t-s)g(s)ds + g(t)\\
+        \frac{d}{dt}v = \mathscrsfs{L}\int^t_0 S(t-s)g(s)ds + g(t)\\
+        \frac{d}{dt}v = \mathscrsfs{L}v + g(t)\\
+    \end{gather*}
+\end{itemize}
+% Incomplete example:
+% \begin{itemize}
+%     \item Problem:
+%     \begin{gather*}
+%         P(x) = - x^4\\
+%         u_t - \mathscrsfs{L}(u) = t\cos(x) \qquad -\pi<x<\pi, -\infty<t<\infty\\
+%         u(x, 0)=\sin(x)
+%     \end{gather*}
+%     \item Using solution formula:
+%     \begin{gather*}
+%         u^t = \int_0^t S(t-s) s\cos(x) ds + S(t) \sin(x)
+%     \end{gather*}
+%     \item Identities:
+%     \begin{gather*}
+%         \cos(x) =\frac{e^{ix}+e^{-ix}}{2} \\
+%         \sin(x) = \frac{e^{ix}-e^{-ix}}{2} 
+%     \end{gather*}
+%     \item Fourier coefficients:
+%     \[\widehat{\cos}(k) = \begin{cases}
+%         \frac{1}{2} & k = 1\\
+%         \frac{1}{2} & k = -1\\
+%         0 & \text{elsewhere}
+%     \end{cases}\]\\
+% \end{itemize}
+General application:
+\begin{itemize}
+    \item Problem
+    \begin{gather*}
+        P_n(x) = a_0 + a_1x + a_2x^2 + ... + a_nx^n \\
+        u_t = \mathscrsfs{L}(P_n(\frac{\partial}{\partial x}))(u) = a_0u + a_1u_x + ... + a_n u_{x...x} \qquad \text{x...x} \rightarrow \text{n times}
+    \end{gather*}
+    \item Solution operator:
+    \begin{gather*}
+        u(x, t) = S(t)(f) =\sum_{k \in \mathbb{Z}} e^{tP(ik)}\hat{f}(k)e^{ikx}
+    \end{gather*}
+    \item Case I:
+    \begin{gather*}
+        u_t = u_{xx} - iu_{xxx}\\
+        P(x) = x^2 - ix^3\\
+        e^{tP(ik)} = e^{-tk^2}e^{-tk^3} \rightarrow \text{Solution is stable as $e^{tP(ik)}$ vanishes as k increases}
+    \end{gather*}
+    \item Case II:
+    \begin{gather*}
+        u_t = u_{xx} + iu_{xxx}\\
+        P(x) = x^2 + ix^3\\
+        e^{tP(ik)} = e^{-tk^2}e^{tk^3} \rightarrow \text{Solution is not stable as $e^{tk^3}$ explodes as k increases}
+    \end{gather*}
+    \item Case III:
+    \begin{gather*}
+        u_t = u_{xx} \pm u_{xxx}\\
+        P(x) = x^2 \pm x^3\\
+        e^{tP(ik)} = e^{-tk^2}e^{\pm itk^3} \rightarrow \text{Solution is stable as $|e^{-tk^2}e^{\pm itk^3}| = e^{-2tk^2}$} \\
+    \end{gather*}
+\end{itemize}
+Example:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t - u_{xxx} = t\cos(x) \qquad -\pi < x< \pi\\
+        \mathscrsfs{L}(u) = u_{xxx}\\
+        P(x) = x^3\\
+        u(x, 0)=0
+    \end{gather*}
+    \item Solution operator:
+    \begin{gather*}
+        u^t = \int_0^t S(t-s)g(s)ds \qquad (1)\\
+        u(x, t) = S(t)(f) =\sum_{k \in \mathbb{Z}} e^{tP(ik)}\hat{f}(k)e^{ikx}
+    \end{gather*}
+    \item Fourier coefficients:
+    \begin{gather*}
+        \varphi = \sum a_k e_k\\
+        a_k = \hat{\varphi}(k) \\
+        (e_j, f) = \sum_k a_k (e_j, e_k) = a_j
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        \cos(x) =\frac{e^{ix}+e^{-ix}}{2}
+    \end{gather*}
+    \[\widehat{\cos}(k) = \begin{cases}
+        \frac{1}{2} & k = 1\\
+        \frac{1}{2} & k = -1\\
+        0 & \text{elsewhere}
+    \end{cases}\]\\
+    \item Continuing on Equation (1):
+    \begin{gather*}
+        u^t = \int_0^t S(t-s)(s\cos(x))ds \\
+        u^t = \int_0^t S(t-s)(\cos(x))(s)ds \\
+        S(t-s)(\cos(x)) = \sum_{k \in \mathbb{Z}} e^{tP(ik)}\widehat{\cos}(k)e^{ikx} = \frac{1}{2}\left[e^{tP(i)}e_1 + e^{tP(-i)}e_{-1}\right]\\\\
+        u^t = \int_0^t \frac{1}{2}\left[e^{(t-s)P(i)}e_1 + e^{(t-s)P(-i)}e_{-1}\right]sds\\
+        u^t = \frac{1}{2}e_1\int_0^t e^{(t-s)P(i)}sds + \frac{1}{2}e_{-1}\int_0^t e^{(t-s)P(-i)}sds\\
+    \end{gather*}
+    \item Evaluate $\int_0^t e^{(t-s)P(i)}sds$ with integration by parts:
+    \begin{gather*}
+        \int_0^t e^{(t-s)P(i)}sds = e^{it}\left[\int_0^te^{-si}sds\right] = e^{it}\left[\left.\frac{e^{-si}s}{-i}\right\rvert^t_0 - \int_0^t\frac{e^{-si}s}{-i}ds\right]\\
+        = e^{it}\left[-ie^{-ti}t - e^{-ti} + 1\right] = -it +e^{it} - 1
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        u^t = \frac{1}{2}e_1(-it -e^{it} - 1) + \frac{1}{2}e_{-1}(it -e^{-it} + 1) \\
+        u^t = it(\frac{e_1-e_{-1}}{2}) + (\frac{e_1-e_{-1}}{2}) + (\frac{e^{it}e_1 - e^{-it}e_{-1}}{2}) \\
+        u^t = t\sin(x) + \cos(x) + i\sin(t+x)
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 5. Solve a diffusion equation using Fourier transformations}
+
+Proof that a function can be its own Fourier coefficient:
+\begin{itemize}
+    \item Let:
+    \begin{gather*}
+        f(x) = e^{-\frac{x^2}{2}}\\
+    \end{gather*}
+    \item Suppose we want to form the following integral:
+    \begin{gather*}
+        \hat{f}(\xi) = \int_{\mathbb{R}}e^{ax}e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}} \qquad a \in \mathbb{R}\\
+        \hat{f}(\xi) = \int_{\mathbb{R}}e^{ax-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}} \\
+        \frac{2ax-x^2}{2} = \frac{-(x^2-2ax+a^2-a^2)}{2} = \frac{-[(x-a)^2-a^2]}{2} = -\frac{(x-a)^2}{2}+\frac{a^2}{2}\\
+        \therefore \hat{f}(\xi) = \int_{\mathbb{R}}e^{\frac{a^2}{2}}e^{-\frac{(x-a)^2}{2}}\frac{dx}{\sqrt{2\pi}}\\
+        \hat{f}(\xi) = e^{\frac{a^2}{2}}\int_{\mathbb{R}}e^{-\frac{(x-a)^2}{2}}\frac{dx}{\sqrt{2\pi}}
+    \end{gather*}
+    \item Change of variable:
+    \begin{gather*}
+        \hat{f}(\xi) =\int_{\mathbb{R}}e^{-\frac{(x-a)^2}{2}}\frac{dx}{\sqrt{2\pi}}\\
+        \hat{f}(\xi) =\int_{\mathbb{R}}e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{2\pi}} = 1\\
+        \hat{f}(\xi) = e^{\frac{a^2}{2}}\\\\
+        a = i\xi\\
+        \therefore \hat{f}(\xi) = e^{-\frac{\xi^2}{2}}
+    \end{gather*}
+\end{itemize}
+Facts:
+\begin{itemize}
+    \item Parzeval equality:
+    \begin{gather*}
+        \|\hat{f}\|_{L_2} = \|f\|_{L_2} \Leftrightarrow \sum_{\mathbb{R}}|f(x)|^2\frac{dx}{2\pi}
+    \end{gather*}
+    \item Fourier coefficient for continuous transformation:
+    \begin{gather*}
+        \hat{f}(\xi) = \int_{\mathbb{R}}e^{-i\xi x}f(x) \frac{dx}{\sqrt{2\pi}}
+    \end{gather*}
+    \item Fourier inversion (recovery formula):
+    \begin{gather*}
+        {f}(x) = \int_{\mathbb{R}}e^{-i\xi x}\hat{f}(\xi) \frac{d \xi}{\sqrt{2\pi}}
+    \end{gather*}
+    \item Function is its own Fourier coefficient:
+    \begin{enumerate}
+        \item Gaussian function: $e^{-\frac{\xi^2}{2}} = \int_{\mathbb{R}}e^{-i\xi x}e^{-\frac{x^2}{4t}}\frac{dx}{\sqrt{2\pi}}$\\
+        \item General: $e^{-t|\xi|^2} = \int_{\mathbb{R}^n}e^{-i\xi x}e^{-\frac{|x|^2}{2}}\frac{dx}{\sqrt{4\pi t}^n}$
+    \end{enumerate}
+\end{itemize}
+General solution:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = \mathscrsfs{L}_P(u)\\
+        u(x, 0) = \varphi(x)
+    \end{gather*}
+    \item Fourier coefficient:
+    \begin{gather*}
+        \hat{u}^t(\xi) = \hat{u}(\xi, t) = \int_\mathbb{R}e^{-i\xi x}u(x, t)\frac{dx}{2\pi}
+    \end{gather*}
+    \item Observation 1 (Fourier transformation of $u$ applied by the differential operator is a polynomial times $\hat{u}$ as $u$ itself can be expanded using its orthogonal basis $\hat{u}$):
+    \begin{gather*}
+        \widehat{\mathscrsfs{L}_P(u)}(\xi) = P(i\xi)\hat{u}(\xi)\\
+        u_t = P(i\xi)\hat{u}(\xi)\\
+    \end{gather*}
+    \item Observation 2:
+    \begin{gather*}
+        \widehat{\left(\frac{d}{dt}u\right)}(\xi) = (i\xi)\hat{u}(\xi)\\
+    \end{gather*}
+    \item Derivation:
+    \begin{gather*}
+        u_t = \mathscrsfs{L}_P(u)\\
+        \widehat{\left(\frac{d}{dt}u\right)}(\xi) = \widehat{\mathscrsfs{L}_P(u)}(\xi)\\
+        \frac{d}{dt}\hat{u}(\xi) = P(i\xi)\hat{u}(\xi) \qquad \rightarrow \text{ODE}\\
+        \hat{u}(\xi, t) = e^{tP(i\xi)}\hat{u}(\xi, 0)\\
+        \hat{u}(\xi, t) = e^{tP(i\xi)}\hat{\varphi}(\xi)\\
+    \end{gather*}
+    \item Using recovery formula:
+    \begin{gather*}
+        u(x, t) = \int e^{i\xi x}e^{tP(i\xi)}\hat{\varphi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\\
+    \end{gather*}
+    \item Properties:
+    \begin{enumerate}
+        \item Solution works in $L_2$ space (the above is an $L_2$ solution)
+        \item For a nice $\varphi$ (infinitely differetiable and decaying at $\infty$), solution is unique\\
+    \end{enumerate}
+\end{itemize}
+Solution for heat equation:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = u_{xx}\\
+        u(x, 0) = \varphi(x)
+    \end{gather*}
+    \item Solution:
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}e^{tP(i\xi)}\hat{\varphi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\\
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}e^{-t\xi^2}\hat{\varphi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\\
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}\left(\int_{\mathbb{R}}e^{-i\xi y}e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{4\pi t}}\right)\hat{\varphi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\\
+        u(x, t) = \int_{\mathbb{R}} \left(\int_{\mathbb{R}} e^{i\xi(x-y)}\hat{\varphi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\right)e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{4\pi t}}\\
+        u(x, t) = \int_{\mathbb{R}} \varphi(x-y)e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{4\pi t}} \qquad \Rightarrow S(t)(\varphi)(x)
+    \end{gather*}
+    \item Alternative solution expression (by change of variable):
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} \varphi(z)e^{-\frac{(x-z)^2}{4t}}\frac{dz}{\sqrt{4\pi t}} \qquad \Rightarrow S(t)(\varphi)(x)
+    \end{gather*}
+
+\end{itemize}
+% Application:
+% \begin{gather*}
+%     u_t = u_{xxx} \qquad \rightarrow\text{on the upper half plane $t > 0$}\\
+%     u^t(x)= \int_{\mathbb{R}}e^{-i\xi x}\hat{u}^t(\xi) d\xi\\
+%     \hat{u}^t(\xi, t) = \int_{\mathbb{R}}e^{-i\xi x}u^t(x, t) \frac{dx}{\sqrt{2\pi}}\\\\
+%     e_\xi(x) = e^{i\xi x}\\
+%     e_{xxx} = (i\xi)^2e_\xi = -i\xi^3e_\xi\\\\
+%     \frac{d}{dt}\hat{u}^t(\xi) = P(\xi)\hat{u}^t(\xi)\\
+%     u^t(\xi) = e^{tP(\xi)}u^t(\xi)
+% \end{gather*}
+% Example for simple polynomial:
+% \begin{gather*}
+%     P(x) = x\\
+%     \widehat{\left(\frac{d}{dx}u\right)}(\xi) = \int_{\mathbb{R}} e^{-i\xi x}u'(x)\frac{dx}{\sqrt{2\pi}}\ \qquad \rightarrow \text{fix $t=0$}\\\\
+\tiny $\text{Integration by parts $\int_\mathbb{R} fg' dx = \left.fg\right\rvert_\mathbb{R} - \int_\mathbb{R} f'gdx$}$
+%     \widehat{\left(\frac{d}{dx}u\right)}(\xi) = -\int_{\mathbb{R}} (-i\xi)e^{-i\xi x}u(x)\frac{dx}{\sqrt{2\pi}}\ \\
+%     \widehat{\left(\frac{d}{dx}u\right)}(\xi) = (i\xi)\int_{\mathbb{R}} e^{-i\xi x}u(x)\frac{dx}{\sqrt{2\pi}}\\
+%     \widehat{\left(\frac{d}{dx}u\right)}(\xi) = (i\xi)\hat{u}(\xi)
+% \end{gather*}
+\vspace{0.3em}
+\end{document}
