@@ -1,0 +1,122 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 5}
+\vspace{1em}
+
+\subsection*{LOS 1. Compare the solutions for continuous case vs periodic case for a given PDE}
+Continuous case:
+\begin{itemize}
+    \item Problem: 
+    \begin{gather*}
+        u_t = u_{xxxxxx} \qquad -\infty < x < \infty\\
+        u(x, 0) = \phi(x) = \int_{\mathbb{R}} e^{i\xi x}\hat{\phi}(k)\\
+        P(x) = x^6\\
+    \end{gather*}
+    \item Assume $t$ is fixed:
+    \begin{gather*}
+        \frac{d}{dt} \hat{u}(\xi, t) =(i\xi)^6\hat{u}{\xi, t} \\
+        \hat{u}(\xi, t) = e^{-t\xi^6}\hat{u}(\xi, 0) \\
+    \end{gather*}
+    \item By Fourier Inversion formula:
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}\hat{u}(\xi, t)\frac{d\xi}{\sqrt{2}\pi}\\
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}e^{t\xi^6}\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi} \qquad (1)\\
+    \end{gather*}
+    \item By Fourier expansion:
+    \begin{gather*}
+        f(\xi) = e^{\xi^6} = \int_{\mathbb{R}} e^{i\xi z}\hat{f}(z)\frac{dz}{\sqrt{2}\pi}\\
+        e^{\xi^6} = \int_{\mathbb{R}} e^{-i\xi z}\hat{f}(z)\frac{dz}{\sqrt{2}\pi} \qquad \text{since $\hat{f}$ is even}\\
+        e^{t\xi^6} = e^{(t^{\frac{1}{6}}\xi)^6} = \int_{\mathbb{R}} e^{-it^{\frac{1}{6}}\xi z}\hat{f}(z)\frac{dz}{\sqrt{2}\pi}\\
+    \end{gather*}
+    \item By change of variable:
+    \begin{gather*}
+        y = t^{\frac{1}{6}}z\\
+        e^{t\xi^6} = \int_{\mathbb{R}} e^{-i\xi y}\hat{f}\left(\frac{y}{t^\frac{1}{6}}\right)\frac{dy}{t^\frac{1}{6}\sqrt{2}\pi}\\
+        h_t(y) = \frac{1}{t^\frac{1}{6}\sqrt{2}\pi}\hat{f}\left(\frac{y}{t^\frac{1}{6}}\right)\\
+        \therefore e^{t\xi^6} = \int_{\mathbb{R}} e^{-i\xi y}h_t(y)dy\\
+    \end{gather*}
+    \item Substitute back to Equation (1):
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}e^{t\xi^6}\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi} \\ 
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}\int_{\mathbb{R}} e^{-i\xi y}h_t(y)dy\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi}\\
+        u(x, t) = \int_{\mathbb{R}} \left[\int_{\mathbb{R}} e^{i\xi (x-y)}\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi}\right]h_t(y)dy\\
+        u(x, t) = \int_{\mathbb{R}} u(x-y, 0) h_t(y)dy\\
+        u(x, t) = \int_{\mathbb{R}} \phi(x-y) h_t(y)dy\\
+    \end{gather*}
+\end{itemize}
+Periodic case:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = u_{xxxxxx} \qquad -\pi < x < \pi\\
+        u(x, 0) = \phi(x) = \sum_{k \in \mathbb{Z}} e^{ikx}\hat{\phi}(\xi)\frac{d\xi}{\sqrt{2}\pi}\\
+        P(x) = x^6\\
+    \end{gather*}
+    \item Assume $t$ is fixed:
+    \begin{gather*}
+        \frac{d}{dt} \hat{u}(k, t) =(ik)^6\hat{u}{k, t} \\
+        \hat{u}(k, t) = e^{-tk^6}\hat{u}(k, 0) \\
+    \end{gather*}
+    \item By Fourier Inversion formula:
+    \begin{gather*}
+        u(x, t) = \sum_{k \in \mathbb{Z}} e^{-tk^6}\hat{u}(k, 0)e^{ikx} \qquad (1)\\
+    \end{gather*}
+    \item Let:
+    \begin{gather*}
+        H_t(x) = \frac{1}{2\pi}\sum_{k \in  \mathbb{Z}} e^{-tk^6}e^{ikx}\\
+        e^{-tk^6} = \hat{H_t(x)} = \int_{-\pi}^{\pi}e^{-iky}H_t(y)dy
+    \end{gather*}
+    \item Substitute back to Equation (1):
+    \begin{gather*}
+        u(x, t) = \sum_{k \in \mathbb{Z}} \left[\int_{-\pi}^{\pi}e^{-iky}H_t(y)dy\right]\hat{u}(k, 0)e^{ikx}\\ 
+        u(x, t) = \int_{-\pi}^{\pi}\left[\sum_{k \in \mathbb{Z}} e^{ik(x-y)}\hat{u}(k, 0)\right]H_t(y)dy\\
+        u(x, t) = \int_{-\pi}^{\pi}u(x-y, 0)H_t(y)dy\\
+        u(x, t) = \int_{-\pi}^{\pi}\phi(x-y)H_t(y)dy\\
+    \end{gather*}
+\end{itemize}
+In general:
+\begin{itemize}
+    \item Upper half plane (continuous):
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} \phi_{ext}(x-y) h_t(y)dy\\
+    \end{gather*}
+    \item Periodic:
+    \begin{gather*}
+        u(x, t) = \int_{-\pi}^{\pi}\phi(x-y)H_t(y)dy\\
+    \end{gather*}
+\end{itemize}
+Example:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = ku_{xx} \\
+        H_t(y) = \frac{c}{\sqrt{kt}}\sum_{j\in\mathbb{Z}}e^{-\frac{|y-j|^2}{4kt}}\qquad -\pi < x < \pi \\
+        h_t(y) = \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}\qquad -\infty < x < \infty 
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 2. Analyze the continuity of a solution of a PDE}
+\vspace{0.3em}
+
+\subsection*{LOS 3. Describe the maximum principle for heat equation}
+\vspace{0.3em}
+
+\end{document}
