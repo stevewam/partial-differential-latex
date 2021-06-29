@@ -95,11 +95,11 @@ In general:
 \begin{itemize}
     \item Upper half plane (continuous):
     \begin{gather*}
-        u(x, t) = \int_{\mathbb{R}} \phi_{ext}(x-y) h_t(y)dy\\
+        u(x, t) = \int_{\mathbb{R}} \phi_{ext}(x-y) h_t(y)dy = \int_{\mathbb{R}} \phi_{ext}(y) h_t(x-y)dy\\
     \end{gather*}
     \item Periodic:
     \begin{gather*}
-        u(x, t) = \int_{-\pi}^{\pi}\phi(x-y)H_t(y)dy\\
+        u(x, t) = \int_{-\pi}^{\pi}\phi(x-y)H_t(y)dy = \int_{-\pi}^{\pi}\phi(y)H_t(x-y)dy\\
     \end{gather*}
 \end{itemize}
 Example:
@@ -114,9 +114,92 @@ Example:
 \vspace{0.3em}
 
 \subsection*{LOS 2. Analyze the continuity of a solution of a PDE}
+Solution formula:
+\begin{gather*}
+    u_t = ku_{xx} \qquad -\infty < x < \infty\\
+    u(x, t) = \int_{\mathbb{R}} \phi(x-y) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy = \int_{\mathbb{R}} \phi(y) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}dy\\
+\end{gather*}
+If $\phi$ is continuous and bounded:
+\begin{gather*}
+    \lim_{t \to 0} u(x, t) = \phi(x)\\
+    \sup_z |\phi(z)| \leq K
+\end{gather*}
+Proof:
+\begin{itemize}
+    \item Let $x \in \mathbb{R}$ since $\phi$ is continuous at $x$ $\exists \delta > 0$ $\forall y$ where $|y-x| < \delta \Rightarrow |\phi(x)-\phi(y)|<\epsilon$ where $\epsilon > 0$
+    \item Evaluate the difference:
+    \begin{gather*}
+        \int_{\mathbb{R}} \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy = 1\\
+        u(x, t) - \phi(x) = \int_{\mathbb{R}} \phi(x-y) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy - \int_{\mathbb{R}} \phi(x) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy\\
+        u(x, t) - \phi(x)= \int_{\mathbb{R}} [\phi(x-y) - \phi(x)] \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy\\
+        u(x, t) - \phi(x)= \int_{|y| < \delta} [\phi(x-y) - \phi(x)] \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy \\
+        \qquad \qquad \qquad\qquad \qquad + \int_{|y| > \delta} [\phi(x-y) - \phi(x)] \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy\\
+        |u(x, t) - \phi(x)|\leq \int_{|y| < \delta} [\epsilon] \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy \\
+        \qquad \qquad \qquad\qquad \qquad + \int_{|y| > \delta} [K + K] \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy\\
+    \end{gather*}
+    \item Change of variable:
+    \begin{gather*}
+        z^2 = \frac{y^2}{4t} \Rightarrow z = \frac{y}{\sqrt{2t}} \Rightarrow dz = \frac{dy}{\sqrt{2t}}\\
+        |u(x, t) - \phi(x)|\leq \epsilon\int_{|y| < \delta} \frac{1}{\sqrt{4\pi kt}}e^{-\frac{y^2}{4kt}}dy + 2K \int_{|z| > \frac{\delta}{\sqrt{2t}}} e^{-\frac{z^2}{2}}\frac{dy}{\sqrt{2\pi}}\\
+        |u(x, t) - \phi(x)|\leq \epsilon+ 2Ke^{-\frac{\delta}{t}}\\
+        |u(x, t) - \phi(x)|\leq \epsilon+ \epsilon \qquad \text{$2Ke^{-\frac{\delta}{t}} \to \epsilon$ when $t$ is large}\\
+        \therefore |u(x, t) - \phi(x)|\leq 2\epsilon
+    \end{gather*}
+\end{itemize}
 \vspace{0.3em}
 
 \subsection*{LOS 3. Describe the maximum principle for heat equation}
+Theorem:
+\begin{gather*}
+    u_t = ku_{xx} \qquad 0<x<l\\
+    \sup_{(x, t) \in \hat{\Omega}} u(x, t) = \sup_{(x, t) \in \delta \Omega} u(x, t) \qquad \text{where $\delta\Omega$ is the boundary enclosing $\hat{\Omega}$}\\
+\end{gather*}
+Proof:
+\begin{itemize}
+    \item Introduce a perturbation term where $\epsilon>0$:
+    \begin{gather*}
+        v(x, t) = u(x, t) + \epsilon x^2 \\
+    \end{gather*}
+    \item If $(x_0, t_0)$ is an interior point:
+    \begin{gather*}
+        v_t(x_0, t_0) = 0 \qquad \text{First derivative at maximum is 0}\\
+        v_xx(x_0, t_0) \leq 0 \qquad \text{Second derivative at maximum is negative or 0}\\
+        \therefore \underbrace{v_t - v_{xx}}_{\geq 0} = \underbrace{u_t - u_{xx}}_{=0} - \underbrace{2k\epsilon}_{>0}\\
+        \underbrace{v_t - v_{xx}}_{\geq 0} = \underbrace{u_t - u_{xx} - 2k\epsilon}_{<0}\\
+    \end{gather*}
+    \item LHS and RHS contradicts. Therefore, maximum for $v$ cannot be an interior point (1).
+    \item Prove for $u$:
+    \begin{gather*}
+        \sup_{(x, t) \in \hat{\Omega}} u(x, t) \leq \sup_{(x, t) \in \hat{\Omega}} v(x, t) \qquad \text{Since $\epsilon > 0$}\\ 
+        \sup_{(x, t) \in \hat{\Omega}} u(x, t) \leq \sup_{(x, t) \in \delta \Omega} v(x, t) \qquad \text{By proof in (1)}\\ 
+        \sup_{(x, t) \in \hat{\Omega}} u(x, t) \leq \sup_{(x, t) \in \delta \Omega} u(x, t) + \sup_{(x, t) \in \delta \Omega} \epsilon x^2\\
+        \sup_{(x, t) \in \hat{\Omega}} u(x, t) \leq \sup_{(x, t) \in \delta \Omega} u(x, t) + \epsilon l^2\\
+        \sup_{(x, t) \in \hat{\Omega}} u(x, t) \leq \sup_{(x, t) \in \delta \Omega} u(x, t) \qquad \text{When $\epsilon \to 0$}\\
+    \end{gather*}
+    \item Maximum principle: maximum exists in the boundary.\\
+\end{itemize}
+Application:
+\begin{itemize}
+    \item Theorem: Heat equation has a unique solution
+    \begin{gather*}
+        u_t - ku_{xx} = f \qquad k > 0\\
+        u(x, 0) = \phi(x)\\
+        u(0, t) = h(t)\\
+        u(l, t) = k(t)
+    \end{gather*}
+    \item Proof: Assume $u^1$ and $u^2$ are solution to the heat equation:
+    \begin{gather*}
+        w = u^1 - u^2\\
+        w_t = kw_{xx}\\
+        w(x, 0) = \phi^1(x) - \phi^2(x) = 0\\
+        w(0, t) = h^1(x) - h^2(x) = 0\\
+        w(l, t) = k^1(x) - k^2(x) = 0\\
+        \max_{(x, t)} w(x, t) \leq 0 \qquad \text{By maximum principle}\\
+        \max_{(x, t)} -w(x, t) \leq 0 \qquad \text{By maximum principle}\\
+        \therefore w \equiv 0 \Rightarrow \text{$u^1$ and $u^2$ are equal}
+    \end{gather*}
+    
+\end{itemize}
 \vspace{0.3em}
 
 \end{document}
