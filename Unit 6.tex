@@ -7,6 +7,7 @@
 \usepackage[margin=1.3in]{geometry}
 \usepackage[mathscr]{euscript}
 \usepackage{tabto}
+\usepackage{cancel}
 
 
 \DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
@@ -17,10 +18,615 @@
 
 
 \begin{document}
-\section*{Unit 5}
+\section*{Unit 6}
 \vspace{1em}
 
-Compare the solutions for continuous case vs periodic case for a given PDE
-Analyze the continuity of a solution of a PDE
-Describe the maximum principle for heat equation
+\subsection*{LOS 1. Learn how to apply maximum principle for finding a concrete value for two periodic solutions of heat equation}
+Problems:
+\begin{gather*}
+    0 \leq t \leq 1 \\
+    0 \leq x \leq 2\pi\\\\
+    u_t = u_{xx}\\
+    u(0, t) = t^2\\
+    u(2\pi, t) = t^2\\
+    u(x, 0)=sin(x)
+\end{gather*}
+\begin{gather*}
+    w_t = w_{xx}\\
+    w(0, t) = t\\
+    w(2\pi, t) = t\\
+    w(x, 0) = \sin(x)+\frac{1}{4}\sin(2x)\\
+\end{gather*}
+Find:
+\begin{gather*}
+    |u(\pi, 1) - w(\pi, 1)| \leq \;?\\
+\end{gather*}
+Method:
+\begin{itemize}
+    \item By maximum principle:
+    \begin{gather*}
+        v = u-w\\
+        \sup_{(x, t)\in \hat{\Omega}} |v(x, t)| \leq \sup_{(x, t)\in \delta\Omega}\\
+    \end{gather*}
+    \item Evaluate right hand side of the boundary and let $t = s$:
+    \begin{gather*}
+        \sup_{0\leq s\leq 1} |u(x, t)-w(x,t)| \leq \sup_{0\leq s\leq 1} |s-s^2|\\
+    \end{gather*}
+    \item Find maximum of left hand side:
+    \begin{gather*}
+        f(s) = s-s^2\\
+        f'(s) = 1 - 2s = 0\\
+        s = \frac{1}{2}\\
+        \therefore \sup_{0\leq s\leq 1} |s-s^2| = \frac{1}{4}\\
+    \end{gather*}
+    \item Test if the above supremum is correct:
+    \begin{gather*}
+        \sup_{x} \left|\sin x - (\sin x + \frac{1}{4}\sin 2x)\right| = \frac{1}{4}\\
+    \end{gather*}
+    \item Therefore, since $(\pi, 1)$ is an inner point:
+    \begin{gather*}
+        |u(\pi, 1) - w(\pi, 1)| \leq \frac{1}{4}\\
+    \end{gather*}
+\end{itemize}
+Is there a solution with $u(0, t) = t^2$ for $0\leq t \leq \infty$?:
+\begin{itemize}
+    \item Short answer: No
+    \item Heat equation is diffusion. Diffusioin decays.
+    \item Proof:
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} \phi(y) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}dy\\
+        u(x, t) = \int_{\mathbb{R}} \phi(y) \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}dy \leq \int_{\mathbb{R}} |\phi(y)| \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}dy\\\\
+        \text{Assume } \int_{\mathbb{R}} |\phi(y)|dy \leq 1\\
+        e^{-\frac{(x-y)^2}{4kt}} \leq 1\\\\
+        u(x, t) \leq \int_{\mathbb{R}} |\phi(y)| \frac{1}{\sqrt{4\pi kt}}e^{-\frac{(x-y)^2}{4kt}}dy \leq \int_{\mathbb{R}} |\phi(y)| \frac{1}{\sqrt{4\pi kt}}dy \leq \frac{1}{\sqrt{4\pi kt}}
+    \end{gather*}
+    \item Every solution has to decay uniformly by $\frac{1}{\sqrt{4\pi kt}}$. Therefore, $h(0, t) = t^2$ is not a solution.
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 2. Solve a given PDE using separation of variables}
+Problem:
+\begin{gather*}
+    u_t = \mathscrsfs{L}(u) \qquad  \hat{\Omega} \leq \mathbb{R}^D\\
+    u(x, 0) = \phi(x) \qquad x \in \delta\Omega\\
+\end{gather*}
+Ansatz:
+\begin{gather*}
+    u(x, t) = T(t)X(x)\\
+    T'X = TL(X)\\
+    \frac{T'}{T} = \frac{L(X)}{X} = \lambda\\
+    T' = e^{\lambda t}T(0)\\
+    L(X) = \lambda X\\
+\end{gather*}
+Find an orthonormal basis of $L_2(\hat{\Omega}, m)$ ($m$ is a measure depending on the dimension, for example; for 1-D it will be $dx$, for 2-D it will be $dxdy$) such that:
+\begin{gather*}
+    L(X_k) = \lambda_k X_k\\
+    S(\phi)(x, t) = \sum_{k} (X_k, \phi)e^{t\lambda k}X_k\\
+\end{gather*}
+Example 1-D:
+\begin{gather*}
+    \hat{\Omega} [-\pi, \pi]\\
+    X_k = e_k(x) = e^{ikx}\\
+    \mathscrsfs{L}(u) = u_{xx} \rightarrow \mathscrsfs{L}(e_k) = -k^2e_k\\
+\end{gather*}
+Example for wave with Dirichlet:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_{tt} = c^2u_{xx} \qquad 0<x<l\\
+        u(0, t) = 0 = u(l, t)\\
+        u(x, 0) = \phi(x)\\
+        u_t(x, 0) = \psi(x)
+    \end{gather*}
+    \item Separated solution:
+    \begin{gather*}
+        u(x, t) = X(x)T(t)\\
+        u_{tt} = c^2u_{xx}\\
+        X(x)T''(t) = c^2X''T\\
+        -\frac{T''}{c^2T}=-\frac{X''}{X} = \lambda
+    \end{gather*}
+    \item Let $\lambda = \beta^2$ where $\beta >0$:
+    \begin{gather*}
+        -\frac{X''}{X} = \beta^2\\
+        X'' + \beta^2X = 0\\
+        X(x) = C\cos{\beta x} + D\sin{\beta x}\\\\
+        -\frac{T''}{c^2T}= \beta^2\\
+        T'' + c^2\beta^2T = 0\\
+        T(t) = A\cos{\beta ct} + B\sin{\beta ct}\\
+    \end{gather*} 
+    \item Impose boundary condition:
+    \begin{gather*}
+        u(x, t) = 0 \rightarrow u(0, t) = X(0)T(t) = 0 \qquad\rightarrow X(0) = 0\\
+        X(0) = C\times 1 + D\times 0 = 0 \qquad\rightarrow C = 0\\
+        u(l, t) = 0 \rightarrow u(l, t) = X(l)T(t) = 0 \qquad\rightarrow X(l) = 0\\
+        X(l) = \cancelto{0}{C}\cos{\beta l} + D\sin{\beta l} = D\sin{\beta l}\\
+    \end{gather*}
+    \item To satisfy the above condition:
+    \begin{gather*}
+        \beta l = n\pi \qquad n = 1, 2, 3, ...\\
+        \beta = \frac{n\pi}{l}\\
+        \lambda_n = \beta^2 = \left(\frac{n\pi}{l}\right)^2\\
+        X_n(x) = \sin{\left(\frac{n\pi}{l}x\right)}
+    \end{gather*}
+    \item Linear combination of $X_n$ is a solution to $X$ ODE equation. Therefore, the solution to the wave equation is the superposition of all the possible solutions:
+    \begin{gather*}
+        u(x, t) = \sum_{n=1}^{\infty} \left[A_n\cos{\left(\frac{n\pi}{l}ct\right)} + B_n\sin{\left(\frac{n\pi}{l}ct\right)}\right]\sin{\left(\frac{n\pi}{l}x\right)}\\
+        \phi(x) = \sum_{n=1}^{\infty} A_n\sin{\left(\frac{n\pi}{l}x\right)}\\
+        \psi(x) = \sum_{n=1}^{\infty} \frac{n\pi}{l}c B_n\sin{\left(\frac{n\pi}{l}x\right)}\\
+    \end{gather*}
+\end{itemize}
+Example for diffusion with Dirichlet:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = ku_{xx}\qquad 0<x<l, \;0<t<\infty\\
+        u(0, t) = u(l, t) = 0;
+        u(x, 0) = \phi(x)
+    \end{gather*}
+    \item Separation:
+    \begin{gather*}
+        u(x, t) = X(x)T(t)\\
+        u_t = ku_{xx}\\
+        X(x)T'(t) = kX''(x)T(t)\\
+        XT' = kX''T\\
+        \frac{X''}{X} = \frac{T'}{T} = -\lambda\\\\
+        T' = -\lambda kt\\
+        T(t) = Ae^{-\lambda kt}
+    \end{gather*}
+    \item Let $\lambda = \beta^2$ where $\beta >0$: \\
+    \begin{gather*}
+        \frac{X''}{X} = -\beta^2\\
+        X'' + \beta^2X = 0\\
+        X(x) = C\cos{\beta x} + D\sin{\beta x}\\\\
+        X(x) = D\sin{\beta x}\\
+        X(l) = D\sin{\beta x} = 0\\
+    \end{gather*}
+    \item To satisfy the above condition:
+    \begin{gather*}
+        \beta l = n\pi \qquad n = 1, 2, 3, ...\\
+        \beta = \frac{n\pi}{l}\\
+        \lambda_n = \beta^2 = \left(\frac{n\pi}{l}\right)^2\\
+        X_n(x) = \sin{\left(\frac{n\pi}{l}x\right)}
+    \end{gather*}
+    \item Solution:
+    \begin{gather*}
+        u(x, t) = \sum_{n=1}^{\infty} A_ne^{-\left(\frac{n\pi}{l}\right)^2 kt}\sin{\left(\frac{n\pi}{l}x\right)}
+    \end{gather*}
+\end{itemize}
+Solution for diffussion with Neumann:
+\begin{gather*}
+    u(x, t) =  \frac{1}{2}A_0 + \sum_{n=1}^{\infty} A_ne^{-\left(\frac{n\pi}{l}\right)^2 kt}\cos{\left(\frac{n\pi}{l}x\right)}\\
+    \phi(x)= \frac{1}{2}A_0 + \sum_{n=1}^{\infty} A_n\cos{\left(\frac{n\pi}{l}x\right)}
+\end{gather*}
+Solution for wave with Neumann:
+\begin{gather*}
+    u(x, t) = \frac{1}{2}A_0 + \frac{1}{2}B_0t+\sum_{n=1}^{\infty} \left[A_n\cos{\left(\frac{n\pi}{l}ct\right)} + B_n\sin{\left(\frac{n\pi}{l}ct\right)}\right]\cos{\left(\frac{n\pi}{l}x\right)}\\
+    \phi(x) = \frac{1}{2}A_0 +\sum_{n=1}^{\infty} A_n\cos{\left(\frac{n\pi}{l}x\right)}\\
+    \psi(x) = \frac{1}{2}B_0 +\sum_{n=1}^{\infty} \left(\frac{n\pi}{l}c\right)B_n\cos{\left(\frac{n\pi}{l}x\right)}
+\end{gather*}
+\vspace{0.3em}
+
+
+
+\subsection*{LOS 3. Calculate orthonormal basis for Laplace equation}
+ONB for 2-D periodic:
+\begin{gather*}
+    \hat{\Omega} \; [-\pi, \pi] \times [-\pi, \pi]\\
+    \mathscrsfs{L}(u) = u_{xx} + u_{yy} = \Delta u \\
+    e_{kj} (x, y) = e_k(x)e_j(y) = e^{ikx}e^{ijy} \\
+    \mathscrsfs{L}(e_{kj}) = -(k^2+j^2)e_{kj} \\
+\end{gather*}
+Conclusion:
+\begin{itemize}
+    \item For $[-\pi, \pi] \times [-\pi, \pi]$, product of $e_k$ for multiple domains ($e_{kj}$) forms an orthonormal basis for the combined domain
+    \item Solution formula for 2-D: 
+    \begin{gather*}
+        S(\phi)(x, y, t) = \sum_k(e_{kj}(x, y), \phi)e^{-t(k^2+j^2)}e_{kj}(x, y)\\
+        \text{Or generally } S(\phi)(x, t) = \sum_{k} (X_k, \phi)e^{t\lambda k}X_k
+    \end{gather*}
+    \item Solution formula satisfies the energy estimate inequality:
+    \begin{gather*}
+        \|u(x, y, t)\|_{L_2} \leq \|u(x, y, 0)\|_{L_2}\\
+        \int_{-\pi}^\pi\int_{-\pi}^\pi |u(x, y, t)|\frac{dxdy}{4\pi^2} \leq \int_{-\pi}^\pi\int_{-\pi}^\pi |u(x, y, 0)|\frac{dxdy}{4\pi^2} 
+    \end{gather*}
+    \item The energy estimate inequality holds because of Parseval identity ($L_2$ norm is the sum of the Fourier coefficients):
+    \begin{gather*}
+        \|\phi\|^2_{L_2} = \sum_k|(\phi, X_k)|^2\\
+        |u(x, y, t)\|_{L_2} = \int_{-\pi}^\pi\int_{-\pi}^\pi |u(x, y, t)|\frac{dxdy}{4\pi^2} \\
+        \text{Or generally } \|u(x, t)\|_{L_2} = \int_{-\pi}^\pi |u(x, t)|dm \\
+    \end{gather*}
+    \item If $\lambda_k < 0$:
+    \begin{gather*}
+        \|u(x, t)\|_{L_2}= \int_{-\pi}^\pi \left|\sum_{k} (X_k, \phi)e^{t\lambda k}X_k\right|dm \leq \int_{-\pi}^\pi \left|\sum_{k} (X_k, \phi)e^{(0)\lambda k}X_k\right|dm\\
+        \|u(x, t)\|_{L_2} \leq \int_{-\pi}^\pi \left|\sum_{k} (X_k, \phi)e^{(0)\lambda k}X_k\right|dm = \|u(x, 0)\|_{L_2}\\
+    \end{gather*}    
+\end{itemize}
+Example:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        \mathscrsfs{L}(u)= u_{xx} + u_{yy} = \Delta u\\
+        \phi(x, y) = \sin x + \cos y\\
+        P(x) = x^2\\
+        \lambda_{kj} = -(k^2+j^2)\\
+    \end{gather*}
+    \item Find Fourier coefficient:
+    \begin{gather*}
+        \phi(x, y) = \sin x + \cos y = \frac{e^{ix} - e^{-ix}}{2i} e_0(y) + \frac{e^{iy} + e^{-iy}}{2} e_0(x)\\
+        \phi(x, y) = \frac{e_1(x)e_0(y)}{2i} - \frac{e_{-1}(x)e_0(y)}{2i} + \frac{e_0(x)e_1(y)}{2} + \frac{e_0(x)e_{-1}(y)}{2}\\
+        \phi(x, y) = \frac{e_{1, 0}}{2i} - \frac{e_{-1, 0}}{2i} + \frac{e_{0, 1}}{2} + \frac{e_{0, -1}}{2}
+    \end{gather*}
+    \item Susbstitute $\phi$ to the solution operator:
+    \begin{gather*}
+        u(x, y, t) = e^{-t}\frac{e_{1, 0}}{2i} - e^{-t}\frac{e_{-1, 0}}{2i} + e^{-t}\frac{e_{0, 1}}{2} + e^{-t}\frac{e_{0, -1}}{2}\\
+    \end{gather*}
+\end{itemize}
+Solutions that satisfy $u(x, 0)=\sin x$ is infinitely many:
+\begin{itemize}
+    \item Previously, it was proven:
+    \begin{gather*}
+        \lim_{t \to 0} u(x, t) = \phi(x)
+    \end{gather*}
+    \item Given $\phi$ on $[0, 2\pi]$ and $\phi$ bounded on $\mathbb{R}$ and continuous (which is proven above):
+    \begin{gather*}
+        u(x, t) = \int_{\mathbb{R}} \varphi(x-y)e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{4\pi t}} = \int_{\mathbb{R}} \varphi(z)e^{-\frac{(x-z)^2}{4t}}\frac{dz}{\sqrt{4\pi t}}\\
+    \end{gather*}
+    \item Solution is any extension $\phi_{ext}$ on $\mathbb{R}$\\
+\end{itemize}
+Generically:
+\begin{itemize}
+    \item For periodic solution of order 2:
+    \begin{gather*}
+        u(x,t) \rightarrow [0, 2\pi]\\
+        u(x, t) = \sum_k a_k e^{-tk^2}e_k(x)\\
+        a_k = (e_k, \phi)\\
+        (\alpha, \beta) = \sum_k \bar{\alpha}_k \beta_k\\
+    \end{gather*}
+    \item By Cauchy–Schwarz:
+    \begin{gather*}
+        |(\alpha, \beta)| \leq \|\alpha\|\|\beta\| = (\alpha, \alpha)^{\frac{1}{2}}(\beta, \beta)^{\frac{1}{2}}\\
+        |u(x, t)| \leq \left(\sum_k |\bar{\alpha}_k|^2\right)^{\frac{1}{2}}\left(\sum_k e^{-2tk^2}|e^{ikx}|^2\right)^{\frac{1}{2}}\\
+        \sum_k |\bar{\alpha}_k|^2 = \|\phi\|_{L_2}\\
+        |e^{ikx}|^2 = 1\\
+        \sum_k e^{-2tk^2} \leq 1 + \int_0^\infty e^{-2tk^2}x
+    \end{gather*}
+    \item By change of variable:
+    \begin{gather*}
+        y = \sqrt{8t}x \rightarrow dy = \sqrt{8t}dx\\
+        \sum_k e^{-2tk^2} \leq 1 + \int_0^\infty e^{-\frac{y^2}{2}}\frac{dy}{\sqrt{2\pi}\sqrt{8t}} \leq 1+\frac{\sqrt{2\pi}}{\sqrt{8t}}
+    \end{gather*}
+    \item Therefore, roughly:
+    \begin{gather*}
+        |u(x, t)| \leq C\|\phi\|_{L_2}(1+t^{-1\frac{1}{4}})
+    \end{gather*}
+    \item This shows that $u(x, t)$ does not grow indefinitely. This shows a "weak" maximum principle.
+\end{itemize}
+
+\vspace{0.3em}
+
+\subsection*{LOS 4. Determine the solution operator for the higher order PDE}
+Problem (Polynomial 2, 6, 10 are good because they are decaying):
+\begin{gather*}
+    u_t = u_{xxxxxxxxxx}\\
+\end{gather*}
+Find Fourier coefficients:
+\begin{gather*}
+    \hat{u}(\xi, t) = (i\xi)^{10} \hat{u}(\xi, 0) = -\xi^{10}\hat{u}(\xi, 0)\\
+    e^{-\xi^{10}} = \int_\mathbb{R} e^{-i\xi y} h(y) \frac{dy}{\sqrt{2\pi}}\\
+    e^{-{(t^{\frac{1}{10}}\xi)}^{10}} = \int_\mathbb{R} e^{-it^{\frac{1}{10}}\xi y} h(y) \frac{dy}{\sqrt{2\pi}}\\
+\end{gather*}
+Change of variable:
+\begin{gather*}
+    z = t^{\frac{1}{10}}y\\
+    e^{-{(t^{\frac{1}{10}}\xi)}^{10}} = t^{-\frac{1}{10}} \int_\mathbb{R} e^{-i\xi z} h(t^{-\frac{1}{10}}z) \frac{dz}{\sqrt{2\pi}}\\
+\end{gather*}
+Solution:
+\begin{gather*}
+    u(x, t)= \int_\mathbb{R} e^{i\xi x} e^{-t\xi^{10}} \hat{e}(\xi, 0) \frac{d\xi}{\sqrt{2\pi}}\\
+    u(x, t)= t^{-\frac{1}{10}} \int_\mathbb{R}\int_\mathbb{R} e^{-i\xi (x-z)} \hat{e}(\xi, 0)\frac{d\xi}{\sqrt{2\pi}} h(t^{-\frac{1}{10}}z) \frac{dz}{\sqrt{2\pi}}\\
+    u(x, t)= t^{-\frac{1}{10}} \int_\mathbb{R}u(x-z, 0) h(t^{-\frac{1}{10}}z) \frac{dz}{\sqrt{2\pi}}
+\end{gather*}
+If the function $h$ decays fast, values that are far away has little influence to the solution at $t$.
+
+\vspace{0.3em}
+
+\subsection*{LOS 5. Understand the theorem on continuous derivatives and pointwise convergence}
+Properties of diffusion equation:
+\begin{itemize}
+    \item Consider the problem: $u_t = u_{xxxx}$
+    \item Property 1: $\lim_{t\to\infty} \int |u(x, t)|^2 dx \ne \infty$. If initial conditions are integrable, $L_2$ norm is always bounded. In fact, for diffusion, $L_2$ norm is decreasing.
+    \item Property 2: $\lim_{t\to\infty} u(0, t) = 0$. If initial conditions are integrable, this is always true because $h$ is equals to a constant. 
+    \begin{gather*}
+        u(x, t)= t^{-\frac{1}{4}} \int_\mathbb{R}u(x-y, 0) h(t^{-\frac{1}{4}}y) \frac{dy}{\sqrt{2\pi}}\\
+        \hat{h}(\xi) = e^{-\xi^4}\\
+        |h(y)|=\left|\int_\mathbb{R}e^{-i\xi y} e^{-\xi^4}\frac{d\xi}{\sqrt{2\pi}}\right|\leq\left|\int_\mathbb{R} e^{-\xi^4}\frac{d\xi}{\sqrt{2\pi}}\right| = C
+    \end{gather*} 
+    \item Information preservation: for small $t$, the function $h$ approaches a Dirac delta function and all information is preserved. As $t$ gets larger, the function flattens and information is lost.
+    \item Compared to wave equation: information is preserved for the Dirichlet condition, but not for the Neumann condition.\\
+\end{itemize}
+By separation of variables:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        u_t = u_{xx}\\
+        u(0, t) = 0\\
+        u_x = (\frac{\pi}{2}, t) = 0\\
+    \end{gather*}
+    \item Separation of variables:
+    \begin{gather*}
+        u(x, t) = X(x)T(t)\\
+        T'X = TX''\\
+        \frac{T'}{T} = \frac{X''}{X} = -\lambda\\
+    \end{gather*}
+    \item Known equalities ($f$ is the superposition of all solutions for $X$):
+    \begin{gather*}
+        X(0) = 0 \qquad X'(\frac{\pi}{2})=0 \qquad X'' = -\lambda X\\
+        X(x) = \sin \lambda x\\
+        \sqrt{\lambda} = \frac{2k+1}{2} \qquad k \in \mathbb{N}\\
+        \lambda = \frac{(2k+1)^2}{4} \qquad \text{OR} \qquad \lambda = 0\\
+        f \in L_2 \rightarrow f(x) = f_0 + \sum a_k\sin(\frac{2k+1}{2}x)
+    \end{gather*}
+    \item By superposition:
+    \begin{gather*}
+        u(x, t) = f_0 + \sum_{k=1}^\infty a_k e^{-(2k+1)^2t}\sin(\frac{2k+1}{2}x)
+    \end{gather*}
+    \item By reflection:
+    \begin{gather*}
+        u_t = u_{xx} \qquad \tilde{f}[\frac{-\pi}{2}, \frac{3\pi}{2}]\\
+        e_k(x) = e^{2\pi ik(x+\frac{1}{2})}\\
+        \tilde{f} = \sum_k \tilde{f}(k)e_k\\
+        \tilde{f}(k) = -\tilde{f}(-k)\rightarrow \text{$\sin\left(k+\frac{1}{2}x\right)$ and 1 forms an orthogonal system}\\
+        \tilde{f}(\pi-x) = \tilde{f}(x) \rightarrow \text{$\sin\left(\frac{2k+1}{2}x\right)$ is the solution}\\
+    \end{gather*}
+\end{itemize}
+Theorem A:
+\begin{itemize}
+    \item Given $f$ and $f'$ are continuous (C), then we have pointwise convergence:
+    \begin{gather*}
+        \forall x f(x) = \sum_k \hat{f}(k)e^{ikx}\\
+        S_N(f)(x) = \sum_{k=-N}^N \hat{f}(k)e^{ikx}\\
+        \lim_{N\to\infty} S_N(f)(x) = f(x)\\
+    \end{gather*}
+    \item To prove, define:
+    \begin{gather*}
+        K_N(x) = \sum_{k=-N}^Ne^{ikx} \\
+        f(y) = \sum_{j=-\infty}^\infty \hat{f}(j)e^{ijy}
+    \end{gather*}
+    \item Lemma 1:
+    \begin{gather*}
+        S_N(f)(x) = \int_{-\pi}^\pi K_N(x-y)f(y)\frac{dy}{2\pi} \qquad (1)\\
+        \int_{-\pi}^\pi \sum_{k=-N}^Ne^{ik(x-y)}\sum_{j=-\infty}^\infty \hat{f}(j)e^{ijy}\frac{dy}{2\pi}=\\
+        \sum_{k=-N}^N\sum_{j=-\infty}^\infty e^{ikx} \hat{f}(j)\int_{-\pi}^\pi e^{-iky}e^{ijy}\frac{dy}{2\pi}=\\
+        \sum_{k=-N}^N \hat{f}(k)e^{ikx}
+    \end{gather*}
+    \item Convolution trick:
+    \begin{gather*}
+        S_N(f)(x) = \int_{-\pi}^\pi K_N(x-y)f(y)\frac{dy}{2\pi}=\int_{-\pi}^\pi K_N(y)f(x-y)\frac{dy}{2\pi}
+    \end{gather*}
+    \item Lemma 2:
+    \begin{gather*}
+        K_N(y) = \frac{\sin{\left(\frac{2N+1}{2}y\right)}}{\sin{\left(\frac{y}{2}\right)}} \qquad (2)\\
+        \text{Fejer kernel }\rightarrow \sum_{k=-m}^N a^k = \sum_{k=-m}^N a^k\frac{a-1}{a-1} = \frac{a^{N+1}-a^{-m}}{a-1}\\
+        K_N(y) = \sum_{k=-N}^Ne^{iky} = \frac{e^{i(N+1)y}-e^{-Ny}}{e^{iy}-1}\\
+        = \frac{e^{i(N+1)y}-e^{-Ny}}{e^{iy}-1} \frac{e^{\frac{-iy}{2}}}{e^{\frac{-iy}{2}}}\\
+        = \frac{e^{i(N+\frac{1}{2})y}-e^{-i(N+\frac{1}{2})y}}{e^{\frac{iy}{2}}-e^{\frac{-iy}{2}}}
+        = \frac{2i\sin{\left(\frac{2N+1}{2}y\right)}}{2i\sin{\left(\frac{y}{2}\right)}}
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        f(x)-S_N(f)(x)=\int_{-\pi}^\pi [f(x) - f(x-y)]K_N(y)dy\\
+        = \int_{-\pi}^\pi \frac{f(x) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\sin{\left(\frac{2N+1}{2}y\right)}dy\\
+        = \left(g_x(y), \sin{\left(\frac{2N+1}{2}y\right)}\right)
+    \end{gather*}
+    \item Evaluate $g_x$:
+    \begin{gather*}
+        g_x(y) = \frac{f(x) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\\
+        |\sin(\frac{y}{2})| \geq \frac{|y|}{\pi}\\
+        \left|\frac{f(x) - f(x-y)}{y}\right| \leq  (1+\epsilon)|f'(x)| \qquad y \leq \delta\\
+        \therefore \left|\frac{f(x) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\right| \leq (1+\epsilon)\pi |f'(x)| \qquad y \leq \delta\\
+    \end{gather*}
+    \item $f$ is continuous and $\sin(\frac{y}{2}) \ne 0$ and $y\ne0$ and continuous: 
+    \begin{gather*}
+        g_x \in L_2[-\pi, \pi]
+    \end{gather*} 
+    \item Since $g_x$ is in $L_2$, then Bessel inequality (below is for orthogonal) holds:
+    \begin{gather*}
+        \hat{g}(k) = \left(g_x, \sin{\left(\frac{2k+1}{2}y\right)}\right)\\
+        \sum_k\frac{|\hat{g}(k)|^2}{\left(\sin{\left(\frac{2k+1}{2}y\right)}, \sin{\left(\frac{2k+1}{2}y\right)}\right)} \leq \|g_x\|^2_{L_2}
+    \end{gather*}
+    {\tiny Generic formula for Bessel, converting from orthogonal to orthonormal: $\sum_k\frac{|f_k, g|^2}{(f_k, f_k)} \leq \|g\|^2_{L_2}$}
+    \item For any sum $\sum_k a_k$, if series is convergent, then $lim_{k\to\infty} = 0$. Therefore:
+    \begin{gather*}
+        \lim_{N\to\infty}\left(g_x(y), \sin{\left(\frac{2N+1}{2}y\right)}\right) = 0\\
+        \therefore f(x)-S_N(f)(x) = 0
+    \end{gather*}
+\end{itemize}   
+Theorem B:
+\begin{itemize}
+    \item Applies for pointwise with singularity
+    \item Given $f$ is continuous then:
+    \begin{gather*}
+        \lim_{N\to\infty} S_N(f)(x) = \tilde{f}(x)
+    \end{gather*}
+    \item Definition:
+    \begin{gather*}
+        \tilde{f}(x)  = \frac{f(x^+)+f(x^-)}{2}
+    \end{gather*}
+    \item Proof:
+    \begin{gather*}
+        \tilde{f}(x)-S_N(f)(x)=\int_{-\pi}^\pi [f(x) - f(x-y)]K_N(y)dy\\
+        = \int_{0}^\pi \frac{f(x^+) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\sin{\left(\frac{2N+1}{2}y\right)}dy \\ \qquad + \int_{-\pi}^0 \frac{f(x^-) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\sin{\left(\frac{2N+1}{2}y\right)}dy\\
+        g_{x^+} = \frac{f(x^-) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\\
+        g_{x^-} = \frac{f(x^+) - f(x-y)}{\sin{\left(\frac{y}{2}\right)}}\\
+        \tilde{f}(x)-S_N(f)(x) = 0
+    \end{gather*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 6. Understand the theorem on uniform convergence of partial sums}
+Theorem:
+\begin{itemize}
+    \item Given $f$ is continuous and $f' \in L_2$:
+    \begin{gather*}
+        \|S_N(f)-f\|_\infty = 0
+    \end{gather*}
+    \item Proof:
+    \begin{gather*}
+        f(x) - S_N(f)(x) = \sum_{k > N} \hat{f}(k)e^{ikx}\\
+        f(x) = \sum_k \hat{f}(k)e^{ikx}\\
+        f'(x) = \sum_k ik\hat{f}(k)e^{ikx}\\
+        f'(x) = \sum_k |ik|^2|\hat{f}(k)e^{ikx}|^2 = \|f'\|^2_{L_2}\\\\
+        f(x) - S_N(f)(x) = \sum_{k > N} \hat{f}(k)e^{ikx} \frac{ik}{ik}\\
+        f(x) - S_N(f)(x) = \sum_{k > N} \left[ik\hat{f}(k)\right] \left[\frac{e^{ikx}}{ik}\right]\\\\
+        \alpha_k = ik\hat{f}(k) \qquad \beta_k = \frac{e^{ikx}}{ik}\\
+        f(x) - S_N(f)(x) = \sum_k (\bar{\alpha}_k, \beta_k)
+    \end{gather*}
+    \item By Cauchy–Schwarz:
+    \begin{gather*}
+        |(\bar{\alpha}, \beta)| \leq \|\bar{\alpha}\|_{L_2}\|\beta\|_{L_2}  \leq \|f'\|_{L_2}\left(\sum_{k > N} \left|\frac{e^{ikx^2}}{ik}\right|\right)^\frac{1}{2}\\
+        |f(x) - S_N(f)(x)| \leq \sqrt{2}\|f'\|_{L_2}\left(\sum_{k > N}\frac{1}{k^2}\right)^\frac{1}{2}\\
+        \left(\sum_{k > N}\frac{1}{k^2}\right)^\frac{1}{2} \leq \left(\int_N^\infty\frac{1}{x^2}dx\right)^\frac{1}{2} \leq \frac{1}{\sqrt{N}}\\
+        \therefore |f(x) - S_N(f)(x)| \leq \sqrt{2}\|f'\|_{L_2}\frac{1}{\sqrt{N}}
+    \end{gather*}
+    \item Therefore, we have uniform convergence. This only applies when the derivative exists.
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 7. Understand the idea of convergence}
+Uniform convergence:
+\begin{itemize}
+    \item Necessary condition: $f$ is continuous and $f`$ in $L_2$
+    \item Then:
+    \begin{gather*}
+        S_N(f)(x) = \sum_{j=-N}^{N} \hat{f}(j)e^{ijx}\\
+        \lim_{N\to\infty}S_N(f) = f\\
+        \lim_{N\to\infty}\|f - S_N(f)\|_\infty = 0\\
+    \end{gather*}
+\end{itemize}
+Local (pointwise) convergence:
+\begin{itemize}
+    \item Necessary condition: $f$ is piecewise continuous ($f \in L_2$) and $f'$ have left and righ limits at $x$
+    \item Then
+    \begin{gather*}
+        \lim_{N\to\infty}S_N(f)(x) = \frac{f(x^+)+f(x^-)}{2}\\
+    \end{gather*}
+\end{itemize}
+Corollary:
+\begin{itemize}
+    \item If $f$ is contiuous and $f'$ is bounded (have left and right limits) then $\lim_{N\to\infty} S_N(f)
+(x) = f(x)$
+    \item If $f'$ is bounded and have left and right limits, then $f' \in L_2$
+    \item If $f$ and $f'$ are continuous, then we have uniform convergence
+\end{itemize}
+\vspace{0.3em}
+Example 1:
+\begin{itemize}
+    \item Problem:
+    \begin{gather*}
+        \lim_{N\to\infty} S_N(f)(0) = ?\\
+        f(x)=\begin{cases}
+            1 & 0 \leq x \leq \pi\\
+            0 & -\pi\leq x \leq 0
+        \end{cases}
+    \end{gather*}
+    \item Find Fourier coefficients:
+    \begin{gather*}
+        \hat{f}(j) = (e_k, f) = \int_{-\pi}^{\pi} e^{-ikx}f(x)\frac{dx}{2\pi} = \\
+        \qquad \int_{0}^{\pi} e^{-ikx}(1)\frac{dx}{2\pi} + \int_{-\pi}^{0} e^-{ikx}(0)\frac{dx}{2\pi} =\\
+        \qquad \frac{1}{2\pi}\int_{0}^{\pi} e^{-ikx}dx = \begin{cases}
+            \frac{1}{2} & k = 0\\
+            \left.\frac{e^{-ikx}}{-ik}\right\rvert^\pi_0 = \frac{(-i)^k-1}{-ik(2\pi)} & k \ne 0
+        \end{cases}\\\\
+        \frac{(-i)^k-1}{-ik(2\pi)} = 0 \qquad k \text{ even}\\
+        \frac{(-i)^k-1}{-ik(2\pi)} = \frac{2}{-ik(2\pi)} = \frac{-i}{k\pi} \qquad k \text{ odd}\\
+    \end{gather*}
+    \item Therefore:
+    \begin{gather*}
+        S_N(f)(x) = \frac{1}{2}e^{i(0)x}+\sum_{k=-N,\; k\ne 0,\; k \text{ odd}}^N\frac{-i}{k\pi}e^{ikx}\\
+        S_N(f)(x) = \frac{1}{2}+\frac{-i}{\pi}\sum_{k=-N,\; k\ne 0,\; k \text{ odd}}^N\frac{e^{ikx}}{k}\\
+        S_N(f)(x) = \frac{1}{2}+\frac{-i}{\pi}\sum_{k=1,\; k \text{ odd}}^N\frac{e^{ikx}}{k}+\frac{-i}{\pi}\sum_{k=1,\; k \text{ odd}}^N\frac{e^{-ikx}}{-k}\\
+    \end{gather*}
+    \item Since $N$ is odd:
+    \begin{gather*}
+        2m+1 \leq N\\
+        S_N(f)(x) = \frac{1}{2}+\frac{-i}{\pi}\sum_{l=0}^m\frac{e^{i(2l+1)x}}{2l+1}+\frac{-i}{\pi}\sum_{l=0}^m\frac{e^{-i(2l+1)x}}{-(2l+1)}\\
+        \qquad\qquad = \frac{1}{2}+\frac{-i}{\pi}\sum_{l=0}^m\left(\frac{e^{i(2l+1)x}-e^{-i(2l+1)x}}{2l+1}\right)\\
+        \qquad\qquad = \frac{1}{2}+\frac{-i}{\pi}\sum_{l=0}^m\frac{2i\sin((2l+1)x)}{2l+1}\\
+        \qquad\qquad = \frac{1}{2}+\frac{2}{\pi}\sum_{l=0}^m\frac{\sin((2l+1)x)}{2l+1}\\
+    \end{gather*}
+    \item Try out $x=\frac{\pi}{2}$:
+    \begin{gather*}
+        S_N(f)(x) = \frac{1}{2}+\frac{2}{\pi}\sum_{l=0}^m\frac{\sin((2l+1)\frac{\pi}{2})}{2l+1}\\
+        \qquad\qquad = \frac{1}{2}+\frac{2}{\pi}\sum_{l=0}^m\frac{-i^l}{2l+1}\\\\
+        \sum_{l=0}^m\frac{-i^l}{2l+1} = 1-\frac{1}{3}+\frac{1}{5}-\frac{1}{7}+...\\
+        \qquad\qquad=\int_0^1 1-x^2+x^4-x^6+... dx\\
+        \qquad\qquad=\int_0^1 \frac{1}{1+x^2}dx\\
+        \qquad\qquad=\arctan 1-\arctan 0 = \frac{\pi}{4}\\\\
+        \therefore  S_N(f)(x)=\frac{1}{2}+\frac{2}{\pi}\frac{\pi}{4} = 1\\
+    \end{gather*}
+\end{itemize}
+Example 2:
+\begin{itemize}
+    \item Problem: 
+    \begin{gather*}
+        \lim_{N\to\infty} S_N(f)(0) = ?\\
+        f(x)=\begin{cases}
+            1 & 0 \leq x \leq \pi\\
+            -1 & -\pi\leq x \leq 0
+        \end{cases}
+    \end{gather*}
+    \item If $f$ is odd, Fourier coefficients are also odd:
+    \begin{gather*}
+        \hat{f}(0) = 0 \qquad\qquad \text{since $f$ is odd }\rightarrow \hat{f}\text{ is odd}\\
+        \hat{f}(j) = \int_{-\pi}{\pi}e^{-ijx}f(x)dx\\
+        \qquad\qquad= \int_{0}{\pi}e^{-ijx}f(x)dx+ \int_{-\pi}{0}e^{-ijx}f(x)dx\\
+        \qquad\qquad= h(j)+k(j)
+    \end{gather*}
+    \item Evaluate:
+    \begin{gather*}
+        h(j)=\begin{cases}
+            0 & j \text{ even}\\
+            \frac{1}{ij\pi} & j\text{ odd}
+        \end{cases}\\
+        k(j)=\begin{cases}
+            0 & j \text{ even}\\
+            \frac{1}{-ij\pi} & j\text{ odd}
+        \end{cases}\\
+        \therefore \hat{f}(j)  = h(j)-k(j)=\frac{2}{ij\pi}\\
+        S_N(f)(x)=\sum_{j \text{ odd}}\frac{2}{ij\pi}e^{ijx}
+    \end{gather*}
+    \item Repeat the same method for Example 2.
+\end{itemize}
+\vspace{0.3em}
+
+
+\subsection*{LOS 8. Solve the heat equation with unusual boundary conditions}
+Problem:
+\begin{gather*}
+    u_t = u_{xx} \qquad 0 \leq x \leq \pi\\
+    u(0, x) = 0\\
+    u(t, 0)=h(t)\\
+    u(0, t)=k(t)\\
+\end{gather*}
+Why this does not work:
+\begin{gather*}
+    u(x, t) = \sum u_n(t)sin(nx)\\
+    \frac{d}{dt} u_n(t) = -n^2u_n(t)\\
+    u_n(t) = e^{-tn^2}u_n(0)\\
+\end{gather*}
+Since $u(0, x) = 0$:
+\begin{gather*}
+    u_n(0)=0\\
+    \therefore u(x,t) = e^{-tn^2}(0) = 0\\
+\end{gather*} 
+We only get trivial solution which does not satisfy $h$ and $k$ boundary conditions.\\
+Mistake:
+\begin{gather*}
+    \forall t\;\; u(0,t) \in L_2\\
+    u(x, t) = \sum_n u_n(t)\sin(nx)\\
+    \frac{d}{dx}u(x, t)=\sum_n u_n(t)(n \cos nx)
+\end{gather*}
+$\sum_n \sin{x}$ is not convergent. $\sum_n n\cos{x}$ is even worse.
+\vspace{0.3em}
+
 \end{document}

@@ -31,7 +31,7 @@ Continuous case:
     \end{gather*}
     \item Assume $t$ is fixed:
     \begin{gather*}
-        \frac{d}{dt} \hat{u}(\xi, t) =(i\xi)^6\hat{u}{\xi, t} \\
+        \frac{d}{dt} \hat{u}(\xi, t) =(i\xi)^6\hat{u}({\xi, t}) \\
         \hat{u}(\xi, t) = e^{-t\xi^6}\hat{u}(\xi, 0) \\
     \end{gather*}
     \item By Fourier Inversion formula:
@@ -55,7 +55,7 @@ Continuous case:
     \item Substitute back to Equation (1):
     \begin{gather*}
         u(x, t) = \int_{\mathbb{R}} e^{i\xi x}e^{t\xi^6}\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi} \\ 
-        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}\int_{\mathbb{R}} e^{-i\xi y}h_t(y)dy\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi}\\
+        u(x, t) = \int_{\mathbb{R}} e^{i\xi x}\int_{\mathbb{R}} e^{-i\xi y}h_t(y)dy\;\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi}\\
         u(x, t) = \int_{\mathbb{R}} \left[\int_{\mathbb{R}} e^{i\xi (x-y)}\hat{u}(\xi, 0)\frac{d\xi}{\sqrt{2}\pi}\right]h_t(y)dy\\
         u(x, t) = \int_{\mathbb{R}} u(x-y, 0) h_t(y)dy\\
         u(x, t) = \int_{\mathbb{R}} \phi(x-y) h_t(y)dy\\
@@ -66,7 +66,7 @@ Periodic case:
     \item Problem:
     \begin{gather*}
         u_t = u_{xxxxxx} \qquad -\pi < x < \pi\\
-        u(x, 0) = \phi(x) = \sum_{k \in \mathbb{Z}} e^{ikx}\hat{\phi}(\xi)\frac{d\xi}{\sqrt{2}\pi}\\
+        u(x, 0) = \phi(x) = \sum_{k \in \mathbb{Z}} e^{ikx}\hat{\phi}(\xi)\\
         P(x) = x^6\\
     \end{gather*}
     \item Assume $t$ is fixed:

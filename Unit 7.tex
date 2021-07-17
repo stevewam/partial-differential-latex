@@ -1,0 +1,126 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+\usepackage{cancel}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 7}
+\vspace{1em}
+
+\subsection*{LOS 1. Solve the heat equation using Fourier analysis}
+Problem:
+\begin{align*}
+    &u_t = u_{xx} & 0\leq x\leq\pi\\
+    &u(0,t) = h(t)\\
+    &u(\pi, t) = k(t)\\
+    &u(x, 0) = 0
+\end{align*}
+Method 1 (Fourier Analysis):
+\begin{itemize}
+    \item Assume $u$ is a solution and takes the form of the generic solution for periodic case:
+    \begin{align*}
+        &u(x, t) = \sum_{n=0}^{\infty}u_n(t)f_n(x)\\
+        &f_n = \begin{cases}
+            1 & n = 0\\
+            \sin(nx) & n \ne 0
+        \end{cases}\\\\
+        &u_t(x, t) = \sum_{n=0}^{\infty}v_n(t)f_n(x)\\
+        &u_{xx}(x, t) = \sum_{n=0}^{\infty}w_n(t)f_n(x)\\
+    \end{align*}
+    \item All derivatives are square-integrable ($\in L_2$) and therefore have unique Fourier expansion. Assuming solution is smooth ($\in L_2$), the Fourier expansions above converge pointwise
+    \item Evaluate $v_n$ (assume we can interchange differentiation and integration):
+    \begin{align*}
+        &u_t(x, t) =\sum(f_n, u_t)f_n\\
+        &\therefore v_n(t)=(f_n, u_t) = \int \bar{f_n}u_tdx\\\\
+        &v_0 = \int_0^\pi u_t(x, t)\frac{dx}{\pi}= \frac{d}{dt}\int_0^\pi u(x, t)\frac{dx}{\pi}\\
+        &v_n = \int_0^\pi \sin(nx)u_t(x, t)\frac{2dx}{\pi}= \frac{d}{dt}\int_0^\pi \sin(nx)u(x, t)\frac{2dx}{\pi}\\
+        &\therefore v_n = \frac{d}{dt}u_n = u_n'(t)
+    \end{align*}
+    \item Evaluate $w_n$ using integration by parts:
+    \begin{align*}
+        \frac{\pi}{2}w_n &=\frac{d^2}{dx^2}\int_0^\pi\sin(nx)u(x, t)dx=\int_0^\pi \sin(nx)u_{xx}(x, t)dx\\
+        \frac{\pi}{2}w_n &=\cancelto{0}{\left.\sin(nx)u_x(t)\right\rvert_0^\pi} - n\int_0^\pi \cos(nx)u_x(x, t)dx\\
+        &=-n\left[\left.\cos(nx)u_x(t)\right\rvert_0^\pi\right]-n^2\int_0^\pi \sin(nx)u_x(x, t)dx\\
+        &=-n[(-1)^nk(t)-h(t)]-n^2\frac{\pi}{2}u_n(t)\\
+    \end{align*}
+    \item Establish that $w_n = u_n'(t)$:
+    \begin{align*}
+        &v_n(t) = \frac{d}{dx}u_n(t) = u_t = u_n'(t)\\
+        &w_n(t) = \frac{d^2}{dx^2}u_n(t) = u_xx\\
+        &u_t = u_{xx}\\
+        &v_n = w_n\\
+        &u_n'(t)= w_n\\\\
+        &\therefore u_n'(t)=\frac{2}{\pi}\left(-n[(-1)^nk(t)-h(t)]-n^2\frac{\pi}{2}u_n(t)\right) \\
+        &u_n'(t)=-\frac{2n}{\pi}[(-1)^nk(t)-h(t)]-n^2u_n(t) && (1)
+    \end{align*}
+    \item Solve for (1) using ODE approach:
+    \begin{align*}
+        &u_n'(t)+n^2u_n(t)=-\frac{2n}{\pi}[(-1)^nk(t)-h(t)]\\
+        &g' +n^2g = H    
+    \end{align*}
+    \item Solve homogeneous and then use Duhamel's principle:
+    \begin{align*}
+        &g' = -n^2g\\
+        &S(g)(t) = e^{-tn^2}g(0)\\
+        &S(\phi)(t) = \sum\hat{\phi}_nf_n = u(x, 0)\\
+        u(x, 0) = \phi = 0 \qquad &g(t) = \int_0^t S(t-s)H(s)ds + \cancelto{0}{S(\phi)(t)}\\
+        &u_n(t) = \frac{2n}{\pi} \int_0^t e^{-(t-s)n^2}[h(s) - (-1)^nk(s)]ds\\\\
+        &u(x, t) = \sum_{n=0}^{\infty}u_n(t)f_n(x)\\
+        &u(x, t) = u_0(t)f_0(x) + \sum_{n\geq 1}^{\infty}u_n(t)\sin(nx)
+    \end{align*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 2. Solve the heat equation using transformation onto a source equation}
+\vspace{0.3em}
+
+\subsection*{LOS 3. Solve homogeneous heat equation in higher dimensions using Fourier analysis}
+\vspace{0.3em}
+
+\subsection*{LOS 4. Solve nonhomogeneous heat equation in higher dimensions using Fourier analysis}
+\vspace{0.3em}
+
+\subsection*{LOS 5. Understand the polar coordinates in higher dimensions}
+\vspace{0.3em}
+
+\subsection*{LOS 6. Determine solution of wave equation using Fourier transforms}
+\vspace{0.3em}
+
+\subsection*{LOS 7. Determine solution of wave equation using polar coordinates}
+\vspace{0.3em}
+
+\subsection*{LOS 8. Find the solution of wave equation using spherical means method}
+\vspace{0.3em}
+
+\subsection*{LOS 9. Understand the concept of special relativity}
+\vspace{0.3em}
+
+\subsection*{LOS 10. Solve the Schrödinger equation}
+\vspace{0.3em}
+
+\subsection*{LOS 11. Understand the idea of self-adjoint operator for the Laplace operator}
+\vspace{0.3em}
+
+\subsection*{LOS 12. Understand the divergence theorem and Green's Identity}
+\vspace{0.3em}
+
+\subsection*{LOS 13. Understand the method of separation of variables for heat and wave equation}
+\vspace{0.3em}
+
+
+
+\end{document}
