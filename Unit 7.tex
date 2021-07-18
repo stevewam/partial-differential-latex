@@ -75,35 +75,430 @@ Method 1 (Fourier Analysis):
     \item Solve homogeneous and then use Duhamel's principle:
     \begin{align*}
         &g' = -n^2g\\
-        &S(g)(t) = e^{-tn^2}g(0)\\
-        &S(\phi)(t) = \sum\hat{\phi}_nf_n = u(x, 0)\\
-        u(x, 0) = \phi = 0 \qquad &g(t) = \int_0^t S(t-s)H(s)ds + \cancelto{0}{S(\phi)(t)}\\
+        &S(t)(\phi)= e^{-tn^2}g(0)= e^{-tn^2}\phi\\
+        &g(t) = \int_0^t S(t-s)H(s)ds + e^{-tn^2}\phi\\
+        u(x, 0) = \phi = 0 \qquad &g(t) = \int_0^t S(t-s)H(s)ds + \cancelto{0}{e^{-tn^2}\phi}\\
         &u_n(t) = \frac{2n}{\pi} \int_0^t e^{-(t-s)n^2}[h(s) - (-1)^nk(s)]ds\\\\
         &u(x, t) = \sum_{n=0}^{\infty}u_n(t)f_n(x)\\
         &u(x, t) = u_0(t)f_0(x) + \sum_{n\geq 1}^{\infty}u_n(t)\sin(nx)
+    \end{align*}
+    \item Evaluate $u_0(t)f_0(x)$:
+    \begin{align*}
+        &f_0(x) = 1\\
+        &u(x, t) = u_0(t) + \sum_{n\geq 1}^{\infty}u_n(t)\sin(nx) \\
+        &u(0, t) = u_0(t) + \sum_{n\geq 1}^{\infty}u_n(t) \cancelto{0}{\sin(nx)} \\
+        &u(0, t) = u_0(t) \rightarrow h(t) = u_0(t)\\
+        &\therefore u(x, t) = h(t) + \sum_{n\geq 1}^{\infty}u_n(t)\sin(nx)
     \end{align*}
 \end{itemize}
 \vspace{0.3em}
 
 \subsection*{LOS 2. Solve the heat equation using transformation onto a source equation}
+Problem:
+\begin{align*}
+    &u_t = u_{xx} & 0\leq x\leq\pi\\
+    &u(0,t) = h(t)\\
+    &u(\pi, t) = k(t)\\
+    &u(x, 0) = 0
+\end{align*}
+Method 2 (Shifting Data / Transformation onto a source equation):
+\begin{itemize}
+    \item Assume a solution $w$:
+    \begin{align*}
+        &w_t = w_{xx}\\
+        &w(0, t) = h(t)\\
+        &w(\pi, t) = k(t)\\
+        &w(x, t) = \left(1-\frac{x}{\pi}\right)h(t) + \left(\frac{x}{\pi}\right)k(t)
+    \end{align*}
+    \item Assume $u$ is also a solution such that:
+    \begin{align*}
+        &v = u-w\\
+        &v(0,t) = 0\\
+        &v(\pi,t) = 0\\
+        &v_{xx} = u_{xx} - w_{xx}\\
+        &v_t = u_t - w_t\\
+        &v_{xx} - v_t = u_{xx} - w_{xx}- (u_t - w_t)\\\\
+        &w_{xx}(x, t) = 0\\
+        &w_t(x, t) = \left(1-\frac{x}{\pi}\right)h'(t) + \left(\frac{x}{\pi}\right)k'(t)\\
+        &\therefore v_{xx} - v_{t} = w_t\\
+        &v(x, 0) = \cancelto{0}{u(x, 0)}- w(x, 0) = -\left(1-\frac{x}{\pi}\right)h(0) - \left(\frac{x}{\pi}\right)k(0)= \phi(x)
+    \end{align*}
+    \item In general:
+    \begin{align*}
+        &v_t = L(v)\\
+        &v_t - v_{xx} = g(x, t)\\
+        &v(x, 0) = \phi(x)\\\\
+        &v(x, t) =  \int_0^tS(t-s)g(s)ds + S(t)(\phi)\\
+        &\qquad\int_0^tS(t-s)g(s)ds= \int_0^t\left(\hat{g}_0(x, s)+\sum_{n\geq 1}^\infty e^{-(t-s)n^2}\hat{g}_n(x, s)\sin(nx)\right)ds\\\\
+        &\qquad \hat{g}_n(x, s) = \frac{2}{\pi} \int_0^\pi \sin(nx)g(x, s)dx\\
+        &\qquad \hat{g}_0(x, s) = \frac{1}{\pi} \int_0^\pi g(x, s)dx\\\\
+        &\qquad S(t)(\phi) = \tilde{\phi}_0 + \sum_{n\geq 1}e^{-tn^2}\tilde{\phi}_n\sin(nx)\\
+        &\qquad \tilde{\phi}_n(x) = \frac{2}{\pi} \int_0^\pi \sin(nx)\phi(x)dx\\
+        &\qquad \tilde{\phi}_0(x) = \frac{1}{\pi} \int_0^\pi \phi(x)dx\\\\
+    \end{align*}
+    \item Combining the solutions:
+    \begin{align*}
+        v(x, t) &=  \tilde{\phi}_0 + \sum_{n\geq 1}e^{-tn^2}\tilde{\phi}_n\sin(nx) + \sum_{n\geq 1}^{\infty}\int_0^te^{-(t-s)n^2}\hat{g}_n(x, s)ds\sin(nx)\\
+        &= \tilde{\phi}_0 + \sum_{n\geq 1}e^{-tn^2}\tilde{\phi}_n\sin(nx) + \sum_{n\geq 1}^{\infty}v_n(t)\sin(nx)
+    \end{align*}
+    \item Check Page 151
+\end{itemize}
 \vspace{0.3em}
 
 \subsection*{LOS 3. Solve homogeneous heat equation in higher dimensions using Fourier analysis}
+Problem
+\begin{align*}
+    &\Delta f = \sum_{k=1}^n\frac{d^2}{dx_k^2}f\\
+    &u_t= \Delta u\\
+    &u(0, x) = \phi(x)
+\end{align*}
+Facts:
+\begin{itemize}
+    \item Fourier transform formula:
+    \begin{align*}
+        &\hat{f}(\xi) = \int_{\mathbb{R}}e^{-i(\xi, x)}f(x)\frac{dx}{\sqrt{2\pi}^n}
+    \end{align*}
+    \item Dot product:
+    \begin{align*}
+        &(\xi, x) = \sum_{j=1}^n\xi_jx_j
+    \end{align*}
+    \item Lemma 1:
+    \begin{align*}
+        &f(x) = e^{-\frac{|x^2|}{2}}\\
+        &|x| = (x, x)^{\frac{1}{2}}\\
+        &\hat{f}(\xi) = e^{-\frac{|\xi^2|}{2}}
+    \end{align*}
+    \item Lemma 2 (Parseval):
+    \begin{align*}
+        \|f\|_{L_2}=\|\hat{f}\|_{L_2}
+    \end{align*}
+    \item Lemma 3 (Fourier inversion - applies when $f$ is sufficiently smooth and decays when approaching infinity):
+    \begin{align*}
+        f(x) = \int_{\mathbb{R}}e^{-i(\xi, x)}\hat{f}(\xi)\frac{d\xi}{\sqrt{2\pi}^n}
+    \end{align*}
+    \item Lemma 4:
+    \begin{align*}
+        &\widehat{\frac{d}{dx_k}f} = i\xi_k\hat{f}(\xi)\\
+        &\hat{u}_t(t, \xi) = \widehat{\frac{d}{dt}u}(t, \xi) = \widehat{\frac{d^2}{dx^2}u}(t, \xi) = -|\xi|^2\hat{u}(t,\xi)\\
+        &\hat{u}(t, \xi) = e^{-t|\xi|^2}\hat{u}(0, \xi) = e^{-t|\xi|^2}\hat{\phi}(\xi)
+    \end{align*}
+    \item Therefore, for u: $\mathbb{R}\times\mathbb{R}^n$ ($\mathbb{R}$ for $t$ space and $\mathbb{R}^n$ for $x$ dimension):
+    \begin{align*}
+        \hat{u}(t, \xi) = \int_{\mathbb{R}}e^{-i(\xi, x)}u(t, x)\frac{d\xi}{\sqrt{2\pi}^n}
+    \end{align*}
+    \item From Lemma 1:
+    \begin{align*}
+        e^{-t|\xi|^2} = e^{-\frac{|\sqrt{2t}\xi|^2}{2}} = \int_{\mathbb{R}^n}e^{i(-\sqrt{2t}\xi, x)}e^{-\frac{|x|^2}{2}}\frac{dx}{\sqrt{2\pi}^n}
+    \end{align*}
+    \item By change of variable:
+    \begin{align*}
+        &y = \sqrt{2t}x\\
+        &dy = \sqrt{2t}^ndx\\
+        &\therefore e^{-t|\xi|^2} = \int_{\mathbb{R}^n}e^{-i(\xi, y)}e^{-\frac{|y|^2}{4t}}\frac{dx}{\sqrt{4\pi t}^n}\\\\
+        u(t, x)&=\int_{\mathbb{R}^n}e^{i(\xi, x)}\hat{u}(t, \xi)\frac{d\xi}{\sqrt{2\pi}^n}\\
+        &=\int_{\mathbb{R}^n}e^{i(\xi, x)}e^{-t|\xi|^2}\hat{\phi}(\xi)\frac{d\xi}{\sqrt{2\pi}^n}\\
+        &=\int_{\mathbb{R}^n}e^{i(\xi, x)} \int_{\mathbb{R}^n}e^{-i(\xi, y)}e^{-\frac{|y|^2}{4t}}\frac{dx}{\sqrt{4\pi t}^n} \hat{\phi}(\xi)\frac{d\xi}{\sqrt{2\pi}^n}\\
+        &=\int_{\mathbb{R}^n}\int_{\mathbb{R}^n}e^{i(\xi, x)} e^{-i(\xi, y)} \hat{\phi}(\xi)\frac{d\xi}{\sqrt{2\pi}^n}e^{-\frac{|y|^2}{4t}}\frac{dx}{\sqrt{4\pi t}^n}\\
+        &=\int_{\mathbb{R}^n}\phi(x-y)e^{-\frac{|y|^2}{4t}}\frac{dx}{\sqrt{4\pi t}^n}\\
+    \end{align*}
+\end{itemize}
+
 \vspace{0.3em}
 
 \subsection*{LOS 4. Solve nonhomogeneous heat equation in higher dimensions using Fourier analysis}
+Problem:
+\begin{align*}
+    &u_t - \Delta u = w\\
+    &u(0, x) = \phi(x)
+\end{align*}
+Homogeneous solution:
+\begin{align*}
+    &S(t)(\phi)(x) = \int_{\mathbb{R}^n}\phi(x-y)e^{\frac{-|y|^2}{4t}}\frac{dy}{\sqrt{4\pi t}^n}\\
+\end{align*}
+Inhomogeneous solution (using Duhamel):
+\begin{align*}
+    &u(t, x) = S(t)(\phi)(x) + \int_0^tS(t-s)w(s)ds
+\end{align*}
 \vspace{0.3em}
 
 \subsection*{LOS 5. Understand the polar coordinates in higher dimensions}
+Problem:
+\begin{align*}
+    &u_{tt} = \Delta u\\
+    &u(0, x) = \phi(x)\\
+    &u_t(0, t) = \psi(x)\\
+\end{align*}
+From LOS 6:
+\begin{align*}
+    \hat{u}(t, \xi) &= cos(t|\xi|)\hat{\phi}(\xi) + \frac{\sin(t|\xi|)}{|\xi|}\hat{\psi}(\xi)\\
+    &=\widehat{u_\phi}(t, \xi) + \widehat{u_\psi}(t, \xi)\\
+\end{align*}
+Remark:
+\begin{align*}
+    \frac{d}{dt}\hat{u}_\psi(t, \xi)=  cos(t|\xi|)\hat{\phi}(\xi)\\
+\end{align*}
+Example in 1-D (shows that we can focus on getting $u_\psi$ only to get the full solution):
+\begin{align*}
+    u(t, x)&=\frac{\phi(x+t)+\phi(x-t)}{2} +\frac{1}{2}\int_{x-t}^{x+t}\phi(x, s)ds\\
+    &=u_\phi+u_\psi\\\\
+    \frac{d}{dt}u_\psi(t, x)&= \frac{\psi(x+t)+\psi(x-t)}{2} \rightarrow \text{ same form as Dirichlet solution}\\
+\end{align*}
+Convolution:
+\begin{align*}
+    &f*g(x) = \int_{\mathbb{R}^n}f(x-y)g(y)dy
+\end{align*}
+Lemma 1:
+\begin{itemize}
+    \item Claim:
+    \begin{align*}
+        \widehat{f*g}(\xi) = \sqrt{2\pi}^n\hat{f}(\xi)\hat{g}(\xi)
+    \end{align*}
+    \item Proof:
+    \begin{align*}
+        \widehat{f*g}(\xi) &= \int_{\mathbb{R}^n}e^{-i(\xi, x)}f*g(x)\frac{dx}{\sqrt{2\pi}^n}\\
+        &= \int_{\mathbb{R}^n}\int_{\mathbb{R}^n}e^{-i(\xi, x)}f(x-y)g(y)dy\frac{dx}{\sqrt{2\pi}^n}\\
+        &= \int_{\mathbb{R}^n}\int_{\mathbb{R}^n}e^{-i[(\xi, x-y)+(\xi, y)]}f(x-y)g(y)dy\frac{dx}{\sqrt{2\pi}^n}\\
+        &= \sqrt{2\pi}^n\int_{\mathbb{R}^n}\int_{\mathbb{R}^n}e^{-i(\xi, x-y)}f(x-y)\frac{dy}{\sqrt{2\pi}^n}\; e^{-i(\xi, y)}g(y)\frac{dx}{\sqrt{2\pi}^n}\\\\
+        &z = x-y\\
+        &= \sqrt{2\pi}^n\int_{\mathbb{R}^n}\int_{\mathbb{R}^n}e^{-i(\xi, z)}f(z)\frac{dz}{\sqrt{2\pi}^n}\; e^{-i(\xi, y)}g(y)\frac{dx}{\sqrt{2\pi}^n}\\
+        &= \sqrt{2\pi}^n\hat{f}(\xi)\hat{g}(\xi)
+    \end{align*}
+    \item Apply the lemma to $u_\psi$:
+    \begin{align*}
+        u_\psi(t, x) = \sqrt{2\pi}^n \hat{g}^t*\psi\\
+    \end{align*}
+\end{itemize}
+Lemma 2:
+\begin{itemize}
+    \item $F:\mathbb{R}^n \rightarrow \mathbb{R}$ is radial if $\exists H:\mathbb{R} \rightarrow \mathbb{R}$ such that $F(x) = H(|x|)$
+    \item Polar coordinates:
+    \begin{align*}
+        \int_{\mathbb{R}^n}f(x)dx = C_n\int_0^\infty\int_{S^{n-1}}f(ry)d\sigma(y)r^{n-1}dr
+    \end{align*}
+    \item Claim: if $F$ is radial, then $\hat{F}$ is also radial
+    \begin{align*}
+        \hat{F}(\xi)&=\int_{\mathbb{R}^n}e^{-i(\xi, y)}F(x)\frac{dx}{\sqrt{2\pi}^n}\\
+        &=C_n\int_0^\infty\left[\int_{S^{n-1}}e^{-i(r\xi, y)}d\sigma(y)\right]F(x)r^{n-1}dr \qquad \text{where }x=ry\\
+        &=C_n\int_0^\infty\left[\int_{S^{n-1}}e^{-i(r\xi, y)}d\sigma(y)\right]H(r)r^{n-1}dr \qquad \text{where }r=|x|\\
+        V(r|\xi|)&=\int_{S^{n-1}}e^{-i(r\xi, y)}d\sigma(y) \rightarrow \text{depends only on $|\xi|$, therefore radial}
+    \end{align*}
+    \item $\sigma$ is the probability measure on $S^{n-1} = \{y\;|\;|y|=1\}$ which is invariant under rotation (periodic)\\
+    \item Simple example:
+    \begin{align*}
+        F(x) = \begin{cases}
+            1&|x|\leq R\\
+            0&|x|\>R
+        \end{cases}\\\\
+        \text{Volume}_n(\text{Ball with radius $R$}) &=C_n\int_0^Rr^{n-1}dr\\
+        &=\frac{C_n}{n}R^n 
+    \end{align*}
+    \item Example for $n=2$:
+    \begin{align*}
+        (x, y)&= re^{i\theta}\\
+        F(x, y) &= H(r)\\\\
+        S^{n-1} &= \{e^{i\theta}\;|\; 0 \leq \theta \leq 2\pi\}\\
+        d\sigma(\theta)&=\frac{d\theta}{2\pi}\\\\
+        \xi&\in\mathbb{R}^2\\
+        \xi&=re^{i\eta}\\
+        (re^{i\eta}, e^{i\theta}) &= (r, e^{i(\theta-\eta)})\\\\
+        \hat{F}(\xi)&=\int_0^{2\pi}e^{-i(r, e^{i(\theta-\eta)})}\frac{d\theta}{2\pi}\\
+        &=\frac{1}{2\pi}\int_0^{2\pi}\cos(r\cos\theta)d\theta\\
+        &=V_2(r) \qquad \text{ where }r=|\xi|
+    \end{align*}
+\end{itemize}
+Lemma 3 (Dilation):
+\begin{itemize}
+    \item Claim, for $f:\mathbb{R}^n\rightarrow\mathbb{R}$:
+    \begin{align*}
+        \text{If }&f^t(x)=f(tx)\\
+        &\hat{f}^t(\xi)=t^{-n}\hat{f}\left(\frac{\xi}{t}\right) 
+    \end{align*}
+    \item Proof:
+    \begin{align*}
+        \hat{f}^t(\xi)&=\int_{\mathbb{R}^n}e^{-i(\xi, x)}f^t(x)\frac{dx}{\sqrt{2\pi}^n}\\
+        &=\int_{\mathbb{R}^n}e^{-i(\xi, x)}f(tx)\frac{dx}{\sqrt{2\pi}^n}\\\\
+        &y = tx\\
+        &dy = t^ndx\\
+        &=t^{-n}\int_{\mathbb{R}^n}e^{-i(\frac{\xi}{t}, y)}f(y)\frac{dy}{\sqrt{2\pi}^n}\\
+        &=t^{-n}\hat{f}\left(\frac{\xi}{t}\right)
+    \end{align*}
+    \item Apply to $\hat{g}^t$:
+    \begin{align*}
+        \hat{g}^t(\xi) & = \frac{\sin(t|\xi|)}{|\xi|}= \frac{\sin(t|\xi|)}{|\xi|}\frac{t}{t}\\\\
+        & s = \frac{1}{t}\\
+        &= \frac{1}{s}\frac{\sin(\frac{|\xi|}{s})}{\frac{|\xi|}{s}}=s^{n-1}s^{-n}\frac{\sin(\frac{|\xi|}{s})}{\frac{|\xi|}{s}}\\\\
+        \hat{g}^t(\xi) &= t^{1-n}\hat{g}^1\left(\frac{\xi}{t}\right)\qquad \text{where }\hat{g}^1(\xi) = \frac{\sin(|\xi|)}{|\xi|}
+    \end{align*}
+\end{itemize}
+Apply the two lemmas to the original problem:
+\begin{align*}
+    u_\psi(t, 0) &= C_n\int_{\mathbb{R}^n} g^t(x-y)\psi(y)dy\\
+    &=C_n t^{n-1}\int_{\mathbb{R}^n} g^1(\frac{y}{t})\psi(y)dy\\
+    &=C_n(t) \int_{\mathbb{R}^n}\left[\int_{S^{n-1}}\psi(ry)d\sigma(y)\right]g(t, r)r^{n-1}dr\\
+\end{align*}
+Conclusion: for any dimension, solution at the space is the overage of all circles, then apply a scalar factor to the radii at every t
 \vspace{0.3em}
 
 \subsection*{LOS 6. Determine solution of wave equation using Fourier transforms}
+Problem:
+\begin{align*}
+    &u_{tt} = \Delta u\\
+    &u_t(0, x) = \phi(x)\\
+    &u_t(0, x) = \psi(x)\\
+    &\widehat{u_{tt}} = \widehat{\Delta u} = \widehat{\frac{d^2}{dx^2}u} = -|\xi|^2\hat{u}(t, \xi)
+\end{align*}
+Assume an ODE problem:
+\begin{align*}
+    &f''(t) = -\alpha f(t) && \alpha > 0\\
+    &f(t) = a(0)\cos(\sqrt{a}t) + b(0)\sin(\sqrt{a}t)
+\end{align*}
+Translate to the original problem:
+\begin{align*}
+    &\hat{u}(t, \xi) = \cos(t|\xi|)a(\xi) + \sin(t|\xi|)b(\xi)\\
+    &\hat{u}(0, \xi) = a(\xi) = \hat{\phi}(\xi)\\
+    &\hat{u}_t(0, \xi) = |\xi|b(\xi) = \hat{\psi}(\xi)\\
+    &\qquad b(\xi) = \frac{\psi(\xi)}{|\xi|}\\\\
+    &S_D(t) = \int_{\mathbb{R}^n}e^{i(\xi, x)}\cos(|\xi|t)\hat{\phi}(\xi)\frac{d\xi}{\sqrt{(2\pi)}^n}\\
+    &S_N(t) = \int_{\mathbb{R}^n}e^{i(\xi, x)}\sin(|\xi|t)\frac{\hat{\psi}(\xi)}{|\xi|}\frac{d\xi}{\sqrt{(2\pi)}^n}\\
+\end{align*}
+In wave equation, the following equation holds:
+\begin{align*}
+    &S_D(0) = \text{Id} && S'_D(0) = 0\\
+    &S_N(0) = 0 && S'_N(0)=\text{Id}
+\end{align*}
+Remarks:
+\begin{align*}
+    \int_0^t \cos(|\xi|s)ds = \frac{sin(|\xi|t)}{|\xi|}
+\end{align*}
+Example for 1-D ($n=1$):
+\begin{align*}
+    \cos(|\xi|t) &= \frac{e^{it\xi} - e^{-it\xi}}{2}\\
+    S_D(t) &= \frac{1}{2}\int_{\mathbb{R}}e^{i\xi x}e^{i\xi t}\hat{\phi}(\xi)\frac{d\xi}{\sqrt{2\pi}}+\frac{1}{2}\int_{\mathbb{R}}e^{i\xi x}e^{-i\xi t}\hat{\phi}(\xi)\frac{d\xi}{\sqrt{2\pi}}\\
+    &=\frac{1}{2}\left(\phi(x+t)+\phi(x-t)\right)\\
+    S_N(t) &= \int_{\mathbb{R}}e^{i(\xi, x)}\sin(|\xi|t)\frac{\hat{\psi}(\xi)}{|\xi|}\frac{d\xi}{\sqrt{(2\pi)}}\\
+    &=\int_{\mathbb{R}}e^{i(\xi, x)}\int_0^t \cos(|\xi|s)ds\;\hat{\psi}(\xi)\frac{d\xi}{\sqrt{(2\pi)}}\\
+    &=\int_0^t\int_{\mathbb{R}}e^{i(\xi, x)} \cos(|\xi|s)\hat{\psi}(\xi)\frac{d\xi}{\sqrt{(2\pi)}}ds\\
+    &=\int_0^tS_D(s)ds\\
+    &=\int_0^t\frac{\psi(x+s)+\psi(x-s)}{2}ds
+\end{align*}
 \vspace{0.3em}
 
 \subsection*{LOS 7. Determine solution of wave equation using polar coordinates}
+Problem:
+\begin{align*}
+    &u_{tt} = \Delta u\\
+    &u(0, x) = \phi(x)\\
+    &u_t(0, x) = \psi(x)
+\end{align*}
+Solution by polar coordinates:
+\begin{align*}
+    &u_\psi(t, x) =\int g(t, |x-y|)\psi(y)dy\\
+    &u_\psi(t, x) =\int_0^\infty g(t, r)\int_{S^{n-1}}\psi(ry)d\sigma(y)dr 
+\end{align*}
 \vspace{0.3em}
 
 \subsection*{LOS 8. Find the solution of wave equation using spherical means method}
+By translation:
+\begin{itemize}
+    \item Assume $u$ is a solution
+    \item For $x_0 \in \mathbb{R}^2$, the following is also a solution:
+    \begin{align*}
+        w(t, x) = u(t, x-x_0)
+    \end{align*}
+    \item Hence, we can shift our original wave problem such that:
+    \begin{align*}
+        &u_{tt} = \Delta u && (1)\\
+        &u(0, x) = \phi(x) = 0\\
+        &u_t(0, x) = \psi(x)
+    \end{align*}
+    \item After solving the above problem, we can shift it back to the original problem\\
+\end{itemize}
+Spherical means:
+\begin{itemize}
+    \item Let $u(t, x)$ be a solution:
+    \begin{align*}
+        &\bar{u}(t, x) = \int_{S^{n-1}}u(t, |x|y)d\sigma(y)\\
+        &|x| = r
+    \end{align*}
+    \item $u$ above is only dependent on the absolute value of $x$ such that:
+    \begin{align*}
+        &x \ne x'\\
+        \text{if }&|x| = |x'| \rightarrow \bar{u}(t, x) = \bar{u}(t, x')
+    \end{align*}
+    \item $u$ over the domain of $t$ is a series of circles with increasing radii as $t$ goes up. As such, the integral is simply an average of all circles over the domain of $t$.
+    \item Hence:
+    \begin{align*}
+        \text{Given }&g(t, r) = \int_{S^{n-1}}u(t, ry)d\sigma(y)\\
+        &u_\psi(t, 0) = \int_0^\infty g(t, r)\bar{\psi}(r)dr
+    \end{align*} 
+\end{itemize}
+Lemma 1:
+\begin{itemize}
+    \item If $u$ solves the wave problem (1):
+    \begin{align*}
+        &\bar{u}_{tt} = \bar{u}_{rr} + \frac{n-1}{r}\bar{u}_r\\
+        &u(t, 0) \text{ only depends on } \bar{u}
+    \end{align*}
+    \item Proof:
+    \begin{align*}
+        \bar{u}_{tt}(t, x) &= \int_{S^{n-1}}u_{tt}(t, ry)d\sigma(y)\\
+        &= \int_{S^{n-1}}(\Delta u)(t, ry)d\sigma(y)\\
+        &=\Delta\int_{S^{n-1}}u(t, ry)d\sigma(y)
+    \end{align*}
+    \item Let $G(t, r)$ be a radial function:
+    \begin{align*}
+        \frac{\partial}{\partial x_k}G(t, |x|) &= G_r(t, |x|)\frac{\partial}{\partial x_k}|x|\qquad\text{where }|x| = \left(\sum_{j=1}^n x_j^2\right)^{\frac{1}{2}}\\
+        &= G_r(t, |x|)\frac{1}{2}\frac{2x_k}{\sqrt{\sum x_j^2}}\\
+        &= G_r(t, |x|)\frac{x_k}{|x|}\\\\
+        \frac{\partial^2}{\partial x_k^2}G(t, |x|) &= G_{rr}(t, |x|)\frac{x_k^2}{|x|^2}+G_{r}(t, |x|)\frac{|x|-\frac{x_k^2}{|x|^2}}{|x|^2}\\\\
+        \therefore \Delta G(t, |x|) &= \sum \frac{\partial^2}{\partial x_k^2}G(t, |x|) \\
+        &=G_{rr}(t, |x|) + \frac{n}{|x|}G_r(t, |x|) - \frac{1}{|x|}G_r(t, |x|)\\
+        &=G_{rr}(t, r) + \frac{n-1}{r}G_r(t, r)
+    \end{align*}
+\end{itemize}
+Example for $n=3$:
+\begin{itemize}
+    \item Conversion into polar coordinates:
+    \begin{align*}
+        &\bar{u}_{tt} = \bar{u}_{rr} + \frac{2}{r}\bar{u}_r\\
+        \text{Let }&v(t, r) = r\bar{u}(t, r)\\
+        &v_{tt} = r\bar{u}_{tt}(t, r) = r[\bar{u}_rr+\frac{2}{r}\bar{u}_r]=r\bar{u}_{rr}+2\bar{u}_r\\
+        &v_r = \bar{u}_r + r\bar{u}_r\\
+        &v_{rr} = \bar{u}_r + \bar{u}_r + r\bar{u}_{rr} = 2\bar{u}_r + r\bar{u}_{rr} = v_{tt}
+    \end{align*}
+    \item New converted problem:
+    \begin{align*}
+        &v_{tt}=v_{rr}\\
+        &v(0, r) = r\bar{u}(0, r) = r\bar{\phi} = 0\\
+        &v_t(0, r) = r\bar{u}_t(r, 0) = r\bar{\psi}(r)
+    \end{align*}
+    \item Solution:
+    \begin{align*}
+        v(r, t) &= \frac{1}{2}\int_{r-t}^{r+t}s\bar{\psi}(s)ds\\
+        \bar{u}(r, t) &= \frac{1}{2r}\int_{r-t}^{r+t}s\bar{\psi}(s)ds\\\\
+        \bar{u}(0, t) &= \lim_{r\to 0}\frac{v(r, t)}{r}\\
+        &=\left.\frac{\partial v}{\partial r}(r, t)\right\rvert_{r=0}\\
+        &=\frac{1}{2}[(r+t)\bar{\psi}(r+t)+(r-t)\bar{\psi}(r-t)]\\
+        &=t\bar{\psi}(t)\\\\
+        \therefore u(0, t) &= t\int_{S^{n-1}}\psi(ry)d\sigma(y)
+    \end{align*}
+\end{itemize}
+Example for $n=5$:
+\begin{align*}
+    &&&\bar{u}_{tt} = \bar{u}_{rr} + \frac{4}{r}\bar{u}_r\\
+    &\text{Let }&&v(t, r) = \left(\frac{1}{r}\frac{\partial}{\partial r}\right)(r^3\bar{u})\\
+    &\text{Lemma }&&\frac{\partial^2}{\partial r^2}\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^{k-1}(r^{2k-1}\phi)=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^{k}(r^{2k}\phi_r)\\\\
+    &&&\frac{\partial^2}{\partial r^2}v(t, r) = \frac{\partial^2}{\partial r^2}\left(\frac{1}{r}\frac{\partial}{\partial r}\right)(r^3\bar{u})\\
+    &&&=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^2(r^4\bar{u}_r)\\
+    &&&=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)\frac{1}{r}(4r^3\bar{u}_r+r^4\bar{u}_{rr})\\
+    &&&=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)\left[\frac{1}{r}(4\frac{\bar{u}_r}{r}+\bar{u}_{rr})r^3\right]\\
+    &&&=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)(r^3\bar{u}_{tt}) = v_{tt}
+\end{align*}
+Generally:
+\begin{align*}
+    \text{For }&n=2k-1\\
+    &v(t, r)=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^{k-1}(r^{2k-1}\bar{u})
+\end{align*}
 \vspace{0.3em}
 
 \subsection*{LOS 9. Understand the concept of special relativity}
