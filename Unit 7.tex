@@ -482,6 +482,36 @@ Example for $n=3$:
         &=t\bar{\psi}(t)\\\\
         \therefore u(0, t) &= t\int_{S^{n-1}}\psi(ry)d\sigma(y)
     \end{align*}
+    \item Alternative solution:
+    \begin{align*}
+        u_\psi(x, t) &= t \int_{S^{3-1}} \psi(ty)d\sigma(y)\\
+        u_\phi(x, t) &= \frac{\partial}{\partial t}\left[t \int_{S^{3-1}} \phi(ty)d\sigma(y)\right]\\
+        &=\int_{S^{3-1}} \phi(ty)d\sigma(y)+t\int_{S^{3-1}} \nabla \phi(ty)yd\sigma(y)\\
+        \text{Note: } \frac{\partial}{\partial t}\phi(ty_1, ty_2, ty_3) &= \nabla \phi(ty)\cdot y\\
+        &=\sum_{j=1}^3 \frac{\partial}{\partial x_j}\phi(ty_j)y_j
+    \end{align*}
+\end{itemize}
+Practical solution for $n=3$:
+\begin{itemize}
+    \item Convert into spherical coordinates:
+    \begin{align*}
+        w(\theta, \eta)&=(\sin\theta\sin\eta, \sin\theta\cos\eta, \cos\theta)\\
+        |w(\theta, \eta)|^2&=1\\\\
+        u(x, t) &= t\int_{S^{3-1}}\psi(ty)d\sigma(y)\\
+        &= t\int_0^\pi\int_0^{2\pi}\psi(\sin\theta\sin\eta, \sin\theta\cos\eta, \cos\theta)\frac{d\eta}{2\pi} \frac{d\theta}{\pi}\\
+    \end{align*}
+    \item Change of variable:
+    \begin{align*}
+        &s = \sin\theta\\
+        &\frac{ds}{d\theta} = \cos\theta = \sqrt{1-\sin^2\theta}\\
+        &d\theta = \frac{ds}{\sqrt{1-\sin^2\theta}} = \frac{ds}{\sqrt{1-s^2}}\\
+        &u(x_1, x_2, t) = \frac{t}{\pi} \int^{\sin\frac{\pi}{2}=1}_0\int^{2\pi}_{0}\phi(ts\sin\eta, ts\cos\eta)\frac{d\eta}{2\pi}\frac{ds}{\sqrt{1-s^2}} 
+    \end{align*}
+    \item Solution for problem with source:
+    \begin{align*}
+        &u(x, t) = \int^{t-s}_0S(t-s)g(s)ds\\
+        &\text{where }s(t) = t\int_{S^{n-1}}\phi(ty)d\sigma(y)\\
+    \end{align*}
 \end{itemize}
 Example for $n=5$:
 \begin{align*}
@@ -497,23 +527,142 @@ Example for $n=5$:
 Generally:
 \begin{align*}
     \text{For }&n=2k-1\\
-    &v(t, r)=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^{k-1}(r^{2k-1}\bar{u})
+    &v(t, r)=\left(\frac{1}{r}\frac{\partial}{\partial r}\right)^{k-1}(r^{2k-1}\bar{u})\\
 \end{align*}
+Descent: 
+\begin{itemize}
+    \item We can solve even numbered dimension using odd numbered dimension problem
+    \item Assume $u(x_1, x_2, t)$ is a solution to the $u_{tt}=\Delta u$
+    \item Consider $\tilde{u}(x_1, x_2, x_3, t) = u(x_1, x_2, t)$ on $\mathbb{R}^3$
+    \item Solve for $\tilde{u}_{tt} = \Delta_{\mathbb{R}^3} \tilde{u}$
+\end{itemize}
 \vspace{0.3em}
 
 \subsection*{LOS 9. Understand the concept of special relativity}
+Concepts:
+\begin{itemize}
+    \item Assume the speed of light $c=1$
+    \item Light cone $\{(x, v) |\; |x| \leq |v|\}$
+    \item The characteristic surfaces are the only one which propagate singularities
+    \item Light ray $(x, v_0)={x_0+tv_0|\;|v_0|=1}$
+    \item Characteristic surface is a union of light rays\\
+\end{itemize}
+
 \vspace{0.3em}
 
 \subsection*{LOS 10. Solve the Schrödinger equation}
+Problem:
+\begin{align*}
+    &u_t = i\Delta u\\
+    &u(0, x) = \phi(x)\\
+\end{align*}
+Solution:
+\begin{align*}
+    &\hat{u}_t = -i|\xi|^2\hat{u}\\
+    &\hat{u}(t, \xi) = e^{-it|\xi|^2}\hat{\phi}(\xi)\\
+    &u(t, x) = \int e^{i(\xi, x)}e^{-it|\xi|^2}\hat{\phi}\frac{d\xi}{\sqrt{2\pi}^n}
+\end{align*}
+Remarks:
+\begin{itemize}
+    \item $\phi \in L_2$
+    \item $\|\hat{u}(t, \xi)\|^2_{L_2} = \|\hat{\phi}\|^2_{L_2}$ energy is preserved, not decaying
+    \item $\|u(t, \xi)\|^2_{L_2} = \|\phi\|^2_{L_2}$ solution is radial, therefore convolution applies\\
+\end{itemize}
+Generically:
+\begin{align*}
+    u(x, t)&= \int\phi(x-y)g\left(\frac{y}{\sqrt{2t}}\right)\frac{dy}{\sqrt{2\pi t}^n}\\
+    &= \int\phi(x-y)e^{\frac{-|x-y|^2}{4t}}\frac{dy}{\sqrt{2\pi t}^n}
+\end{align*}
 \vspace{0.3em}
 
 \subsection*{LOS 11. Understand the idea of self-adjoint operator for the Laplace operator}
+Theorem:
+\begin{itemize}
+    \item Applies for a compact domain $\bar{D}$
+    \item The Laplace operation with Robin boundary condition is self-adjoint
+    \begin{align*}
+        &\int_D\Delta uv dx = \int_D u \Delta vdx
+    \end{align*}
+    \item Corollary: if we have a self-adjoint operator, then we have discrete eigenvalues
+    \begin{align*}
+        \exists \lambda_n \text{ increasing and }V_n \in \text{ONB such that }\Delta(V_n)=-\lambda_nV_n \text{ on }D
+    \end{align*}
+    \item Proof:
+    \begin{align*}
+        &\text{Let $u$ and $v$ satisfy the boundary conditions}\\\\
+        &\text{From Robin condition:}\\
+        &\qquad\qquad au+\frac{\partial u}{\partial n} = 0\\
+        &\qquad\qquad \frac{\partial u}{\partial n} = -au\\\\
+        &\int_{D} (\Delta u)v - (\Delta v)u dx = \int_{\partial D}\left(\frac{\partial u}{\partial n}v-\frac{\partial v}{\partial n}u \right)dS \\
+        &\qquad\qquad\qquad\qquad\quad\;=\int_{\partial D}(-auv+avu)dS=0\\
+    \end{align*}
+\end{itemize}
 \vspace{0.3em}
 
 \subsection*{LOS 12. Understand the divergence theorem and Green's Identity}
-\vspace{0.3em}
+Requirement:
+\begin{itemize}
+    \item Compact, orientable manifold i.e. circle, sphere, cube
+    \item Domain $\Omega \subset \mathbb{R}^2/\mathbb{R}^3$
+    \item Boundary $\partial\Omega$ i.e. perimeter of the circle or the faces of the cube
+    \item Normal vector $n$ on $\partial\Omega$ where $\|n\|=1$
+    \item Vector field $O_\text{open} \supseteq \partial\Omega$\\
+\end{itemize}
+Theorem:
+\begin{align*}
+    &\int_\Omega \text{div}(F)dV(x) = \int_{\partial\Omega} F\cdot\mathbf{n}\;dS\\
+    &\qquad F: O \rightarrow \mathbb{R}^n \qquad F = \left(\begin{array}{c}
+        F_1\\
+        \vdots\\
+        F_n\\
+    \end{array}\right)\\
+    &\qquad V: \text{volume i.e. $dx_1 dx_2$ for circle, $dx_1dx_2dx_3$ for cube}\\
+    &\qquad \mathbf{n} : \text{normal vector}\\
+    &\qquad \text{div}(F) = \sum_{k=1}^n\frac{\partial}{\partial x_k}F_k\\
+\end{align*}
+Application:
+\begin{align*}
+    &u_{tt} = \Delta u &&\text{(wave)}\\
+    &u_t = \Delta u &&\text{(heat)}\\
+    &\left.u\right\rvert_{\partial\Omega} = 0&&(D)\\
+    &\left.\frac{\partial u}{\partial n}\right\rvert_{\Omega} = 0&&(N)\\
+    &au + \frac{\partial u}{\partial n} = 0&&(R)\\\\
+    &\frac{\partial u}{\partial n} = \nabla \cdot \mathbf{n}&&\mathbf{n}:\text{ normal vector}\\
+\end{align*}
+Corollary: Green's idendity
+\begin{align*}
+    &\text{$u$, $v$ two functions defined on $\Omega$ and differentiable}\\\\
+    &F=(\nabla u)v \qquad H=(\nabla v)u\\
+    &\text{$F$, $H$ are vector fields (gradient times the function)}\\\\
+    &\text{div}(F) = \sum_{k=1}^{n}\frac{\partial }{\partial k}\left(\left(\frac{\partial}{\partial x_k}u\right)v\right)\\
+    &\qquad\quad =(\Delta u)v + (\nabla u, \nabla v)\\
+    &\qquad\quad =\sum\left(\frac{\partial}{\partial x_k}u\right)v+\sum \frac{\partial u}{\partial x_k} \frac{\partial v}{\partial x_k}\\\\
+    &\text{div}(F) - \text{div}(H)=(\Delta u)v + (\nabla u, \nabla v) - (\Delta v)u - (\nabla v, \nabla u)\\
+    &\qquad\qquad\qquad\quad\; = (\Delta u)v - (\Delta v)u\\\\
+    &\text{Green's Identity: } \int_{\Omega} (\Delta u)v - (\Delta v)u dx = \int_{\partial\Omega} \left(\frac{\partial u}{\partial n}v-\frac{\partial v}{\partial n}u \right)dS\\
+\end{align*}
 
 \subsection*{LOS 13. Understand the method of separation of variables for heat and wave equation}
+Problem (Heat):
+\begin{align*}
+    u_t = \Delta u
+\end{align*}
+Separation Ansatz:
+\begin{align*}
+    &u(t, x) = T(t)V(x)\\
+    &u_t(t, x) = T'(t)V(x)\\
+    &\Delta u(t, x) = T(t)(\Delta V)(x)\\\\
+    &\frac{T'}{T}=\frac{\Delta V}{V} = \frac{u_t}{u} = \frac{\Delta u}{u} = \frac{\Delta V_n}{V_n} = -\lambda_n\\
+    &u(x, t) = \sum_n e^{-t\lambda_n}a_nV_n(x)\\
+    &a_n = \int_D \bar{V}_n \phi(x)dx\\
+\end{align*}
+Problem (Wave):
+\begin{align*}
+    &u_{tt} = \Delta u\\
+    &\frac{T''}{T}=\frac{\Delta V}{V} = -\lambda_n\\
+    &T(t) = \cos(\sqrt{\lambda_n}t)+\sin(\sqrt{\lambda_n}t)\\
+    &u(t, x) =  \sum_na_n\cos(\sqrt{\lambda_n}t)V_n(x)+\sum_nb_n\sin(\sqrt{\lambda_n}t)V_n(x)
+\end{align*}
 \vspace{0.3em}
 
 

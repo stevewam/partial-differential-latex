@@ -1,0 +1,254 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+\usepackage{cancel}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 8}
+\vspace{1em}
+
+\subsection*{LOS 1. Solve the Laplacian problem using the radial functions in the separation ansatz}
+Global problem:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        &u_{tt} = \Delta u\\
+        &u_t(x,0) = \phi(x)\\
+        &u(x, 0)=0\\
+    \end{align*}
+    \item Translation by fixing at $x_0$:
+    \begin{align*}
+        &\tilde{u}_{tt} = \Delta \tilde{u} \Leftrightarrow u_{tt} = \Delta u\\
+        &\tilde{u}(x, t) = u(x+x_0, t)\\
+        &\tilde{\psi}(x) = \psi(x+x_0)\\
+    \end{align*}
+    \item Solution:
+    \begin{align*}
+        &u(0, t) = t\int_{S^{3-1}}\psi(ty)d\sigma(y)\\
+        &u(0, t) = \frac{\partial}{\partial  t}\left[t\int_{S^{3-1}}\phi(ty)d\sigma(y)\right]
+    \end{align*}
+    \begin{align*}
+        u(x_0, t) = \tilde{u}(0, t) &= t\int_{S^{3-1}}\tilde{\psi}(ty)d\sigma(y)\\
+        &=t\int_{S^{3-1}}\tilde{\psi}(x_0+ty)d\sigma(y)
+    \end{align*}
+\end{itemize}
+Local problem:
+\begin{itemize}
+    \item Problem contained at domain $D$:
+    \begin{align*}
+        &u_{tt} = \Delta u\\
+        &\left.u\right\rvert_{\partial D} = \phi\\
+        &\left.u_t\right\rvert_{\partial D} = \psi\\
+    \end{align*}
+    \item The Laplace operator is self-adjoint $\Rightarrow$ it has an ONB of eigenvalues $V_n$.
+    \item By separation Ansatz:
+    \begin{align*}
+        &u(t, x) = \sum_n a_n \cos(\sqrt{\lambda_n}t)V_n(x) + \sum_n b_n \sin(\sqrt{\lambda_n}t)V_n(x)\\
+        &u(0, x) = \sum_n a_nV_n(x)\\
+        &a_n = \frac{(\phi, V_n)}{V_n, V_n}
+    \end{align*}
+    \item Issue: we only have information on boundary $\left.u\right\rvert_{\partial D}$, but we need to evaluate $u(0, x)$, which is inside the boundary.
+    \item Solution:
+    \begin{align*}
+        \text{Find harmonic solution to } &\Delta\varphi = 0\\
+        &\left.\varphi\right\rvert_{\partial D} = \phi
+    \end{align*}
+\end{itemize}
+
+\vspace{0.3em}
+
+\subsection*{LOS 2. Understand how to solve the Euler and Bessel equations}
+\vspace{0.3em}
+
+\subsection*{LOS 3. Understand the importance of Harmonic function in solving PDEs}
+\vspace{0.3em}
+
+\subsection*{LOS 4. Solve the Laplace equation with harmonic boundary condition using separation of variables}
+Sub-problem:
+\begin{align*}
+    &\Delta u = -\lambda u\\
+    &u(ae^{i\theta}) = f(\theta)\\
+\end{align*}
+When $\lambda = 0$:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        &\Delta u =0\\
+        &\Delta u = u_{rr}+\frac{u_r}{r}+\frac{u_{\theta\theta}}{r^2}=0\\
+    \end{align*}
+    \item Separation Ansatz:
+    \begin{align*}
+        &u(r, \theta) = R(r)\Theta(\theta)\\
+        &\Theta R_{rr} + \frac{\Theta R_{r}}{r} + \frac{R\Theta_{\theta\theta}}{r^2} = 0\\
+        &r^2\frac{R_{rr}}{R} + r\frac{R_r}{R} = -\frac{\Theta_{\theta\theta}}{\Theta} = K\\
+        &R_{rr} + \frac{R_r}{r} - \frac{KR}{r^2} = 0&&(1)\\
+        &\Theta_{\theta\theta} = -K\Theta&&(2)\\
+        &\Theta_n = e^{\pm iK\theta}= \begin{cases}
+            \cos n\theta\\
+            \sin n\theta
+        \end{cases}&&K = n^2\\\\
+    \end{align*}
+    \item Euler differential equation (1):
+    \begin{align*}
+        &R_{rr} + \frac{R_r}{r} - \frac{KR}{r^2} = 0\\
+        &R(r) = r^\alpha\\
+        &\alpha(\alpha - 1)r^{\alpha - 2} + \frac{\alpha r^{\alpha - 1}}{r} - K \frac{r^\alpha}{r^2} = 0\\
+        &\alpha(\alpha - 1) + \alpha - K =0\\
+        &\alpha^2 - K = 0\\
+        &\alpha = \pm \sqrt{K} \\
+    \end{align*}
+    \item Assuming we want a continuous solution (no singularities), choose only positive values:
+    \begin{align*}
+        &a = \sqrt{K}\\
+        &\therefore R_n(r) = r^n\\
+    \end{align*}
+    \item Going back to initial problem, assume $a=1$:
+    \begin{align*}
+        u(e^{i\theta}) &= f(\theta)\\
+        u_n(r, \theta) &= R(r)\Theta(\theta)\\
+        &=r^ne^{\pm in\theta}\\
+        u(r, \theta) &= \sum_{n\in\mathbb{Z}}r^{|n|}a_ne^{in\theta}\\
+    \end{align*}
+    \item When $r=1$:
+    \begin{align*}
+        u(1, \theta) &= f(\theta) = \sum_n a_n e^{in\theta}\\
+        \therefore a_n &= \hat{f}(n)\\
+    \end{align*}
+\end{itemize}
+
+When $\lambda \ne 0$:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        &\Delta u =-\lambda u\\
+        &\Delta u = u_{rr}+\frac{u_r}{r}+\frac{u_{\theta\theta}}{r^2}=0\\\\
+        &u(r, \theta) = R(r)\Theta(\theta)\\
+        &\Theta R_{rr} + \frac{\Theta R_{r}}{r} + \frac{R\Theta_{\theta\theta}}{r^2} = -\lambda R\Theta\\
+        &\Theta R_{rr} + \frac{\Theta R_{r}}{r} +\lambda R\Theta = -\frac{R\Theta_{\theta\theta}}{r^2} \\
+        & \frac{r^2}{R}R_{rr} + r\frac{R_{r}}{R} +r^2\lambda = -\frac{\Theta_{\theta\theta}}{\Theta} = -K \\
+        &R_{rr} + \frac{R_r}{r} + \left(\lambda - \frac{n^2}{r^2}\right) R = 0&&(1)\\\\
+        &\Theta_{\theta\theta} = -K\Theta&&(2)\\
+        &\Theta_n = e^{\pm iK\theta}= \begin{cases}
+            \cos n\theta\\
+            \sin n\theta
+        \end{cases}&&K = n^2\\
+    \end{align*}
+    \item Bessel equation from (1):
+    \begin{align*}
+        Let &\rho = \sqrt{\lambda}r\rightarrow r = \frac{\rho}{\sqrt{\lambda}}\\
+        &R_r = \frac{\partial}{\partial r}R = \frac{\partial R}{\partial \rho}\frac{\partial \rho}{\partial r} = R_p\sqrt{\lambda}\\
+        &R_{rr} = \lambda R_{pp}\\
+        &\lambda R_{pp} + \sqrt{\lambda}\frac{R_p}{\frac{\rho}{\sqrt{\rho}}} +  \left(\lambda - \frac{n^2}{\frac{\rho^2}{\lambda}}\right) R = 0 \\
+        &R_{pp}+\frac{R_{\rho}}{\rho}+\left(\lambda - \frac{n^2}{\rho^2}\right) R = 0\\
+    \end{align*}
+    \item Solution to Bessel (Power series):
+    \begin{align*}
+        &R = \rho^\alpha \sum_{k=0}^\infty a_k \rho^k\\
+        &[\alpha(\alpha -1)+\alpha - n^2]a_0 = 0&&\rightarrow \alpha^2 = n^2\\
+        &[(\alpha - 1)\alpha + (\alpha-1)-n^2]a_1 = 0 \\
+        &\qquad\rightarrow\text{Let odd coefficient 0, }a_1 = 0\\
+        &[(\alpha + k)(\alpha +k-1)+(\alpha+k)-n^2]\alpha_{k-2}+a_k = 0\\
+        &a_k = -\frac{a_{k-2}}{(\alpha+k)^2-n^2}
+    \end{align*}
+    \item Facts:
+    \begin{align*}
+        &J_n(p)=\sum_{j=0}^\infty(-1)^j\frac{\left(\frac{1}{2}\rho\right)^{n+2j}}{j!(n+j)!}\\
+        &\text{Behaves like }\sqrt{\frac{2}{\pi\rho}}\cos(\rho - \frac{\pi}{4}+\frac{n\pi}{2}) + O(\rho^{-\frac{3}{2}})\\
+        &J_n \text{ has countably many zeros}\\
+    \end{align*}
+    \item Continuation on solution:
+    \begin{align*}
+        &\text{We want to satisfy } \left.u\right\rvert_{\partial D} = 0\\
+        &\qquad\therefore J_n(\rho) = J_n(\sqrt{\lambda}a) = 0 \text{ (zero at the boundary)}\\\\
+        &\text{We must have}\\
+        &\qquad\sqrt{\lambda}a\in \{\rho\;|\;J_n(\rho)=0\}\\
+        &\qquad\sqrt{\lambda}a= \{\gamma_{nm}\;|\;m\in\mathbb{N}\}\\\\
+        &\text{Assume }a=1\\
+        &\qquad u(r, \theta)=\sum_{n, m}J_n(\sqrt{\lambda_{nm}}r)(a_n\cos n\theta + b_n \sin n \theta)\\
+        &\qquad\sqrt{\lambda_{nm}} = \gamma_{nm}\\
+        &\qquad\lambda_{nm} = \frac{\gamma^2_{nm}}{a^2}\\\\
+        &\text{We only need $J_0$ for the solution}\\
+    \end{align*}
+    \item Final answer:
+    \begin{align*}
+        &\forall n \text{ let } (\gamma_{mn})^\infty_{m=1} \text{ the zeros of }J_n(\gamma_{mn}) = 0\\\\
+        &\text{We need}\\
+        &\qquad \sqrt{\lambda_{mn}}a = \gamma_{mn}\\
+        &\qquad \lambda_{mn} = \frac{\gamma_{mn}}{a}^2\\\\
+        &\therefore u(r, \theta) = \sum_{mn}C_{mn}e^{in\theta}J_n(\sqrt{\lambda_{mn}}r)
+    \end{align*}
+    
+\end{itemize}
+General solution:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        u_{tt} &= \Delta u\qquad \text{on }\mathbb{R}^2\\
+    \end{align*}
+    \item Solution:
+    \begin{align*}
+        u(r, \theta) &= \phi(r, \theta)\\
+        &=\sum_{n,m}C_{nm}e^{in\theta}J_n(\sqrt{\lambda_{nm}}r)\\\\
+        u(r, \theta, t) &= \sum_nC_{nm}e^{in\theta}J_0(\sqrt{\lambda_{nm}}r)\sin(\sqrt{\lambda_{nm}}t) \\
+        &\qquad+ \sum_nD_{nm}e^{in\theta}J_0(\sqrt{\lambda_{nm}}r)\cos(\sqrt{\lambda_{nm}}t)\\
+        u(r, \theta, 0) &= \sum_nD_{nm}e^{in\theta}J_0(\sqrt{\lambda_{nm}}r)\cos(\sqrt{\lambda_{nm}}t)\\
+        u_t(r, \theta, 0) &=\sum_nC_{nm}e^{in\theta}J_0(\sqrt{\lambda_{nm}}r)\sin(\sqrt{\lambda_{nm}}t)\sqrt{\lambda_{nm}}\\
+        \text{where }&C_{nm} = \int_0^a\int_0^{2\pi}e^{in\theta} \frac{J_n(\sqrt{\lambda_{nm}}r)}{J_{nm}}\phi(r, \theta)rdr\frac{d\theta}{2\pi} = \frac{(V_{nm}, \phi)}{V_{nm}, V_{nm}}\\
+        &J_{nm} = \int J_n(\sqrt{\lambda_{nm}}r)J_n(\sqrt{\lambda_{nm}}r)dr
+    \end{align*}
+    \item Conclusion: if radius changes, frequency changes\\
+\end{itemize}
+Extension to $\mathbb{R}^3$:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        u_{tt} &= \Delta u \qquad \text{on }\mathbb{R}^3\\
+    \end{align*}
+    \item Separation Ansatz:
+    \begin{align*}
+        &u = T(t)V(x)\\
+        &T''V = T\Delta V \rightarrow \frac{T''}{T} = -\lambda = -\gamma^2\\
+        &T'' = -\lambda T\\
+        &\Delta V = -\lambda V\\
+    \end{align*}
+    \item Sub-problem:
+    \begin{align*}
+        &V(x) = R(r)\alpha(\theta, \varphi)\\
+        &\Delta V = V_{rr} + \frac{2}{r}V_r + \frac{\Delta_{\theta, \varphi}(u)}{r^2}\\
+        &\Delta_{\theta, \varphi}(u)=\frac{1}{\sin\theta}V_{\theta\varphi} + \frac{1}{\sin\theta}(\sin \theta V_\theta)\theta\\
+    \end{align*}
+    \item Use change of variable:
+    \begin{align*}
+        w = \sqrt{r}R(r)
+    \end{align*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 5. Understand the conditions required for the Fourier series expansion}
+Theorem:
+\begin{align*}
+    &\text{Every function in $L_2\;(D_a)$ has a Fourier series decomposition}\\
+    &\qquad \phi(r, \theta) = v(r, \theta) = \sum_{n, m}C_{nm}e^{in\theta}J_n(\sqrt{\lambda_{nm}}r)\\\\
+    &\text{For fixed n}:\\
+    &\qquad m\ne m' \qquad\qquad \int J_n(\sqrt{\lambda_{nm}}r) J_n(\sqrt{\lambda_{nm'}}r)rdr = 0\\\\
+    &\text{Radial function}:\\
+    &\qquad u(r) = \sum_nC_mJ_0(\sqrt{\lambda_{0m}}r)
+\end{align*}
+\vspace{0.3em}
+
+
+\end{document}
