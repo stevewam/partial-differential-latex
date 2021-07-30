@@ -1,0 +1,210 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+\usepackage{cancel}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 9}
+\vspace{1em}
+
+\subsection*{LOS 1. Solve wave equation using different separation techniques}
+\subsection*{LOS 2. Understand theorem on an orthonormal basis of eigenfunctions}
+Problem:
+\begin{align*}
+    &u_{tt} = \Delta u\\
+    &\left.u\right\rvert_{\partial D} = \phi\\
+    &\left.u_t\right\rvert_{\partial D} = \psi\\
+\end{align*}
+Separation 1:
+\begin{align*}
+    &u = T(t)V(x)\\
+    &T''V = T\Delta V\\
+    &T'' = -\lambda T &&\rightarrow T(t) = Ce^{-\lambda t}\\
+    &\Delta V = -\lambda V &&(1)\\
+\end{align*}
+Separation 2:
+\begin{align*}
+    \text{From (1) } V(r, \theta, \varphi) &= R(r)P(\theta)Q(\varphi)\\
+    &= R(r)Y(\theta, \varphi)
+\end{align*}
+\begin{align*}
+    &\Delta V = R_{rr}Y + \frac{2}{r}R_rY + \frac{1}{r^2}\Delta_{\theta, \varphi}Y = -\lambda RY\\
+    &r^2\frac{R_{rr}}{R} + 2r\frac{R_r}{R} + r^2\lambda = \frac{\Delta Y}{Y} = -\gamma\\\\
+    &r^2\frac{R_{rr}}{R} + 2r\frac{R_r}{R} + r^2\lambda= -\gamma\\
+    &R_{rr} + \frac{2}{r}R_r + \left(\lambda - \frac{\gamma}{r^2}\right)R= 0&&(2)\\\\
+    &\Delta Y = -\gamma Y &&(3)\\
+\end{align*}
+Consider $\gamma =0$:
+\begin{align*}
+    &R_{rr} + \frac{2}{r}R_r + \lambda R= 0\\
+    \text{Change of variable: }&w = \sqrt{r}R(r)\\
+    &w_r = \sqrt{r}R_r + \frac{1}{2\sqrt{r}}R\\
+    &w_{rr} = \sqrt{r}R_{rr} + \frac{1}{2\sqrt{r}}R_r+ \frac{1}{2\sqrt{r}}R_r-\frac{1}{4}r^{-\frac{3}{2}}R\\
+\end{align*}
+Substitute to (2) to get the Bessel function:
+\begin{align*}
+    &w_{rr} + \frac{1}{r}w_r + \left(\lambda - \frac{\gamma + \frac{1}{2}}{r^2}\right)w = 0\\
+    &\text{Change of variable: $\rho = \sqrt{\lambda}r$: } &&w(r) = J_{\gamma + \frac{1}{2}}(\sqrt{\lambda}r)\\
+    &\text{Boundary condition: }&&J_{\gamma + \frac{1}{2}}(\sqrt{\lambda}a) = 0\\
+    &\text{Since $\gamma = 0$: }&&J_{\frac{1}{2}}(\sqrt{\lambda}a) = 0\\
+\end{align*}
+Theorem: Let Laplacian on $S^2$ admits an ONB of eigenfunction $Y_{kj}$ such that:
+\begin{align*}
+    &\Delta_{\theta, \varphi}Y_{jm} = -\gamma_{jm}Y_{jm}\\
+    &\text{Then: }Y_{jm} = e^{im\varphi}P_l^{|m|}\cos\theta &&\text{(Legendre polynomials)}\\
+\end{align*}
+Hence, solution:
+\begin{align*}
+    u(t, r, \theta, \varphi) &= \sum_{j,m,k}\frac{1}{\sqrt{r}}\cos\left(t\sqrt{\lambda(\gamma_{mj})}\right)J_{\gamma_{mj}}\left(r\sqrt{\lambda_k(\gamma_{mj})}\right)Y_{mj}\\
+    &\quad+\sum_{j,m,k}\frac{1}{\sqrt{r}}\sin\left(t\sqrt{\lambda(\gamma_{mj})}\right)J_{\gamma_{mj}}\left(r\sqrt{\lambda_k(\gamma_{mj})}\right)Y_{mj}
+\end{align*}
+\begin{align*}
+    \underbrace{\frac{1}{\sqrt{r}}J_{\gamma_{mj}}\left(r\sqrt{\lambda_k(\gamma_{mj})}\right)}_{\text{radial part}}\overbrace{Y_{mj}}^{\text{spherical part}} \text{ is the eigenfunction to $\Delta V = -\lambda V$}
+\end{align*}\newpage
+\noindent Solution to heat problem:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        &u_t = \Delta u\\
+        &u = T(t)V(x)\\
+        &T(t) = e^{-\lambda t}\\
+        &\Delta V = -\lambda V\\
+    \end{align*}
+    \item When $\gamma = 0$:
+    \begin{align*}
+        &J_{\frac{1}{2}}(\sqrt{\lambda_k}a) = 0\\
+        &u(x, t) = \sum_k  \frac{1}{\sqrt{r}}e^{-t\lambda k}a_kJ_{\frac{1}{2}}(\sqrt{\lambda_k}r)
+    \end{align*}
+\end{itemize}
+\vspace{0.3em}
+
+
+\subsection*{LOS 3. Learn theory about Hermite polynomials along with its properties}
+Properties:
+\begin{enumerate}
+    \item Generating function: $e^{xz - \frac{z^2}{2}} = \sum_{n=0}^\infty P_n(x)\frac{z_n}{n!}$
+    \item $P_n(x) = \left.\frac{d}{dz}^n\right\rvert_0$
+    \begin{align*}
+        &P_0(x) = 1 &&P_2(x) = x^2-1\\
+        &P_1(x) = x &&P_3(x) = x^3-3x
+    \end{align*}
+    \item Let $d\mu(x) = e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}}$, then:
+    \begin{align*}
+        &\int_{n,m \in \mathbb{N}}P_n(x)P_m(x)d\mu(x) = n!\delta_{nm} \\
+        \text{Proof: }&\int_{\mathbb{R}}e^{xz - \frac{z^2}{2}} e^{xw - \frac{w^2}{2}}d\mu(x)=\sum_{nm}\frac{z^nw^m}{n!m!}\int_{\mathbb{R}}P_n(x)P_m(x)d\mu(x)\\
+        \text{LHS }&e^{-\frac{z^2}{2}}e^{-\frac{w^2}{2}}\int_{\mathbb{R}}e^{x(z+w)}e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}}=\\
+        &e^{-\frac{z^2}{2}}e^{-\frac{w^2}{2}}e^{\frac{(z+w)^2}{2}} = e^{zw}\\
+        \text{RHS }&\sum_{k\in\mathbb{R}}z^kw^k\frac{1}{k!}\\
+        &\text{For $n\ne m$ } \int_{\mathbb{R}}P_n(x)P_m(x)d\mu(x) = 0\\
+        &\text{For $n= m$ } \frac{1}{n!}\frac{1}{n!}\int_{\mathbb{R}}P_n(x)P_m(x)d\mu(x) = \frac{1}{n!}\\
+    \end{align*}
+    \item Previous proof implies theorem:
+    \begin{align*}
+        \hat{P}_j(x) = \frac{P_j(x)}{\sqrt{j!}}&\text{ ONB for }L_2(R, u) 
+    \end{align*}
+    \item $P'_n(x) = nP_{n-1}(x)$
+    \begin{align*}
+        \text{Proof: }P'(x)&=\frac{d}{dx}e^{xz - \frac{z^2}{2}}\\
+        &=ze^{xz - \frac{z^2}{2}}\\
+        &=\sum_{n=0}^\infty P_n(x)\frac{z^{n+1}}{n!} = nP_{n-1}(x)
+    \end{align*}
+    \item $P_{n+1}(x) = xP_n(x) - nP_{n-1}(x)$ or $P_n(x) = xP_{n-1}(x) - (n-1)P_{n-2}(x)$
+    \begin{align*}
+        \text{Proof: }&\frac{d}{dz}e^{xz - \frac{z^2}{2}} = (x-z)e^{xz - \frac{z^2}{2}}\\
+        &\text{LHS}=\sum_{n=0}^\infty P_n(x)\frac{z^{n-1}}{(n-1)!} = \sum_{n=0}^\infty P_{n+1}(x)\frac{z^{n}}{n!}\\
+        &\text{RHS}=x\sum_{n=0}^\infty P_n(x)\frac{z^{n}}{n!} - \sum_{n=0}^\infty P_n(x)\frac{z^{n+1}}{n!}
+    \end{align*}
+    \item $P_n$ are eigenfunctions for:
+    \begin{align*}
+        &A = -\frac{d^2}{dx^2}+x\frac{d}{dx} = -\Delta + (x, \nabla)&&\text{(Ornstein-Uhlenbek)}\\
+        &AP_n(x) = nP_n(x)\\\\
+        \text{Proof }&\psi(x, z) = e^{xz - \frac{z^2}{2}}\\
+        &\frac{d}{dx} \psi(x, z) = z\psi(x, z)\\
+        &\frac{d^2}{dx^2}\psi(x, z) = z^2\psi(x, z)\\\\
+        &A = (-z^2+zx)\psi(x, z)\\
+        &\quad= z(x-z)\psi(x, z)\\
+        &\quad=z\frac{d}{dz}\psi(x, z)\\\\
+        \text{LHS }&=\sum_{n=0}^\infty A(P_n)(x)\frac{z^n}{n!}\\
+        \text{RHS }&=\sum_{n=0}^\infty \frac{P_n(x)}{n!}z(nz^{n-1})\\
+        &=\sum_{n=0}^\infty nP_n(x)\frac{z^n}{n!}
+    \end{align*}
+    \item $A$ is self-adjoint and $(1+A)^{-1}$ is compact, therefore satisfies:
+    \begin{align*}
+        &(f, Ah)_\mu = \int_\mathbb{R}f'h'd\mu(x)\\
+        &(f, h)_\mu = \int_\mathbb{R}\overline{f(x)}h(x)d\mu(x)\\
+        \text{Proof: }&\int_\mathbb{R}f'h'e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}}=\\
+        &-\int_\mathbb{R}f(h'e^{-\frac{x^2}{2}})'\frac{dx}{\sqrt{2\pi}}=\\
+        &-\int_\mathbb{R}f(h''-xh')e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}}=(f, Ah)_\mu\\
+    \end{align*}
+    \item Solution to $A$:
+    \begin{align*}
+        &A = -\frac{d^2}{dx^2}+x\frac{d}{dx}\\\\
+        &AP_n(x) = nP_n(x)\\
+        &-P''_n + xP'_n = nP_n\\
+        & 0 = P''_n - xP'_n+nP_n\\\\
+        &Q_n(x) = P_n(\sqrt{2}x)&&\text{By change of variables}\\
+        &Q'(x) = \sqrt{2}P'_n(\sqrt{2}x)\\
+        &Q''(x) = 2P''_n(\sqrt{2}x)\\\\
+        &0 = P''_n(\sqrt{2}x) - \sqrt{2}xP'_n(\sqrt{2}x)+nP_n(\sqrt{2}x)\\
+        &0 = Q''_n(x) - 2xQ'_n + 2nQ_n
+    \end{align*}
+\end{enumerate}
+\vspace{0.3em}
+
+\subsection*{LOS 4. Solve harmonic oscillator PDE using separation ansatz and power series ansatz}
+Problem:
+\begin{align*}
+    -uu_t = u_{xx} - x^2u
+\end{align*}
+Separation:
+\begin{align*}
+    &u(t, x) = T(t)V(x)\\
+    &-iT'V = V'' - x^2T\\
+    &-i\frac{T'}{T} = \frac{V''-x^2V}{V} = -\lambda\\\\
+    &T' = \frac{\lambda}{i}T = -i\lambda T\\
+    &T(t) = Ce^{-i\lambda t}\\\\
+    &V''+(\lambda - x^2)V = 0\\
+    &w(x) = e^{\frac{x^2}{2}}V(x)&& \text{By change of variable}\\
+    &V = e^{-\frac{x^2}{2}}w\\
+    &V' = xe^{-\frac{x^2}{2}}w + e^{-\frac{x^2}{2}}w\\
+    &V'' = x^2e^{-\frac{x^2}{2}}w - 2xe^{-\frac{x^2}{2}}w' + e^{-\frac{x^2}{2}}w'' - e^{-\frac{x^2}{2}}w\\
+    &\quad\; =-v + x^2v + 2xe^{-\frac{x^2}{2}}w' + e^{-\frac{x^2}{2}}w''\\\\
+    &w'' - 2xw' + (\lambda - 1)w  = 0
+\end{align*}
+Solution:
+\begin{align*}
+    &w(x) = H_{k_0}(x) = \sum_k a_k x^k\\
+    &(k+2)(k+1)a_{k+2}x^k - 2ka_kx^k+(\lambda -1)a_kx^k=0&&k\in\mathbb{Z}^+\\
+    &a_{k+2}=\frac{2k-(\lambda -1)}{(k+2)(k+1)}a_k\\
+    &\text{For terminating power series: }2k_0 = \lambda - 1\\\\
+    &H_0(x) = 1&&\lambda = 1\\
+    &H_1(x) = x&&\lambda = 3\\
+    &H_2(x) = 4x^2-1&&\lambda = 5\\
+    &\vdots
+\end{align*}
+Observation:
+\begin{align*}
+    &H_n(x) = 2^\frac{n}{2}Q_n = P_n(\sqrt{2}x)\\
+    &\lambda = 2n+1 && (\text{from }2k_0 = \lambda - 1)\\
+    &u(t, x) = \sum_n a_ne^{-i(2n+1)t}P_n(\sqrt{2}x)e^{-\frac{x^2}{2}}\\
+    &u(0, \frac{x}{\sqrt{2}}) = \sum_n a_nP_n(x)e^{-\frac{x^2}{2}}\\
+\end{align*}
+The above solution applies if boundary condition satisfies $u(0, \frac{x}{\sqrt{2}})e^{-\frac{x^2}{2}} \in L_2(\gamma)$
+\vspace{0.3em}
+
+
+\end{document}

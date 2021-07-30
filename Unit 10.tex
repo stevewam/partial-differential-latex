@@ -1,0 +1,374 @@
+\documentclass[12pt, a4paper]{article}
+\usepackage{titlesec}
+\usepackage{lipsum}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{bbm}
+\usepackage[margin=1.3in]{geometry}
+\usepackage[mathscr]{euscript}
+\usepackage{tabto}
+\usepackage{cancel}
+
+
+\DeclareSymbolFont{rsfs}{U}{rsfs}{m}{n}
+\DeclareSymbolFontAlphabet{\mathscrsfs}{rsfs}
+\titlelabel{\thetitle.\quad}
+\righthyphenmin=1000
+\lefthyphenmin=1000
+
+
+\begin{document}
+\section*{Unit 10}
+\vspace{1em}
+
+\subsection*{LOS 1. Learn how to find solution operator for PDEs using orthonormal basis}
+Problem (try solving for (3) for practice):
+\begin{align*}
+    &u_t = -Au &&(1)\\
+    &u_t = iAu &&(2)\\
+    &u_{tt} = -Au &&(3)\\
+    &\text{where $A$ is a differential operator}\\
+\end{align*}
+Assumption: $\exists$ ONB for $V_n$ such that $AV_n = \lambda_nV_n$ where $\lambda_n\geq 0$
+Solution for (1):
+\begin{align*}
+    &u(t, x) = \sum_n C_ne^{-t\lambda_n}V_n(x)&&x\in \mathbb{R}^n\\
+    &C_n = (V_n, u_0(x))_\mu = \int_\mathbb{R}\overline{V_n(y)}u_0(y)d\mu(y)&&C_n \text{ is a Fourier coefficient}\\
+\end{align*}
+Solution operator for (1):
+\begin{align*}
+    &\text{Kernel }K_t(x, y)  = \sum_ne^{-t\lambda_n}V_n(x)\overline{V_n(y)}\\
+    &S(t)(u_0)(x) = \int_\text{space}K_t(x, y)u_0(y)d\mu(y
+\end{align*}
+\begin{align*}
+    \text{Proof:}\\
+    u(t, x) &= \sum_n C_ne^{-t\lambda_n}V_n(x)\\
+    & = \sum_n\int_\mathbb{R}\overline{V_n(y)}u_0(y)d\mu(y)e^{-t\lambda_n}V_n(x)\\
+    & = \int_\mathbb{R}\left[\sum_ne^{-t\lambda_n}V_n(x)\overline{V_n(y)}\right]u_0(y)d\mu(y)\\
+    &=\int_\mathbb{R}K_t(x, y)u_0(y)d\mu(y)\\
+    &\text{Kernel converges when eigenfunction is decaying at infinity}\\
+\end{align*}
+Solution for (2):
+\begin{align*}
+    &u(t, x) = \sum_n C_ne^{it\lambda_n}V_n(x)\\
+    &K_t(x, y)  = \sum_ne^{it\lambda_n}V_n(x)\overline{V_n(y)}\\
+    &\int_\mathbb{R}\overline{V_k(x)}K_t(x, y)V_j(y)d\mu(x)d\mu(y) = \sum_n(V_k,V_n)(V_n,V_j)e^{it\lambda_n}
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 2. Solve the differential operator heat problem along with Dirichlet boundary conditions}
+
+Example 1:
+\begin{align*}
+    &D[-\pi, \pi]\\
+    &A = -\frac{d^2}{dx^2}\\
+    &u_t = u_{xx}\\
+    &u(x, 0) = u(x+2\pi, 0)
+\end{align*}
+\begin{align*}
+    \text{Then }&\lambda_n = n^2\\
+    &V_n = e^{inx}\\
+    &V_n = e^{-inx}\\
+    &u(t, x) = \sum_{u\in\mathbb{Z}}\hat{u}_0(n)e^{-n^2t}e^{inx}\\
+    &K_t(x, y) = \sum_ne^{-iny}e^{inx}e^{-n^2t}
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 3. Solve harmonic oscillator differential operator PDE using orthonormal basis}
+Example 2:
+\begin{align*}
+    &A = -\frac{d^2}{dx^2} + x\frac{d}{dx}\\
+    &u_t = -Au\\
+    &\text{ONB }\tilde{P}_n = \frac{P_n(x)}{\sqrt{x}}\\
+    &e^{xz-\frac{z^2}{2}} = \sum_{n=0}^\infty P_n(x)\frac{z^n}{n!}\\\\
+    &u(t, x) = \sum_n C_ne^{tn}P_n(x)\\
+    &C_n = \frac{1}{n!}(P_n, u_0)\\
+    &d\mu(x) = e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}}\\\\
+    &K_t(x, y) = \sum_n e^{-tn}P_n(x)P_n(y)\frac{1}{n!}\\
+    &K_t(x, y) = \sum_n e^{itn}P_n(x)P_n(y)\frac{1}{n!}&&(\text{for })u_t = iAu\\
+\end{align*}
+Harmonic oscillator:
+\begin{align*}
+    &A(v) = -v_{xx} + x^2v\\
+    &Av = \lambda v\\
+    &v_{xx}-x^2v - \lambda v\\
+    &v_xx + (\lambda - x^2)v = 0\\\\
+    &w(x) = e^{-\frac{x^2}{2}}w(x)&&\text{(By change of variable)}\\
+    &w_k(x) = P_k(\sqrt{2}x)\\
+    &\lambda_k = 2k+1\\\\
+    &u(t, x) = \sum_kC_ke^{-t(2k+1)}P_k(\sqrt{2}x)e^{-\frac{x^2}{2}}
+\end{align*}
+Facts:
+\begin{align*}
+    &\int_\mathbb{R}P_n(x)P_m(x)e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}} = n!\delta_{nm}\\\\
+    &x = \sqrt{2}y, \; \frac{x^2}{2}=y \qquad\text{(By change of variable)}\\
+    &\int_\mathbb{R}P_n(x)P_m(x)e^{-\frac{x^2}{2}}\frac{dx}{\sqrt{2\pi}} = \int_\mathbb{R}P_n(\sqrt{2}y)P_m(\sqrt{2}y)e^{-y^2}\frac{dy}{\sqrt{\pi}}\\\\
+    &Q_k(y) = P_k(\sqrt{2}x) \qquad\text{(By change of variable)}\\
+    &Q_k\text{ is orthogonal in }L_2\left(\frac{e^{-y^2}dy}{\sqrt{\pi}}\right)\\
+    &u_0(x)=\sum_kC_kP_k(\sqrt{2}x)e^{-\frac{x^2}{2}}\\
+    &C_k = \frac{(Q_k, u_0e^{y^2})}{(Q_k, Q_k)}\\\\
+    &\text{Condition: }u_0e^{y^2}\in L_2(e^{-y^2}dy)\\
+    &C_k\text{ implies: }\\
+    &\int_\mathbb{R}|u_0(x)e^\frac{x^2}{2}|^2e^{-x^2}\frac{dx}{\sqrt{\pi}} < \infty\\
+    &\int_\mathbb{R}|u_0(x)|^2e^{x^2}e^{-x^2}\frac{dx}{\sqrt{\pi}} < \infty\\
+    &\therefore u_0 \in L_x(dx)
+\end{align*}
+Therefore:
+\begin{align*}
+    A(v) &= -v_{xx} + x^2v\\
+    u_t &= -Au\\
+    u(t, x) &= \sum_k C_kQ_k(x)e^{-y^2}e^{-t(2k+1)}\\
+    K_t(x, y) &= \sum_{k=0}^\infty \frac{1}{k!}e^{-\frac{x^2}{2}}Q_k(x)e^{\frac{y^2}{2}}Q_k(y)e^{-y^2}e^{-t(2k+1)}\\
+    &= \sum_{k=0}^\infty \frac{1}{k!}Q_k(x)Q_k(y)e^{-\frac{x^2}{2}-\frac{y^2}{2}}e^{-t(2k+1)}
+\end{align*}
+Summary:
+\begin{align*}
+    &u_t = -Au && K_t(x, y) = \frac{1}{\pi}\sum_n \frac{1}{k!}e^{-(2n+1)t}P_n(\sqrt{2}x)P_n(\sqrt{2}y)e^{-\frac{x^2}{2}-\frac{y^2}{2}}\\
+    &u_t = iAu && K_t(x, y) = \frac{1}{\pi}\sum_n \frac{1}{k!}e^{-i(2n+1)t}P_n(\sqrt{2}x)P_n(\sqrt{2}y)
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 4. Learn how to tackle two-dimensional space differential operator PDEs}
+Problem:
+\begin{align*}
+    &D \rightarrow \mathbb{R}\\
+    &B(v) = -\frac{d^2v}{dx^2}-\frac{dv}{dy^2} + (x^2+y^2)v = A_x(v) +  A_y(v)\\
+\end{align*}
+Observation (product of two eigenfunctions is also an  eigenfunction):
+\begin{align*}
+    BV_n &= \lambda_n  V_n\\
+    &=(A_x +  A_y)(V_n(x_1), V_k(x_2))\\
+    &=(A_x)(V_n(x_1), V_k(x_2)) + (A_y)(V_n(x_1), V_k(x_2))\\
+    &=(\lambda_n)(V_n(x_1), V_k(x_2)) + (\lambda_k)(V_n(x_1), V_k(x_2))\\
+    &=(\lambda_n+\lambda_k)(V_n(x_1), V_k(x_2))\\
+\end{align*}
+Solution (Green's function):
+\begin{align*}
+    G_t(x_1x_2, y_1y_2) &= \frac{1}{\pi^2}\sum_{n, m} \frac{1}{n!m!}e^{-[(2n+1) + (2m+1)]t}e^{-\frac{x_1^2+x_2^2}{2}-\frac{y_1^2+y_2^2}{2}}\\
+    &\qquad \times P_n(\sqrt{2}x_1)P_n(\sqrt{2}x_2)P_m(\sqrt{2}y_1)P_m(\sqrt{2}y_2)\\
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 5. Solve a PDE representing hydrogen atom using separation ansatz}
+Problem:
+\begin{align*}
+    &u_t = \frac{\Delta}{2}u - \frac{u}{r}\\
+    &u \in L_2(\mathbb{R}^3)\\
+    &u \text{ radial}\\
+\end{align*}
+Separation Ansatz:
+\begin{align*}
+    &u(t, x) = T(t)V(r)&&r = \sqrt{x_1^2+x_2^2+x_3^2}\\
+    &\frac{iT'}{T} = \frac{-\frac{\Delta}{2} - \frac{v}{r}}{v} = \frac{\lambda}{2}\\
+    &T' = \frac{\lambda}{2i}T\\
+    &T(t) = e^{-i\frac{\lambda}{2}t}T(0)\\\\
+    &-\Delta V - \frac{2V}{r} = \lambda V
+\end{align*}
+Assume $V =  R$:
+\begin{align*}
+    &-R_{rr} - \frac{2}{r}R_r - \frac{2}{r}R = \lambda R\\
+    &-R_{rr} = \lambda R+ \frac{2}{r}R_r + \frac{2}{r}R&&(1)\\
+\end{align*}
+Trick:
+\begin{align*}
+    &\beta^2 = -\lambda\\
+    &\beta= \sqrt{-\lambda}\\
+    &R(r) = e^{-\beta r }w(r)\\
+    &R_r = -\beta e^{-\beta r} w+e^{-\beta r }w'\\
+    &R_{rr} = \beta^2 e^{-\beta r} w-2\beta e^{-\beta r }w'+e^{-\beta r }w''\\
+\end{align*}
+Substitute to (1):
+\begin{align*}
+    &\beta^2 e^{-\beta r} w-2\beta e^{-\beta r }w'+e^{-\beta r }w'' = \lambda(e^{-\beta r }w) + \frac{2}{r}(-\beta e^{-\beta r} w+e^{-\beta r }w') + \frac{2}{r}(e^{-\beta r }w)\\
+    &0 = w'' - 2\left(\frac{1}{r}-\beta\right)w' + \frac{2(1-\beta)}{r}w\\
+    &0 = rw'' - 2(1-\beta r)w' + 2(1-\beta)w \qquad\qquad (2)\\
+\end{align*}
+Trick:
+\begin{align*}
+    &\varphi(r) = w(\gamma r)&&\gamma = \frac{1}{2\beta}\\
+    &\varphi'(r) = \gamma w'(\gamma r)\\
+    &\varphi''(r) = \gamma^2w''(\gamma r)\\
+\end{align*}
+Substitute to (2):
+\begin{align*}
+    & 0 = \gamma r w''(\gamma r) + 2w'(\gamma r) - 2\beta r w'(\gamma r) + 2(1-\beta)w\\
+    & 0 = r \varphi'' + (2-r)\varphi' + \left(\frac{1-\beta}{\beta}\right)\varphi \qquad (3)\\\\
+    &\left(\frac{1-\beta}{\beta}\right)\text{ has to be an integer:}\\
+    &\beta = \frac{1}{k}, \;\lambda = -\frac{1}{k^2}\\
+    &\left(\frac{1-\beta}{\beta}\right) = k\left(1-\frac{1}{k}\right) = (k-1) \in \mathbb{N}
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 6. Learn theory about Laguerre differential equation as a solution of hydrogen atom PDE}
+Laguerre polynomials:
+\begin{align*}
+    &xy'' + (\alpha + 1 - x)y'' + ny = 0\\
+    &\text{Solution: }L_n^\alpha (x)\\
+    &\text{where }\sum_n t^n L_n^\alpha (x) = \frac{1}{(1-t)^{\alpha + 1}}e^{-\frac{tx}{1-t}}\\\\
+    &L_n^\alpha (x)\text{ are orthogonal polynomials:}\\
+    &\int_0^\alpha r^\alpha L_n^\alpha (x)L_m^\alpha (x)e^{-r}dr = \delta_{nm}\frac{\Gamma(n+\alpha+1)}{n!}\\
+\end{align*}
+Therefore, solution to hydrogen problem:
+\begin{align*}
+    u(t, r) = \sum_k a_k e^{\frac{it}{2k^2}}e^{-\frac{r}{k}}L_{k-1}^1(r)\\
+\end{align*}
+\vspace{0.3em}
+
+\subsection*{LOS 7. Understand theory of harmonic functions related to PDEs}
+For $u$ harmonic:
+\begin{itemize}
+    \item Theorem:
+    \begin{align*}
+        &\Delta u = 0\\
+        &\text{If }\Omega \subseteq \mathbb{R}^2 (\Omega \text{ connected and compact}, u \text{ continuous on the boundary})\\
+        &\text{Then $u$ achieves max. on the boundary }\partial\Omega\\
+    \end{align*}
+    \item Proof:
+    \begin{align*}
+        &\epsilon > 0\qquad v_\epsilon(x) = u + \epsilon(x^2+y^2)\\
+        &\text{Let $x_0$ be such that } \sup_x v_\epsilon(x) = v_\epsilon (x_0)\\\\
+        &\text{Assume $x_0$ is in interior: } \\
+        &\frac{\partial^2}{\partial x^2}v_\epsilon\leq 0, \;\frac{\partial^2}{\partial r^2}v_\epsilon\leq 0\\
+        &\underbrace{\Delta (v_3)(x_0)}_{\leq 0} = \underbrace{\Delta u(x_0)}_0 + \underbrace{4\epsilon}_{>0}
+    \end{align*}
+    \item There is a contradiction between LHS and RHS, therefore maximum cannot be an interior.\\ 
+\end{itemize}
+Ball:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        \Delta u = 0 \text{ on Ball with }r = 1\\
+    \end{align*}
+    \item Separation Ansatz:
+    \begin{align*}
+        &u(r, \theta) = R(r)\Theta(\theta)\\
+        &\Delta u = u_{rr} + \frac{1}{r}u_r+\frac{1}{r^2}u_{\theta\theta}\\\\
+        &\frac{r^2R_{rr} + rR_r}{R} = -\frac{\Theta''}{\Theta} = \lambda = n^2\\\\
+        &\frac{\Theta''}{\Theta} = -n^2\qquad \rightarrow \Theta(\theta) = e^{in\theta}\\\\
+        &r^2R_{rr} + rR_r = n^2R\\
+        &\text{Assume }R(r) = r^n\\
+        &n(n+1)r^n + nr^n = n^2r^n\\
+     \end{align*}
+     \item Solution:
+     \begin{align*}
+        &u(r, \theta) = \sum_{n\in\mathbb{Z}}a_nr^{|n|}e^{in\theta}\\
+        &u(e^{i\theta}) = \sum a_n e^{in\theta}\\
+        &a_n = \int e^{-in\theta}u(e^{i\theta})\frac{d\theta}{2\pi}
+     \end{align*}
+\end{itemize}
+\vspace{0.3em}
+
+\subsection*{LOS 8. Some remarks on harmonic extensions and annulus circular region}
+Theorem 1:
+\begin{align*}
+    &\text{Let be $\left.u\right\rvert_{\partial D}$ a continuous function}\\ 
+    &\exists \text{ a unique function on $D$ such that}\\
+    &\left.u\right\rvert_{\partial \Omega} = u\\
+    &\Delta u = 0 \text{ in } D\\
+\end{align*}
+Lemma 1:
+\begin{align*}
+    f_r(\theta) &= \sum_{n\in\mathbb{Z}}r^{|n|}e^{in\theta} = \frac{1-r^2}{(1-r\cos(\theta)) + r^2\sin^2(\theta)} \geq 0\\\\
+    \text{Proof:}\\
+    \text{LHS}&=1+\sum_i^\infty r^ne^{in\theta}+\sum_i^\infty r^ne^{-in\theta}\\
+    &=1+\frac{re^{i\theta}}{1-re^{i\theta}}+\frac{re^{-i\theta}}{1-re^{-i\theta}}\\
+    &=\frac{(1-re^{-i\theta})(1-re^{i\theta})+re^{i\theta}(1-re^{-i\theta})+re^{-i\theta}(1-re^{i\theta})}{(1-re^{-i\theta}(1-re^{i\theta}}\\
+    &=\frac{1+r^2-2r^2}{(1-r\cos(\theta)) + r^2\sin^2(\theta)}\geq 0\\
+\end{align*}
+Lemma 2:
+\begin{align*}
+    P_r(g) = \int_0^{2\pi} f_r(\theta - \eta)g(\eta)\frac{d\eta}{2\pi}\\
+\end{align*}
+\begin{enumerate}
+    \item $P_r$ is linear
+    \item $g \geq 0 \rightarrow P_r(g)\geq 0$
+    \item $\|P_r(g)\|_\infty \leq \|g\|_\infty$
+    \begin{align*}
+        &\text{Proof:}\\
+        &|P_r(g)(\theta)| \leq \int|f_r(\theta - \eta)||g(\eta)|\frac{d\eta}{2\pi} \leq \|g\|_\infty\int_0^{2\pi}f_r(\theta - \eta)\frac{d\eta}{2\pi} = \|g\|_\infty
+    \end{align*}
+\end{enumerate}
+Theorem 2:
+\begin{itemize}
+    \item Let $u$ be a continuous on $\partial D$, then  $u$ has a unique extension in the interior with $\Delta u = 0$
+    \item Proof:
+    \begin{align*}
+        &g(\theta) = u(e^{i\theta})\\
+        &u(re^{i\theta}) = \sum_{n\in\mathbb{Z}}\hat{g}(n)r^{|n|}e^{in\theta} \qquad \rightarrow \Delta u = 0\\
+    \end{align*}
+    \item Claim:
+    \begin{align*}
+        lim_{r\to 1}u(re^{i\theta}) = g(\theta) \qquad \text{where }u_0(re^{i\theta}) = g(\theta)\\
+    \end{align*}
+    \item Remarks: claim is obvious if $g(\theta) = \sum_{-m}^m\hat{g}(n)r^{|n|}e^{in\theta}$ is a trigonometric polynomials (has finitely many Fourier coefficients)
+    \item By Weierstrass approximation:
+    \begin{align*}
+        &\forall \epsilon \;\exists q \text{ trigonometric polynomial such that } \|g-q\| \leq \frac{\epsilon}{3}\\\\
+        &\text{Let $r_0$ so that }\forall r > r_0:\\
+        &\qquad\sup_\theta \|P_r(q)(\theta) - q(\theta)\|\leq \frac{\epsilon}{3}\\
+        &\qquad\sup_\theta \|q(re{i\theta}) - q(\theta)\|\leq \frac{\epsilon}{3}\\\\
+        &\text{Then:}\\
+        &\|P_r(g)-g\| \leq \underbrace{\|P_r(g) - q\|_\infty}_{< \frac{\epsilon}{3}}+\underbrace{\|g - q\|_\infty}_{< \frac{\epsilon}{3}}+\underbrace{\|P_r(q) - g\|_\infty}_{< \frac{\epsilon}{3}} \leq \epsilon
+    \end{align*}
+    \item Therefore, $P_r(g)$ converges uniformly to $g$\\
+\end{itemize}
+Solution operator:
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        u_t = - \sqrt{-\Delta}u\\
+    \end{align*}
+    \item Solution:
+    \begin{align*}
+        &u(t, x) = S_t(u_0)(x)\\
+        &S_t = P_{e^{-t}} \qquad \text{Solution operator on } [-\pi, \pi]\\
+        &S_t(g) = \sum_{n\in\mathbb{Z}}\hat{g}(n){\underbrace{(e^{-t})}_\text{radius}}^{|n|}e^{in\theta}\\
+    \end{align*}
+    \item Remarks: $S_t(u_0)$ satisfies wave equation:
+    \begin{align*}
+        &u_t = - \sqrt{-\Delta}u\\
+        &u_{tt} = - \sqrt{-\Delta}u_t\\
+        &u_{tt} = - \sqrt{-\Delta}(- \sqrt{-\Delta}u)\\
+        &u_{tt} = -\Delta u\\
+    \end{align*}
+    \item Corollary (mean value property):
+    \begin{align*}
+        &\text{Let $u$ be harmonic}\\
+        &\text{Then } u(z_0) = \int_0^{2\pi}u(z_0+re^{i\theta})\frac{d\theta}{2\pi}
+    \end{align*}
+    \item Without loss of generality:
+    \begin{align*}
+        &z_0 = 0, \; r = 1 \quad \text{where }z_0 \subseteq \Omega\\
+        &g(\theta) = u(e^{i\theta}) \text{ is continuous}\\\\
+        &\text{By theorem 2, we only have one unique extension:}\\
+        &\tilde{u}(re^{i\theta}) = \sum_{n\in\mathbb{Z}}\hat{g}(n)r^{|n|}e^{in\theta}\\\\
+        &\text{By uniqueness }\tilde{u} = u:\\
+        &\tilde{u}(0) = \hat{g}(0) = \int_0^{2\pi}g(\theta)\frac{d\theta}{2\pi} = \int_0^{2\pi}u(e^{i\theta})\frac{d\theta}{2\pi}
+    \end{align*}
+    \item Conclusion: condition in the interior can be derived from condition on the boundary\\
+\end{itemize}
+Annulus (Donut):
+\begin{itemize}
+    \item Problem:
+    \begin{align*}
+        &u_t = \Delta u\\
+        &\left.u\right\rvert_{\partial \;\text{annulus}} = u_0\\
+    \end{align*}
+    \item Solution:
+    \begin{align*}
+        &u(0, x) = u_0(x)\\
+        &u(t, re^{i\theta}) = \sum_n a_n e^{-t|n|^2}r^{|n|}e^{in\theta} + \sum_n a_n e^{-t|n|^2}r^{-|n|}e^{in\theta} +  C + D\log r\\
+        &\text{$\log$ term is comes from descent method}\\
+    \end{align*}
+    \item Steps:
+    \begin{enumerate}
+        \item Pretend to solve initial value problem
+        \item Solve with solution formula
+        \item Find $u(0, x)$ by unique harmonic extension
+    \end{enumerate}
+\end{itemize}
+\vspace{0.3em}
+
+
+
+\end{document}
